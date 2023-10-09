@@ -45,7 +45,7 @@ Welcome to the Flutter Hutech Classroom repository! This cross-platform Flutter 
 
 ## 🚀 Getting Started
 
-To get started with the Hutech Classroom Client App, follow the installation instructions outlined below:
+To get started with the Flutter Hutech Classroom, follow the installation instructions outlined below:
 
 1. Clone this repository:
 
@@ -153,7 +153,7 @@ Please contact us if you would like to contribute to this project!
 
 ## 💌 Contributing
 
-Contributions to the Hutech Classroom Client App are welcome! If you find any bugs, issues, or have suggestions for improvements, please open an issue on the GitHub repository.
+Contributions to the Flutter Hutech Classroom are welcome! If you find any bugs, issues, or have suggestions for improvements, please open an issue on the GitHub repository.
 
 - Fork this repository.
 - Create your new branch with your feature: `git checkout -b my-feature`.
@@ -182,4 +182,4 @@ We are students at HUTECH university:
 
 ## 🔒 License
 
-The Hutech Classroom Client App is open source and is licensed under the [MIT License](LICENSE).
+The Flutter Hutech Classroom is open source and is licensed under the [MIT License](LICENSE).

@@ -39,6 +39,11 @@ dependencies:
   # Json
   json_annotation: ^4.8.1
 
+  # State Management
+  flutter_mobx: ^2.1.0
+  mobx: ^2.2.0
+  provider: ^6.0.5
+
 dev_dependencies:
   flutter_test:
     sdk: flutter
@@ -55,6 +60,9 @@ dev_dependencies:
 
   # Build Runner
   build_runner: ^2.4.6
+
+  # State Management
+  mobx_codegen: ^2.4.0
 
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec

@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_hutech_classroom/stores/user_store.dart';
+import 'package:flutter_mobx/flutter_mobx.dart';
 
 void main() {
   runApp(const MyApp());
@@ -56,6 +58,7 @@ class MyHomePage extends StatefulWidget {
 
 class _MyHomePageState extends State<MyHomePage> {
   int _counter = 0;
+  final UserStore _userStore = UserStore();
 
   void _incrementCounter() {
     setState(() {
@@ -65,6 +68,7 @@ class _MyHomePageState extends State<MyHomePage> {
       // _counter without calling setState(), then the build method would not be
       // called again, and so nothing would appear to happen.
       _counter += 100;
+      _userStore.login();
     });
   }
 
@@ -112,6 +116,15 @@ class _MyHomePageState extends State<MyHomePage> {
               '$_counter',
               style: Theme.of(context).textTheme.headlineMedium,
             ),
+            Observer(builder: (context) {
+              return Text(_userStore.user.userName ?? 'Not thing here');
+            }),
+            FloatingActionButton(
+              onPressed: () {
+                _userStore.resetValue();
+              },
+              child: const Icon(Icons.restore),
+            )
           ],
         ),
       ),

@@ -1,3 +1,4 @@
+import 'package:flutter_hutech_classroom/models/faculty.dart';
 import 'package:json_annotation/json_annotation.dart';
 
 part 'user.g.dart';
@@ -8,9 +9,10 @@ class User {
   final String? userName;
   final String? firstName;
   final String? lastName;
-  // final Faculty faculty;
+  final Faculty? faculty;
   final String? token = "";
-  User({this.id, this.userName, this.firstName, this.lastName});
+
+  User({this.id, this.userName, this.firstName, this.lastName, this.faculty});
 
   factory User.fromJson(Map<String, dynamic> json) => _$UserFromJson(json);
 

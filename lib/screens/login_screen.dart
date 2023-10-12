@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_hutech_classroom/managers/route_manager.dart';
 import 'package:flutter_hutech_classroom/stores/user_store.dart';
 import 'package:flutter_hutech_classroom/widgets/auth/login_form.dart';
 import 'dart:developer' as developer;
@@ -18,8 +19,8 @@ class _LoginScreenState extends State<LoginScreen> {
 
   @override
   void initState() {
-    userStore = context.read<UserStore>();
     super.initState();
+    userStore = context.read<UserStore>();
   }
 
   @override
@@ -42,7 +43,10 @@ class _LoginScreenState extends State<LoginScreen> {
                   // Handle login logic here, e.g., validate credentials
                   // If login successful, navigate to the next screen
                   developer.log('Username: $userName, Password: $password');
-                  await userStore.login(userName, password);
+                  var isSucceed = await userStore.login(userName, password);
+                  if (isSucceed && context.mounted) {
+                    Navigator.pushNamed(context, RouteManager.home);
+                  }
                 },
               ),
             ],

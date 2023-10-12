@@ -14,14 +14,16 @@ abstract class UserStoreBase with Store {
   User user = User();
 
   @action
-  Future<void> login(String userName, String password) async {
+  Future<bool> login(String userName, String password) async {
     var result = await _apiService.post<User>(
         "v1/Account/login",
         (json) => User.fromJson(json),
         {'userName': userName, 'password': password});
     if (result.isSucceed && result.data != null) {
       user = result.data as User;
+      return true;
     }
+    return false;
   }
 
   @action

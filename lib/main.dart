@@ -40,7 +40,13 @@ class MyHomePage extends StatefulWidget {
 
 class _MyHomePageState extends State<MyHomePage> {
   int _counter = 0;
-  final UserStore _userStore = UserStore();
+  late UserStore _userStore;
+
+  @override
+  void initState() {
+    super.initState();
+    _userStore = context.read<UserStore>();
+  }
 
   void _incrementCounter() {
     setState(() {

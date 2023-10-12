@@ -70,14 +70,14 @@ class _MyHomePageState extends State<MyHomePage> {
                 return Text(_userStore.user.userName ?? 'Not thing here');
               }),
               FloatingActionButton(
-                key: const Key("Reset Store"),
+                heroTag: "Reset Store",
                 onPressed: () {
                   _userStore.resetValue();
                 },
                 child: const Icon(Icons.restore),
               ),
               FloatingActionButton(
-                key: const Key("Login page"),
+                heroTag: "Login page",
                 onPressed: () {
                   Navigator.pushNamed(context, 'login');
                 },
@@ -87,7 +87,7 @@ class _MyHomePageState extends State<MyHomePage> {
           ),
         ),
         floatingActionButton: FloatingActionButton(
-          key: const Key("Increment"),
+          heroTag: "Increment",
           onPressed: _incrementCounter,
           tooltip: 'Increment',
           child: const Icon(Icons.add),

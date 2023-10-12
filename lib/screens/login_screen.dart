@@ -4,6 +4,7 @@ import 'package:flutter_hutech_classroom/widgets/auth/login_form.dart';
 import 'dart:developer' as developer;
 
 import 'package:flutter_mobx/flutter_mobx.dart';
+import 'package:provider/provider.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
@@ -17,7 +18,7 @@ class _LoginScreenState extends State<LoginScreen> {
 
   @override
   void initState() {
-    userStore = UserStore();
+    userStore = context.read<UserStore>();
     super.initState();
   }
 

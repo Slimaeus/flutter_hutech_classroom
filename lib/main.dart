@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_hutech_classroom/managers/provider_manager.dart';
 import 'package:flutter_hutech_classroom/managers/route_manager.dart';
-import 'package:flutter_hutech_classroom/screens/login_screen.dart';
 import 'package:flutter_hutech_classroom/stores/user_store.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
+import 'package:provider/provider.dart';
 
 void main() {
   runApp(const MyApp());
@@ -13,14 +14,17 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Flutter Demo',
-      theme: ThemeData(
-        colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
-        useMaterial3: true,
+    return MultiProvider(
+      providers: [...ProviderManager.providers],
+      child: MaterialApp(
+        title: 'Flutter Demo',
+        theme: ThemeData(
+          colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
+          useMaterial3: true,
+        ),
+        home: const MyHomePage(title: 'Flutter HUTECH CLASSROOM Home Page'),
+        routes: {...RouteManager.routes},
       ),
-      home: const MyHomePage(title: 'Flutter HUTECH CLASSROOM Home Page'),
-      routes: {...RouteManager.routes},
     );
   }
 }

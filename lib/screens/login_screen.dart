@@ -5,9 +5,21 @@ import 'dart:developer' as developer;
 
 import 'package:flutter_mobx/flutter_mobx.dart';
 
-class LoginScreen extends StatelessWidget {
-  final UserStore userStore;
-  const LoginScreen({super.key, required this.userStore});
+class LoginScreen extends StatefulWidget {
+  const LoginScreen({super.key});
+
+  @override
+  State<LoginScreen> createState() => _LoginScreenState();
+}
+
+class _LoginScreenState extends State<LoginScreen> {
+  late UserStore userStore;
+
+  @override
+  void initState() {
+    userStore = UserStore();
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {

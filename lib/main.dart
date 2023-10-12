@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_hutech_classroom/managers/route_manager.dart';
 import 'package:flutter_hutech_classroom/screens/login_screen.dart';
 import 'package:flutter_hutech_classroom/stores/user_store.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
@@ -19,11 +20,7 @@ class MyApp extends StatelessWidget {
         useMaterial3: true,
       ),
       home: const MyHomePage(title: 'Flutter HUTECH CLASSROOM Home Page'),
-      routes: {
-        'login': (context) => LoginScreen(
-              userStore: UserStore(),
-            )
-      },
+      routes: {...RouteManager.routes},
     );
   }
 }

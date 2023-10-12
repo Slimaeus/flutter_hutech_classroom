@@ -12,15 +12,11 @@ class LoginForm extends StatefulWidget {
 class _LoginFormState extends State<LoginForm> {
   final TextEditingController _usernameController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
-  late FocusNode _focusNode;
-
-  @override
-  void initState() {
-    super.initState();
-    _focusNode = FocusNode();
-  }
+  final FocusNode _focusNode = FocusNode();
+  final _form = GlobalKey<FormState>();
 
   void _login() {
+    _form.currentState!.validate();
     String username = _usernameController.text;
     String password = _passwordController.text;
     widget.onLogin(username, password);
@@ -36,25 +32,34 @@ class _LoginFormState extends State<LoginForm> {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      children: [
-        TextField(
-          controller: _usernameController,
-          decoration: const InputDecoration(labelText: 'Tên tài khoản'),
-        ),
-        TextField(
-          controller: _passwordController,
-          decoration: const InputDecoration(labelText: 'Mật khẩu'),
-          obscureText: true,
-          onSubmitted: (value) => _focusNode.requestFocus(),
-        ),
-        const SizedBox(height: 20),
-        ElevatedButton(
-          onPressed: _login,
-          focusNode: _focusNode,
-          child: const Text('Đăng nhập'),
-        ),
-      ],
+    return Form(
+      key: _form,
+      child: Column(
+        children: [
+          TextFormField(
+            controller: _usernameController,
+            onChanged: (value) {},
+            validator: (value) {
+              if (value == "Hi") return "Not good!";
+              return null;
+            },
+            decoration: const InputDecoration(labelText: 'Tên tài khoản'),
+          ),
+          TextFormField(
+            controller: _passwordController,
+            decoration: const InputDecoration(labelText: 'Mật khẩu'),
+            obscureText: true,
+            onFieldSubmitted: (value) =>
+                FocusScope.of(context).requestFocus(_focusNode),
+          ),
+          const SizedBox(height: 20),
+          ElevatedButton(
+            onPressed: _login,
+            focusNode: _focusNode,
+            child: const Text('Đăng nhập'),
+          ),
+        ],
+      ),
     );
   }
 }

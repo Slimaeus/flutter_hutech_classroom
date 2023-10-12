@@ -12,6 +12,13 @@ class LoginForm extends StatefulWidget {
 class _LoginFormState extends State<LoginForm> {
   final TextEditingController _usernameController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
+  late FocusNode _focusNode;
+
+  @override
+  void initState() {
+    super.initState();
+    _focusNode = FocusNode();
+  }
 
   void _login() {
     String username = _usernameController.text;
@@ -23,6 +30,7 @@ class _LoginFormState extends State<LoginForm> {
   void dispose() {
     _usernameController.dispose();
     _passwordController.dispose();
+    _focusNode.dispose();
     super.dispose();
   }
 
@@ -38,10 +46,12 @@ class _LoginFormState extends State<LoginForm> {
           controller: _passwordController,
           decoration: const InputDecoration(labelText: 'Password'),
           obscureText: true,
+          onSubmitted: (value) => _focusNode.requestFocus(),
         ),
         const SizedBox(height: 20),
         ElevatedButton(
           onPressed: _login,
+          focusNode: _focusNode,
           child: const Text('Login'),
         ),
       ],

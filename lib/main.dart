@@ -87,13 +87,6 @@ class _MyHomePageState extends State<MyHomePage> {
                 '$_counter',
                 style: Theme.of(context).textTheme.headlineMedium,
               ),
-              FloatingActionButton(
-                heroTag: "Reset Store",
-                onPressed: () {
-                  _userStore.resetValue();
-                },
-                child: const Icon(Icons.restore),
-              ),
             ],
           ),
         ),

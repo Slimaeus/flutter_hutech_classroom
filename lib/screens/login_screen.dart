@@ -35,9 +35,6 @@ class _LoginScreenState extends State<LoginScreen> {
         child: Center(
           child: Column(
             children: [
-              Observer(builder: (context) {
-                return Text(userStore.user.userName ?? "No data");
-              }),
               LoginForm(
                 onLogin: (userName, password) async {
                   // Handle login logic here, e.g., validate credentials

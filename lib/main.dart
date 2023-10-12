@@ -19,10 +19,10 @@ class MyApp extends StatelessWidget {
       child: MaterialApp(
         title: 'Flutter Demo',
         theme: ThemeData(
-          colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
+          colorScheme: ColorScheme.fromSeed(seedColor: Colors.blue),
           useMaterial3: true,
         ),
-        home: const MyHomePage(title: 'Flutter HUTECH CLASSROOM Home Page'),
+        initialRoute: RouteManager.login,
         routes: {...RouteManager.routes},
       ),
     );
@@ -61,6 +61,21 @@ class _MyHomePageState extends State<MyHomePage> {
           backgroundColor: Theme.of(context).colorScheme.inversePrimary,
           title: Text(widget.title),
         ),
+        drawer: Drawer(
+          child: ListView(
+            children: [
+              DrawerHeader(
+                  decoration: BoxDecoration(
+                    color: Theme.of(context).colorScheme.inversePrimary,
+                  ),
+                  child: const Text('Settings')),
+              Observer(builder: (context) {
+                return ListTile(
+                    title: Text(_userStore.user.userName ?? 'Not login yet'));
+              }),
+            ],
+          ),
+        ),
         body: Center(
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
@@ -72,22 +87,12 @@ class _MyHomePageState extends State<MyHomePage> {
                 '$_counter',
                 style: Theme.of(context).textTheme.headlineMedium,
               ),
-              Observer(builder: (context) {
-                return Text(_userStore.user.userName ?? 'Not thing here');
-              }),
               FloatingActionButton(
                 heroTag: "Reset Store",
                 onPressed: () {
                   _userStore.resetValue();
                 },
                 child: const Icon(Icons.restore),
-              ),
-              FloatingActionButton(
-                heroTag: "Login page",
-                onPressed: () {
-                  Navigator.pushNamed(context, 'login');
-                },
-                child: const Icon(Icons.energy_savings_leaf),
               ),
             ],
           ),

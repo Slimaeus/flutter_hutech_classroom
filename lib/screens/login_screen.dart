@@ -1,9 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_hutech_classroom/stores/user_store.dart';
 import 'package:flutter_hutech_classroom/widgets/auth/login_form.dart';
 import 'dart:developer' as developer;
 
+import 'package:flutter_mobx/flutter_mobx.dart';
+
 class LoginScreen extends StatelessWidget {
-  const LoginScreen({super.key});
+  final UserStore userStore;
+  const LoginScreen({super.key, required this.userStore});
 
   @override
   Widget build(BuildContext context) {
@@ -15,12 +19,20 @@ class LoginScreen extends StatelessWidget {
       body: Padding(
         padding: const EdgeInsets.all(20.0),
         child: Center(
-          child: LoginForm(
-            onLogin: (username, password) {
-              // Handle login logic here, e.g., validate credentials
-              // If login successful, navigate to the next screen
-              developer.log('Username: $username, Password: $password');
-            },
+          child: Column(
+            children: [
+              Observer(builder: (context) {
+                return Text(userStore.user.userName ?? "No data");
+              }),
+              LoginForm(
+                onLogin: (userName, password) async {
+                  // Handle login logic here, e.g., validate credentials
+                  // If login successful, navigate to the next screen
+                  developer.log('Username: $userName, Password: $password');
+                  await userStore.login(userName, password);
+                },
+              ),
+            ],
           ),
         ),
       ),

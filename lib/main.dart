@@ -19,7 +19,11 @@ class MyApp extends StatelessWidget {
         useMaterial3: true,
       ),
       home: const MyHomePage(title: 'Flutter HUTECH CLASSROOM Home Page'),
-      routes: {'login': (context) => const LoginScreen()},
+      routes: {
+        'login': (context) => LoginScreen(
+              userStore: UserStore(),
+            )
+      },
     );
   }
 }
@@ -40,7 +44,6 @@ class _MyHomePageState extends State<MyHomePage> {
   void _incrementCounter() {
     setState(() {
       _counter += 100;
-      _userStore.login();
     });
   }
 
@@ -66,12 +69,14 @@ class _MyHomePageState extends State<MyHomePage> {
                 return Text(_userStore.user.userName ?? 'Not thing here');
               }),
               FloatingActionButton(
+                key: const Key("Reset Store"),
                 onPressed: () {
                   _userStore.resetValue();
                 },
                 child: const Icon(Icons.restore),
               ),
               FloatingActionButton(
+                key: const Key("Login page"),
                 onPressed: () {
                   Navigator.pushNamed(context, 'login');
                 },
@@ -81,6 +86,7 @@ class _MyHomePageState extends State<MyHomePage> {
           ),
         ),
         floatingActionButton: FloatingActionButton(
+          key: const Key("Increment"),
           onPressed: _incrementCounter,
           tooltip: 'Increment',
           child: const Icon(Icons.add),

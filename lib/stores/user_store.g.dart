@@ -28,8 +28,8 @@ mixin _$UserStore on UserStoreBase, Store {
       AsyncAction('UserStoreBase.login', context: context);
 
   @override
-  Future<void> login() {
-    return _$loginAsyncAction.run(() => super.login());
+  Future<void> login(String userName, String password) {
+    return _$loginAsyncAction.run(() => super.login(userName, password));
   }
 
   late final _$UserStoreBaseActionController =

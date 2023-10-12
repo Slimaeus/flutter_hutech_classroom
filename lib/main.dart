@@ -68,11 +68,32 @@ class _MyHomePageState extends State<MyHomePage> {
                   decoration: BoxDecoration(
                     color: Theme.of(context).colorScheme.inversePrimary,
                   ),
-                  child: const Text('Settings')),
-              Observer(builder: (context) {
-                return ListTile(
-                    title: Text(_userStore.user.userName ?? 'Not login yet'));
-              }),
+                  child: const Text('Cài đặt')),
+              ListTile(
+                title: Observer(builder: (context) {
+                  return Row(
+                    children: [
+                      const Text("Sinh viên: "),
+                      Text(_userStore.user.userName ?? 'Bạn chưa đăng nhập'),
+                    ],
+                  );
+                }),
+              ),
+              ListTile(
+                title: FloatingActionButton(
+                  heroTag: "LogButton",
+                  child: Builder(builder: (context) {
+                    return Text(
+                        _userStore.user.id != null ? 'Đăng xuất' : 'Đăng nhập');
+                  }),
+                  onPressed: () {
+                    if (_userStore.user.id != null) {
+                      _userStore.resetValue();
+                    }
+                    Navigator.pushReplacementNamed(context, RouteManager.login);
+                  },
+                ),
+              )
             ],
           ),
         ),
@@ -81,7 +102,7 @@ class _MyHomePageState extends State<MyHomePage> {
             mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
               const Text(
-                'You have pushed the button this many times:',
+                'Số lần nhấn:',
               ),
               Text(
                 '$_counter',
@@ -93,7 +114,7 @@ class _MyHomePageState extends State<MyHomePage> {
         floatingActionButton: FloatingActionButton(
           heroTag: "Increment",
           onPressed: _incrementCounter,
-          tooltip: 'Increment',
+          tooltip: 'Tăng',
           child: const Icon(Icons.add),
         ));
   }

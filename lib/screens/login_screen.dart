@@ -27,7 +27,7 @@ class _LoginScreenState extends State<LoginScreen> {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Theme.of(context).colorScheme.inversePrimary,
-        title: const Text("Login Form"),
+        title: const Text("Đăng nhập"),
       ),
       body: Padding(
         padding: const EdgeInsets.all(20.0),
@@ -36,12 +36,10 @@ class _LoginScreenState extends State<LoginScreen> {
             children: [
               LoginForm(
                 onLogin: (userName, password) async {
-                  // Handle login logic here, e.g., validate credentials
-                  // If login successful, navigate to the next screen
                   developer.log('Username: $userName, Password: $password');
                   var isSucceed = await userStore.login(userName, password);
                   if (isSucceed && context.mounted) {
-                    Navigator.pushNamed(context, RouteManager.home);
+                    Navigator.pushReplacementNamed(context, RouteManager.home);
                   }
                 },
               ),

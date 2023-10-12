@@ -40,11 +40,11 @@ class _LoginFormState extends State<LoginForm> {
       children: [
         TextField(
           controller: _usernameController,
-          decoration: const InputDecoration(labelText: 'Username'),
+          decoration: const InputDecoration(labelText: 'Tên tài khoản'),
         ),
         TextField(
           controller: _passwordController,
-          decoration: const InputDecoration(labelText: 'Password'),
+          decoration: const InputDecoration(labelText: 'Mật khẩu'),
           obscureText: true,
           onSubmitted: (value) => _focusNode.requestFocus(),
         ),
@@ -52,7 +52,7 @@ class _LoginFormState extends State<LoginForm> {
         ElevatedButton(
           onPressed: _login,
           focusNode: _focusNode,
-          child: const Text('Login'),
+          child: const Text('Đăng nhập'),
         ),
       ],
     );

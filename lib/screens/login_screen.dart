@@ -7,7 +7,9 @@ import 'dart:developer' as developer;
 import 'package:provider/provider.dart';
 
 class LoginScreen extends StatefulWidget {
-  const LoginScreen({Key? key}) : super(key: key);
+  const LoginScreen({Key? key, required this.title}) : super(key: key);
+
+  final String title;
 
   @override
   State<LoginScreen> createState() => _LoginScreenState();
@@ -33,9 +35,9 @@ class _LoginScreenState extends State<LoginScreen> {
             'assets/images/logoHutech.png',
           ),
         ),
-        title: const Text(
-          "HUTECH CLASSROOM",
-          style: TextStyle(
+        title: Text(
+          widget.title,
+          style: const TextStyle(
             fontWeight: FontWeight.bold,
           ),
         ),

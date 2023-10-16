@@ -9,7 +9,7 @@ class RouteManager {
   static String login = 'login';
 
   static Map<String, Widget Function(BuildContext)> routes = {
-    home: (context) => const HomeScreen(title: 'Trang chủ'),
+    home: (context) => const HomeScreen(title: 'TRANG CHỦ'),
     login: (context) => const LoginScreen(title: 'HUTECH CLASSROOM')
   };
 }

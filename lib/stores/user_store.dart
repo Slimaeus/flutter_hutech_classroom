@@ -11,18 +11,24 @@ abstract class UserStoreBase with Store {
       ApiService("https://hutechclassroom.azurewebsites.net/api/");
 
   @observable
+  bool isLoggingIn = false;
+
+  @observable
   User user = User();
 
   @action
   Future<bool> login(String userName, String password) async {
+    isLoggingIn = true;
     var result = await _apiService.post<User>(
         "v1/Account/login",
         (json) => User.fromJson(json),
         {'userName': userName, 'password': password});
     if (result.isSucceed && result.data != null) {
       user = result.data as User;
+      isLoggingIn = false;
       return true;
     }
+    isLoggingIn = false;
     return false;
   }
 

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_hutech_classroom/managers/route_manager.dart';
 import 'package:flutter_hutech_classroom/stores/user_store.dart';
 import 'package:flutter_hutech_classroom/widgets/auth/login_form.dart';
+import 'package:flutter_mobx/flutter_mobx.dart';
 import 'dart:developer' as developer;
 
 import 'package:provider/provider.dart';
@@ -43,75 +44,79 @@ class _LoginScreenState extends State<LoginScreen> {
         ),
         centerTitle: true,
       ),
-      body: SingleChildScrollView(
-        child: Padding(
-          padding: const EdgeInsets.all(20.0),
-          child: Center(
-            child: Card(
-              elevation: 5,
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(10),
-              ),
-              child: IntrinsicHeight(
+      body: Observer(builder: (context) {
+        return userStore.isLoggingIn
+            ? const Center(child: CircularProgressIndicator())
+            : SingleChildScrollView(
                 child: Padding(
-                  padding: const EdgeInsets.all(40.0),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Expanded(
-                        flex: 1,
-                        child: Column(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            Image.asset(
-                              'assets/images/logo-hutech-classroom.png',
-                              height: 200,
-                            ),
-                            const Padding(
-                              padding: EdgeInsets.only(top: 5),
-                              child: Text(
-                                'HỆ THỐNG SCAN KIỂM TRA BẢNG ĐIỂM SINH VIÊN',
-                                textAlign: TextAlign.center,
-                                style: TextStyle(
-                                  fontSize: 25,
-                                  fontWeight: FontWeight.bold,
-                                ),
-                              ),
-                            ),
-                          ],
-                        ),
+                  padding: const EdgeInsets.all(20.0),
+                  child: Center(
+                    child: Card(
+                      elevation: 5,
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(10),
                       ),
-                      Expanded(
-                        flex: 1,
+                      child: IntrinsicHeight(
                         child: Padding(
-                          padding: const EdgeInsets.all(50.0),
-                          child: Column(
+                          padding: const EdgeInsets.all(40.0),
+                          child: Row(
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [
-                              LoginForm(
-                                onLogin: (userName, password) async {
-                                  developer.log(
-                                      'Username: $userName, Password: $password');
-                                  var isSucceed =
-                                      await userStore.login(userName, password);
-                                  if (isSucceed && context.mounted) {
-                                    Navigator.pushReplacementNamed(
-                                        context, RouteManager.home);
-                                  }
-                                },
+                              Expanded(
+                                flex: 1,
+                                child: Column(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: [
+                                    Image.asset(
+                                      'assets/images/logo-hutech-classroom.png',
+                                      height: 200,
+                                    ),
+                                    const Padding(
+                                      padding: EdgeInsets.only(top: 5),
+                                      child: Text(
+                                        'HỆ THỐNG SCAN KIỂM TRA BẢNG ĐIỂM SINH VIÊN',
+                                        textAlign: TextAlign.center,
+                                        style: TextStyle(
+                                          fontSize: 25,
+                                          fontWeight: FontWeight.bold,
+                                        ),
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                              Expanded(
+                                flex: 1,
+                                child: Padding(
+                                  padding: const EdgeInsets.all(50.0),
+                                  child: Column(
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    children: [
+                                      LoginForm(
+                                        onLogin: (userName, password) async {
+                                          developer.log(
+                                              'Username: $userName, Password: $password');
+                                          var isSucceed = await userStore.login(
+                                              userName, password);
+                                          if (isSucceed && context.mounted) {
+                                            Navigator.pushReplacementNamed(
+                                                context, RouteManager.home);
+                                          }
+                                        },
+                                      ),
+                                    ],
+                                  ),
+                                ),
                               ),
                             ],
                           ),
                         ),
                       ),
-                    ],
+                    ),
                   ),
                 ),
-              ),
-            ),
-          ),
-        ),
-      ),
+              );
+      }),
     );
   }
 }

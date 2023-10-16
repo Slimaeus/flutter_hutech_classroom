@@ -22,6 +22,7 @@ class MyApp extends StatelessWidget {
         ),
         initialRoute: RouteManager.login,
         routes: {...RouteManager.routes},
+        debugShowCheckedModeBanner: false,
       ),
     );
   }

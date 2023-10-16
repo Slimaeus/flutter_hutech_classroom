@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_hutech_classroom/main.dart';
+import 'package:flutter_hutech_classroom/screens/home_screen.dart';
 import 'package:flutter_hutech_classroom/screens/login_screen.dart';
 
 class RouteManager {
@@ -9,7 +9,7 @@ class RouteManager {
   static String login = 'login';
 
   static Map<String, Widget Function(BuildContext)> routes = {
-    home: (context) => const MyHomePage(title: 'Trang chủ'),
+    home: (context) => const HomeScreen(title: 'Trang chủ'),
     login: (context) => const LoginScreen(title: 'HUTECH CLASSROOM')
   };
 }

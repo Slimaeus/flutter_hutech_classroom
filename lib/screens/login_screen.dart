@@ -34,7 +34,7 @@ class _LoginScreenState extends State<LoginScreen> {
         leading: Padding(
           padding: const EdgeInsets.all(8.0),
           child: Image.asset(
-            'assets/images/logoHutech.png',
+            PathManager.logoHutech,
           ),
         ),
         title: Text(

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_hutech_classroom/managers/path_manager.dart';
 import 'package:flutter_hutech_classroom/managers/route_manager.dart';
 import 'package:flutter_hutech_classroom/stores/user_store.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
@@ -103,7 +104,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   }),
                 ),
                 Image.asset(
-                  'assets/images/pic1_Data-analysis-amico.png',
+                  PathManager.pic1,
                   height: 350,
                 ),
                 Padding(

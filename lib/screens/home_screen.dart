@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_hutech_classroom/managers/path_manager.dart';
 import 'package:flutter_hutech_classroom/managers/route_manager.dart';
 import 'package:flutter_hutech_classroom/stores/user_store.dart';
+import 'package:flutter_hutech_classroom/widgets/layout/custom_appbar.dart';
+import 'package:flutter_hutech_classroom/widgets/layout/custom_drawer.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:provider/provider.dart';
 
@@ -26,52 +28,8 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        backgroundColor: Theme.of(context).colorScheme.inversePrimary,
-        title: Text(
-          widget.title,
-          style: const TextStyle(
-            fontWeight: FontWeight.bold,
-          ),
-        ),
-      ),
-      drawer: Drawer(
-        child: ListView(
-          children: [
-            DrawerHeader(
-              decoration: BoxDecoration(
-                color: Theme.of(context).colorScheme.inversePrimary,
-              ),
-              child: const Text('Cài đặt'),
-            ),
-            ListTile(
-              title: Observer(builder: (context) {
-                return Row(
-                  children: [
-                    const Text("Sinh viên: "),
-                    Text(_userStore.user.userName ?? 'Bạn chưa đăng nhập'),
-                  ],
-                );
-              }),
-            ),
-            ListTile(
-              title: FloatingActionButton(
-                heroTag: "LogButton",
-                child: Builder(builder: (context) {
-                  return Text(
-                      _userStore.user.id != null ? 'Đăng xuất' : 'Đăng nhập');
-                }),
-                onPressed: () {
-                  if (_userStore.user.id != null) {
-                    _userStore.resetValue();
-                  }
-                  Navigator.pushReplacementNamed(context, RouteManager.login);
-                },
-              ),
-            ),
-          ],
-        ),
-      ),
+      appBar: customAppBar(context, title: widget.title, hasLeading: true),
+      drawer: customDrawer(context),
       body: SingleChildScrollView(
         child: Padding(
           padding: const EdgeInsets.all(20.0),
@@ -122,6 +80,7 @@ class _HomeScreenState extends State<HomeScreen> {
                               child: ElevatedButton(
                                 onPressed: () {
                                   // Xử lý khi nút "Xem Bảng Điểm" được nhấn
+                                  Navigator.pushNamed(context, RouteManager.studentTranscript);
                                 },
                                 style: ElevatedButton.styleFrom(
                                   padding: const EdgeInsets.all(20),
@@ -150,6 +109,7 @@ class _HomeScreenState extends State<HomeScreen> {
                               child: ElevatedButton(
                                 onPressed: () {
                                   // Xử lý khi nút "Scan Kiểm Tra" được nhấn
+                                  Navigator.pushNamed(context, RouteManager.scan);
                                 },
                                 style: ElevatedButton.styleFrom(
                                   padding: const EdgeInsets.all(20),

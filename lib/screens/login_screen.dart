@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_hutech_classroom/managers/path_manager.dart';
 import 'package:flutter_hutech_classroom/managers/route_manager.dart';
 import 'package:flutter_hutech_classroom/stores/user_store.dart';
 import 'package:flutter_hutech_classroom/widgets/auth/login_form.dart';
@@ -46,20 +47,31 @@ class _LoginScreenState extends State<LoginScreen> {
       ),
       body: Observer(builder: (context) {
         return userStore.isLoggingIn
-            ? const Center(child: CircularProgressIndicator())
+            ? Center(
+                child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Image.asset(PathManager.logoHutechClassroom,
+                      height: MediaQuery.of(context).size.height * 0.1),
+                  SizedBox(
+                      width: MediaQuery.of(context).size.width * 0.16,
+                      child: const LinearProgressIndicator()),
+                ],
+              ))
             : SingleChildScrollView(
                 child: Padding(
                   padding: const EdgeInsets.all(20.0),
                   child: Center(
                     child: Padding(
-                      padding: EdgeInsets.symmetric(horizontal: MediaQuery.of(context).size.width * 0.2),
+                      padding: EdgeInsets.symmetric(
+                          horizontal: MediaQuery.of(context).size.width * 0.2),
                       child: Padding(
                         padding: const EdgeInsets.all(10.0),
                         child: Column(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
                             Image.asset(
-                              'assets/images/logo-hutech-classroom.png',
+                              PathManager.logoHutechClassroom,
                               height: 150,
                             ),
                             const Padding(
@@ -74,7 +86,9 @@ class _LoginScreenState extends State<LoginScreen> {
                               ),
                             ),
                             Padding(
-                              padding: EdgeInsets.symmetric(vertical: MediaQuery.of(context).size.height * 0.06),
+                              padding: EdgeInsets.symmetric(
+                                  vertical: MediaQuery.of(context).size.height *
+                                      0.06),
                               child: LoginForm(
                                 onLogin: (userName, password) async {
                                   developer.log(

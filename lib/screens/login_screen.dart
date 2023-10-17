@@ -51,65 +51,44 @@ class _LoginScreenState extends State<LoginScreen> {
                 child: Padding(
                   padding: const EdgeInsets.all(20.0),
                   child: Center(
-                    child: Card(
-                      elevation: 5,
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(10),
-                      ),
-                      child: IntrinsicHeight(
-                        child: Padding(
-                          padding: const EdgeInsets.all(40.0),
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              Expanded(
-                                flex: 1,
-                                child: Column(
-                                  mainAxisAlignment: MainAxisAlignment.center,
-                                  children: [
-                                    Image.asset(
-                                      'assets/images/logo-hutech-classroom.png',
-                                      height: 200,
-                                    ),
-                                    const Padding(
-                                      padding: EdgeInsets.only(top: 5),
-                                      child: Text(
-                                        'HỆ THỐNG SCAN KIỂM TRA BẢNG ĐIỂM SINH VIÊN',
-                                        textAlign: TextAlign.center,
-                                        style: TextStyle(
-                                          fontSize: 25,
-                                          fontWeight: FontWeight.bold,
-                                        ),
-                                      ),
-                                    ),
-                                  ],
+                    child: Padding(
+                      padding: EdgeInsets.symmetric(horizontal: MediaQuery.of(context).size.width * 0.2),
+                      child: Padding(
+                        padding: const EdgeInsets.all(10.0),
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Image.asset(
+                              'assets/images/logo-hutech-classroom.png',
+                              height: 150,
+                            ),
+                            const Padding(
+                              padding: EdgeInsets.only(top: 10),
+                              child: Text(
+                                'HỆ THỐNG SCAN KIỂM TRA BẢNG ĐIỂM SINH VIÊN',
+                                textAlign: TextAlign.center,
+                                style: TextStyle(
+                                  fontSize: 22,
+                                  fontWeight: FontWeight.bold,
                                 ),
                               ),
-                              Expanded(
-                                flex: 1,
-                                child: Padding(
-                                  padding: const EdgeInsets.all(50.0),
-                                  child: Column(
-                                    mainAxisAlignment: MainAxisAlignment.center,
-                                    children: [
-                                      LoginForm(
-                                        onLogin: (userName, password) async {
-                                          developer.log(
-                                              'Username: $userName, Password: $password');
-                                          var isSucceed = await userStore.login(
-                                              userName, password);
-                                          if (isSucceed && context.mounted) {
-                                            Navigator.pushReplacementNamed(
-                                                context, RouteManager.home);
-                                          }
-                                        },
-                                      ),
-                                    ],
-                                  ),
-                                ),
+                            ),
+                            Padding(
+                              padding: EdgeInsets.symmetric(vertical: MediaQuery.of(context).size.height * 0.06),
+                              child: LoginForm(
+                                onLogin: (userName, password) async {
+                                  developer.log(
+                                      'Username: $userName, Password: $password');
+                                  var isSucceed =
+                                      await userStore.login(userName, password);
+                                  if (isSucceed && context.mounted) {
+                                    Navigator.pushReplacementNamed(
+                                        context, RouteManager.home);
+                                  }
+                                },
                               ),
-                            ],
-                          ),
+                            ),
+                          ],
                         ),
                       ),
                     ),

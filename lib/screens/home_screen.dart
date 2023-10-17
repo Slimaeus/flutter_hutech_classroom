@@ -29,7 +29,7 @@ class _HomeScreenState extends State<HomeScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: customAppBar(context, title: widget.title, hasLeading: true),
-      drawer: customDrawer(context),
+      endDrawer: customDrawer(context),
       body: SingleChildScrollView(
         child: Padding(
           padding: const EdgeInsets.all(20.0),

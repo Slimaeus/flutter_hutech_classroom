@@ -11,7 +11,7 @@ class ScanScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: customAppBar(context, title: title, hasLeading: true),
-      drawer: customDrawer(context),
+      endDrawer: customDrawer(context),
       body: const Text('data'),
     );
   }

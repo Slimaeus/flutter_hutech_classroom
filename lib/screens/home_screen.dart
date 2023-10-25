@@ -80,7 +80,8 @@ class _HomeScreenState extends State<HomeScreen> {
                               child: ElevatedButton(
                                 onPressed: () {
                                   // Xử lý khi nút "Xem Bảng Điểm" được nhấn
-                                  Navigator.pushNamed(context, RouteManager.studentTranscript);
+                                  Navigator.pushNamed(
+                                      context, RouteManager.studentTranscript);
                                 },
                                 style: ElevatedButton.styleFrom(
                                   padding: const EdgeInsets.all(20),
@@ -92,7 +93,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                 child: const Column(
                                   children: [
                                     Icon(
-                                      Icons.table_chart,
+                                      Icons.assignment,
                                       size: 50,
                                     ),
                                     SizedBox(height: 8),
@@ -109,7 +110,8 @@ class _HomeScreenState extends State<HomeScreen> {
                               child: ElevatedButton(
                                 onPressed: () {
                                   // Xử lý khi nút "Scan Kiểm Tra" được nhấn
-                                  Navigator.pushNamed(context, RouteManager.scan);
+                                  Navigator.pushNamed(
+                                      context, RouteManager.scan);
                                 },
                                 style: ElevatedButton.styleFrom(
                                   padding: const EdgeInsets.all(20),
@@ -121,7 +123,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                 child: const Column(
                                   children: [
                                     Icon(
-                                      Icons.check_box,
+                                      Icons.scanner,
                                       size: 50,
                                     ),
                                     SizedBox(height: 8),

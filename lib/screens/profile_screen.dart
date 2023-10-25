@@ -15,30 +15,78 @@ class ProfileScreen extends StatefulWidget {
 }
 
 class _ProfileScreenState extends State<ProfileScreen> {
-  late UserStore _userStore;
-
-  @override
-  void initState() {
-    super.initState();
-    _userStore = context.read<UserStore>();
-  }
-
   @override
   Widget build(BuildContext context) {
+    UserStore userStore = context.watch<UserStore>();
+
     return Scaffold(
       appBar: customAppBar(context, title: widget.title, hasLeading: true),
       endDrawer: customDrawer(context),
       body: SingleChildScrollView(
-        child: Observer(builder: (context) {
-          return Column(
-            children: [
-              Text(
-                _userStore.user.roles.isEmpty ? "" : _userStore.user.roles[0],
-                style: const TextStyle(fontSize: 18),
-              ),
-            ],
-          );
-        }),
+        child: Padding(
+          padding: EdgeInsets.symmetric(
+              vertical: MediaQuery.of(context).size.width * 0.01,
+              horizontal: MediaQuery.of(context).size.width * 0.1),
+          child: Center(
+            child: Observer(builder: (context) {
+              return Card(
+                elevation: 3,
+                child: Padding(
+                  padding: EdgeInsets.symmetric(
+                      vertical: MediaQuery.of(context).size.width * 0.03,
+                      horizontal: MediaQuery.of(context).size.width * 0.05),
+                  child: Column(
+                    children: [
+                      const CircleAvatar(
+                        radius: 80,
+                        child: Icon(
+                          Icons.person,
+                          size: 120,
+                        ),
+                      ),
+                      const SizedBox(height: 20),
+                      Text(
+                        userStore.user.roles.isNotEmpty
+                            ? userStore.user.roles[0]
+                            : '',
+                        style: const TextStyle(
+                            fontSize: 25, fontWeight: FontWeight.bold),
+                      ),
+                      const SizedBox(height: 20),
+                      TextFormField(
+                        initialValue:
+                            '${userStore.user.lastName} ${userStore.user.firstName}',
+                        readOnly: true,
+                        decoration: const InputDecoration(
+                          labelText: 'Họ và Tên',
+                          border: OutlineInputBorder(),
+                        ),
+                      ),
+                      const SizedBox(height: 20),
+                      TextFormField(
+                        initialValue: userStore.user.userName,
+                        readOnly: true,
+                        decoration: const InputDecoration(
+                          labelText: 'Mã đăng nhập',
+                          border: OutlineInputBorder(),
+                        ),
+                      ),
+                      const SizedBox(height: 20),
+                      TextFormField(
+                        initialValue: userStore.user.faculty?.name ?? 'N/A',
+                        readOnly: true,
+                        decoration: const InputDecoration(
+                          labelText: 'Khoa',
+                          border: OutlineInputBorder(),
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              );
+            }),
+          ),
+        ),
       ),
     );
   }

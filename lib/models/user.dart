@@ -11,8 +11,15 @@ class User {
   final String? lastName;
   final Faculty? faculty;
   final String? token = "";
+  final List<String> roles;
 
-  User({this.id, this.userName, this.firstName, this.lastName, this.faculty});
+  User(
+      {this.id,
+      this.userName,
+      this.firstName,
+      this.lastName,
+      this.faculty,
+      this.roles = const []});
 
   factory User.fromJson(Map<String, dynamic> json) => _$UserFromJson(json);
 

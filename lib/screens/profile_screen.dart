@@ -33,7 +33,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
           return Column(
             children: [
               Text(
-                '${_userStore.user.userName ?? 'N/A'} - ${_userStore.user.lastName ?? 'N/A'} ${_userStore.user.firstName ?? 'N/A'}',
+                _userStore.user.roles.isEmpty ? "" : _userStore.user.roles[0],
                 style: const TextStyle(fontSize: 18),
               ),
             ],

@@ -11,6 +11,7 @@ class RouteManager {
   static String login = 'login';
   static String studentTranscript = 'studentTranscript';
   static String scan = 'scan';
+  static String profile = 'profile';
 
   static Map<String, Widget Function(BuildContext)> routes = {
     home: (context) => const HomeScreen(title: 'TRANG CHỦ'),
@@ -18,5 +19,6 @@ class RouteManager {
     studentTranscript: (context) =>
         const StudentTranscriptScreen(title: 'BẢNG ĐIỂM'),
     scan: (context) => const ScanScreen(title: 'SCAN KIỂM TRA'),
+    profile: (context) => const ScanScreen(title: 'HỒ SƠ CÁ NHÂN'),
   };
 }

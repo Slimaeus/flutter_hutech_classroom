@@ -58,7 +58,7 @@ Widget customDrawer(BuildContext context) {
           leading: const Icon(Icons.person),
           title: const Text('Hồ Sơ Cá Nhân'),
           onTap: () {
-            // Điều hướng đến trang Hồ Sơ Cá Nhân
+            Navigator.pushReplacementNamed(context, RouteManager.profile);
           },
         ),
         ListTile(

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_hutech_classroom/screens/home_screen.dart';
 import 'package:flutter_hutech_classroom/screens/login_screen.dart';
+import 'package:flutter_hutech_classroom/screens/profile_screen.dart';
 import 'package:flutter_hutech_classroom/screens/scan_screen.dart';
 import 'package:flutter_hutech_classroom/screens/student_transcript_screen.dart';
 
@@ -19,6 +20,6 @@ class RouteManager {
     studentTranscript: (context) =>
         const StudentTranscriptScreen(title: 'BẢNG ĐIỂM'),
     scan: (context) => const ScanScreen(title: 'SCAN KIỂM TRA'),
-    profile: (context) => const ScanScreen(title: 'HỒ SƠ CÁ NHÂN'),
+    profile: (context) => const ProfileScreen(title: 'HỒ SƠ CÁ NHÂN'),
   };
 }

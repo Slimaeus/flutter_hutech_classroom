@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_hutech_classroom/managers/path_manager.dart';
 import 'package:flutter_hutech_classroom/stores/user_store.dart';
 import 'package:flutter_hutech_classroom/widgets/layout/custom_appbar.dart';
 import 'package:flutter_hutech_classroom/widgets/layout/custom_drawer.dart';
@@ -29,60 +30,183 @@ class _ProfileScreenState extends State<ProfileScreen> {
               horizontal: MediaQuery.of(context).size.width * 0.1),
           child: Center(
             child: Observer(builder: (context) {
-              return Card(
-                elevation: 3,
-                child: Padding(
-                  padding: EdgeInsets.symmetric(
-                      vertical: MediaQuery.of(context).size.width * 0.03,
-                      horizontal: MediaQuery.of(context).size.width * 0.05),
-                  child: Column(
-                    children: [
-                      const CircleAvatar(
-                        radius: 80,
-                        child: Icon(
-                          Icons.person,
-                          size: 120,
+              return Column(
+                children: [
+                  FractionallySizedBox(
+                    widthFactor: 0.9,
+                    child: Card(
+                      elevation: 3,
+                      child: Padding(
+                        padding: EdgeInsets.all(
+                            MediaQuery.of(context).size.width * 0.01),
+                        child: Row(
+                          children: [
+                            Padding(
+                              padding: EdgeInsets.symmetric(
+                                  horizontal:
+                                      MediaQuery.of(context).size.width * 0.01),
+                              child: const CircleAvatar(
+                                radius: 60,
+                                child: Icon(
+                                  Icons.person,
+                                  size: 100,
+                                ),
+                              ),
+                            ),
+                            const SizedBox(height: 20),
+                            Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text(
+                                  '${userStore.user.lastName} ${userStore.user.firstName}',
+                                  style: const TextStyle(
+                                      fontSize: 25,
+                                      fontWeight: FontWeight.bold),
+                                ),
+                                Text(
+                                  userStore.user.roles.isNotEmpty
+                                      ? userStore.user.roles[0]
+                                      : '',
+                                  style: const TextStyle(
+                                      fontSize: 20,
+                                      fontWeight: FontWeight.bold),
+                                ),
+                              ],
+                            ),
+                          ],
                         ),
                       ),
-                      const SizedBox(height: 20),
-                      Text(
-                        userStore.user.roles.isNotEmpty
-                            ? userStore.user.roles[0]
-                            : '',
-                        style: const TextStyle(
-                            fontSize: 25, fontWeight: FontWeight.bold),
-                      ),
-                      const SizedBox(height: 20),
-                      TextFormField(
-                        initialValue:
-                            '${userStore.user.lastName} ${userStore.user.firstName}',
-                        readOnly: true,
-                        decoration: const InputDecoration(
-                          labelText: 'Họ và Tên',
-                          border: OutlineInputBorder(),
-                        ),
-                      ),
-                      const SizedBox(height: 20),
-                      TextFormField(
-                        initialValue: userStore.user.userName,
-                        readOnly: true,
-                        decoration: const InputDecoration(
-                          labelText: 'Mã đăng nhập',
-                          border: OutlineInputBorder(),
-                        ),
-                      ),
-                      const SizedBox(height: 20),
-                      TextFormField(
-                        initialValue: userStore.user.faculty?.name ?? 'N/A',
-                        readOnly: true,
-                        decoration: const InputDecoration(
-                          labelText: 'Khoa',
-                          border: OutlineInputBorder(),
-                        ),
-                      ),
-                    ],
+                    ),
                   ),
-                ),
+                  const SizedBox(height: 5),
+                  FractionallySizedBox(
+                    widthFactor: 0.9,
+                    child: Row(
+                      children: [
+                        Expanded(
+                          child: Card(
+                            elevation: 3,
+                            child: Padding(
+                              padding: EdgeInsets.all(
+                                  MediaQuery.of(context).size.width * 0.02),
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Padding(
+                                    padding: EdgeInsets.only(
+                                        bottom:
+                                            MediaQuery.of(context).size.height *
+                                                0.02),
+                                    child: const Text(
+                                      'Thông tin cá nhân',
+                                      style: TextStyle(
+                                          fontSize: 25,
+                                          fontWeight: FontWeight.bold),
+                                    ),
+                                  ),
+                                  TextFormField(
+                                    initialValue:
+                                        '${userStore.user.lastName} ${userStore.user.firstName}',
+                                    readOnly: true,
+                                    decoration: const InputDecoration(
+                                      labelText: 'Họ và Tên',
+                                      border: OutlineInputBorder(),
+                                    ),
+                                  ),
+                                  const SizedBox(height: 20),
+                                  TextFormField(
+                                    initialValue: userStore.user.userName,
+                                    readOnly: true,
+                                    decoration: const InputDecoration(
+                                      labelText: 'Mã đăng nhập',
+                                      border: OutlineInputBorder(),
+                                    ),
+                                  ),
+                                  const SizedBox(height: 20),
+                                  TextFormField(
+                                    initialValue:
+                                        userStore.user.faculty?.name ?? 'N/A',
+                                    readOnly: true,
+                                    decoration: const InputDecoration(
+                                      labelText: 'Khoa',
+                                      border: OutlineInputBorder(),
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ),
+                        ),
+                        const SizedBox(width: 5),
+                        Expanded(
+                          child: Card(
+                            elevation: 3,
+                            child: Padding(
+                              padding: EdgeInsets.all(
+                                  MediaQuery.of(context).size.width * 0.02),
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Padding(
+                                    padding: EdgeInsets.only(
+                                        bottom:
+                                            MediaQuery.of(context).size.height *
+                                                0.02),
+                                    child: const Text(
+                                      'Liên kết',
+                                      style: TextStyle(
+                                          fontSize: 25,
+                                          fontWeight: FontWeight.bold),
+                                    ),
+                                  ),
+                                  ElevatedButton(
+                                    onPressed: () {
+                                      // Xử lý khi nút 1 được nhấn
+                                    },
+                                    style: ElevatedButton.styleFrom(
+                                      shape: RoundedRectangleBorder(
+                                        borderRadius: BorderRadius.circular(5),
+                                      ),
+                                    ),
+                                    child: Container(
+                                      width: double.infinity,
+                                      padding: const EdgeInsets.symmetric(
+                                          vertical: 20),
+                                      child: Image.asset(
+                                        PathManager.logoHutechAdministration,
+                                        height: 60,
+                                      ),
+                                    ),
+                                  ),
+                                  const SizedBox(height: 10),
+                                  ElevatedButton(
+                                    onPressed: () {
+                                      // Xử lý khi nút 1 được nhấn
+                                    },
+                                    style: ElevatedButton.styleFrom(
+                                      shape: RoundedRectangleBorder(
+                                        borderRadius: BorderRadius.circular(5),
+                                      ),
+                                    ),
+                                    child: Container(
+                                      width: double.infinity,
+                                      padding: const EdgeInsets.symmetric(
+                                          vertical: 20),
+                                      child: Image.asset(
+                                        PathManager.logoHutechClassroom,
+                                        height: 60,
+                                      ),
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                ],
               );
             }),
           ),

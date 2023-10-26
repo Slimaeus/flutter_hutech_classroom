@@ -38,7 +38,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                       elevation: 3,
                       child: Padding(
                         padding: EdgeInsets.all(
-                            MediaQuery.of(context).size.width * 0.01),
+                            MediaQuery.of(context).size.width * 0.02),
                         child: Row(
                           children: [
                             Padding(
@@ -84,121 +84,140 @@ class _ProfileScreenState extends State<ProfileScreen> {
                     child: Row(
                       children: [
                         Expanded(
-                          child: Card(
-                            elevation: 3,
-                            child: Padding(
-                              padding: EdgeInsets.all(
-                                  MediaQuery.of(context).size.width * 0.02),
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Padding(
-                                    padding: EdgeInsets.only(
-                                        bottom:
-                                            MediaQuery.of(context).size.height *
+                          child: SizedBox(
+                            height: MediaQuery.of(context).size.height * 0.4,
+                            child: Card(
+                              elevation: 3,
+                              child: SingleChildScrollView(
+                                child: Padding(
+                                  padding: EdgeInsets.all(
+                                      MediaQuery.of(context).size.width * 0.02),
+                                  child: Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: [
+                                      Padding(
+                                        padding: EdgeInsets.only(
+                                            bottom: MediaQuery.of(context)
+                                                    .size
+                                                    .height *
                                                 0.02),
-                                    child: const Text(
-                                      'Thông tin cá nhân',
-                                      style: TextStyle(
-                                          fontSize: 25,
-                                          fontWeight: FontWeight.bold),
-                                    ),
+                                        child: const Text(
+                                          'Thông tin cá nhân',
+                                          style: TextStyle(
+                                              fontSize: 25,
+                                              fontWeight: FontWeight.bold),
+                                        ),
+                                      ),
+                                      TextFormField(
+                                        initialValue:
+                                            '${userStore.user.lastName} ${userStore.user.firstName}',
+                                        readOnly: true,
+                                        decoration: const InputDecoration(
+                                          labelText: 'Họ và Tên',
+                                          border: OutlineInputBorder(),
+                                        ),
+                                      ),
+                                      const SizedBox(height: 20),
+                                      TextFormField(
+                                        initialValue: userStore.user.userName,
+                                        readOnly: true,
+                                        decoration: const InputDecoration(
+                                          labelText: 'Mã đăng nhập',
+                                          border: OutlineInputBorder(),
+                                        ),
+                                      ),
+                                      const SizedBox(height: 20),
+                                      TextFormField(
+                                        initialValue:
+                                            userStore.user.faculty?.name ??
+                                                'N/A',
+                                        readOnly: true,
+                                        decoration: const InputDecoration(
+                                          labelText: 'Khoa',
+                                          border: OutlineInputBorder(),
+                                        ),
+                                      ),
+                                    ],
                                   ),
-                                  TextFormField(
-                                    initialValue:
-                                        '${userStore.user.lastName} ${userStore.user.firstName}',
-                                    readOnly: true,
-                                    decoration: const InputDecoration(
-                                      labelText: 'Họ và Tên',
-                                      border: OutlineInputBorder(),
-                                    ),
-                                  ),
-                                  const SizedBox(height: 20),
-                                  TextFormField(
-                                    initialValue: userStore.user.userName,
-                                    readOnly: true,
-                                    decoration: const InputDecoration(
-                                      labelText: 'Mã đăng nhập',
-                                      border: OutlineInputBorder(),
-                                    ),
-                                  ),
-                                  const SizedBox(height: 20),
-                                  TextFormField(
-                                    initialValue:
-                                        userStore.user.faculty?.name ?? 'N/A',
-                                    readOnly: true,
-                                    decoration: const InputDecoration(
-                                      labelText: 'Khoa',
-                                      border: OutlineInputBorder(),
-                                    ),
-                                  ),
-                                ],
+                                ),
                               ),
                             ),
                           ),
                         ),
                         const SizedBox(width: 5),
                         Expanded(
-                          child: Card(
-                            elevation: 3,
-                            child: Padding(
-                              padding: EdgeInsets.all(
-                                  MediaQuery.of(context).size.width * 0.02),
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Padding(
-                                    padding: EdgeInsets.only(
-                                        bottom:
-                                            MediaQuery.of(context).size.height *
-                                                0.02),
-                                    child: const Text(
-                                      'Liên kết',
-                                      style: TextStyle(
-                                          fontSize: 25,
-                                          fontWeight: FontWeight.bold),
-                                    ),
+                          child: SizedBox(
+                            height: MediaQuery.of(context).size.height * 0.4,
+                            child: Card(
+                              elevation: 3,
+                              child: SingleChildScrollView(
+                                child: Padding(
+                                  padding: EdgeInsets.all(
+                                      MediaQuery.of(context).size.width * 0.02),
+                                  child: Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.center,
+                                    children: [
+                                      Padding(
+                                        padding: EdgeInsets.only(
+                                            bottom: MediaQuery.of(context)
+                                                    .size
+                                                    .height *
+                                                0.01),
+                                        child: const Text(
+                                          'Liên kết',
+                                          style: TextStyle(
+                                              fontSize: 25,
+                                              fontWeight: FontWeight.bold),
+                                        ),
+                                      ),
+                                      Column(
+                                        children: [
+                                          Padding(
+                                            padding: const EdgeInsets.all(8.0),
+                                            child: Image.asset(
+                                              PathManager
+                                                  .logoHutechAdministration,
+                                              height: 60,
+                                            ),
+                                          ),
+                                          const Padding(
+                                            padding: EdgeInsets.all(8.0),
+                                            child: Text(
+                                              "https://hutechclassroomweb.azurewebsites.net/",
+                                              style: TextStyle(
+                                                  fontSize: 15,
+                                                  fontStyle: FontStyle.italic),
+                                            ),
+                                          ),
+                                        ],
+                                      ),
+                                      const Divider(),
+                                      const SizedBox(height: 5),
+                                      Column(
+                                        children: [
+                                          Padding(
+                                            padding: const EdgeInsets.all(8.0),
+                                            child: Image.asset(
+                                              PathManager.logoHutechClassroom,
+                                              height: 60,
+                                            ),
+                                          ),
+                                          const Padding(
+                                            padding: EdgeInsets.all(8.0),
+                                            child: Text(
+                                              "https://hutech-classroom-edu.vercel.app/",
+                                              style: TextStyle(
+                                                  fontSize: 15,
+                                                  fontStyle: FontStyle.italic),
+                                            ),
+                                          ),
+                                        ],
+                                      ),
+                                    ],
                                   ),
-                                  ElevatedButton(
-                                    onPressed: () {
-                                      // Xử lý khi nút 1 được nhấn
-                                    },
-                                    style: ElevatedButton.styleFrom(
-                                      shape: RoundedRectangleBorder(
-                                        borderRadius: BorderRadius.circular(5),
-                                      ),
-                                    ),
-                                    child: Container(
-                                      width: double.infinity,
-                                      padding: const EdgeInsets.symmetric(
-                                          vertical: 20),
-                                      child: Image.asset(
-                                        PathManager.logoHutechAdministration,
-                                        height: 60,
-                                      ),
-                                    ),
-                                  ),
-                                  const SizedBox(height: 10),
-                                  ElevatedButton(
-                                    onPressed: () {
-                                      // Xử lý khi nút 1 được nhấn
-                                    },
-                                    style: ElevatedButton.styleFrom(
-                                      shape: RoundedRectangleBorder(
-                                        borderRadius: BorderRadius.circular(5),
-                                      ),
-                                    ),
-                                    child: Container(
-                                      width: double.infinity,
-                                      padding: const EdgeInsets.symmetric(
-                                          vertical: 20),
-                                      child: Image.asset(
-                                        PathManager.logoHutechClassroom,
-                                        height: 60,
-                                      ),
-                                    ),
-                                  ),
-                                ],
+                                ),
                               ),
                             ),
                           ),

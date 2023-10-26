@@ -51,10 +51,10 @@ class _LoginScreenState extends State<LoginScreen> {
                 child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  Image.asset(PathManager.logoHutechClassroom,
+                  Image.asset(PathManager.logoHutechScanSystem,
                       height: MediaQuery.of(context).size.height * 0.1),
                   SizedBox(
-                      width: MediaQuery.of(context).size.width * 0.16,
+                      width: MediaQuery.of(context).size.width * 0.17,
                       child: const LinearProgressIndicator()),
                 ],
               ))
@@ -71,7 +71,7 @@ class _LoginScreenState extends State<LoginScreen> {
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
                             Image.asset(
-                              PathManager.logoHutechClassroom,
+                              PathManager.logoHutechScanSystem,
                               height: 150,
                             ),
                             const Padding(

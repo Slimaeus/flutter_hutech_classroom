@@ -68,6 +68,7 @@ class _LoginFormState extends State<LoginForm> {
                     labelText: 'Mật khẩu',
                     border: OutlineInputBorder(),
                   ),
+                  onEditingComplete: _login,
                 ),
               ),
               Padding(

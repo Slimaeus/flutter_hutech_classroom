@@ -79,7 +79,6 @@ class _HomeScreenState extends State<HomeScreen> {
                               padding: const EdgeInsets.all(8.0),
                               child: ElevatedButton(
                                 onPressed: () {
-                                  // Xử lý khi nút "Xem Bảng Điểm" được nhấn
                                   Navigator.pushNamed(
                                       context, RouteManager.studentTranscript);
                                 },
@@ -109,7 +108,6 @@ class _HomeScreenState extends State<HomeScreen> {
                               padding: const EdgeInsets.all(8.0),
                               child: ElevatedButton(
                                 onPressed: () {
-                                  // Xử lý khi nút "Scan Kiểm Tra" được nhấn
                                   Navigator.pushNamed(
                                       context, RouteManager.scan);
                                 },

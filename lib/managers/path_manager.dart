@@ -8,4 +8,5 @@ class PathManager {
   static String logoHutech = 'assets/images/logoHutech.png';
   static String pic1 = 'assets/images/pic1_Data-analysis-amico.png';
   static String pic2 = 'assets/images/pic2_Account-amico.png';
+  static String pic3 = 'assets/images/pic3_Search-rafiki.png';
 }

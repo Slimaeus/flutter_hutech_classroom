@@ -3,8 +3,8 @@ import 'package:flutter_hutech_classroom/managers/route_manager.dart';
 import 'package:flutter_hutech_classroom/widgets/layout/custom_appbar.dart';
 import 'package:flutter_hutech_classroom/widgets/layout/custom_drawer.dart';
 
-class ScanScreen extends StatelessWidget {
-  const ScanScreen({super.key, required this.title});
+class ImageInputScreen extends StatelessWidget {
+  const ImageInputScreen({super.key, required this.title});
 
   final String title;
 
@@ -35,7 +35,7 @@ class ScanScreen extends StatelessWidget {
                 onPressed: () {
                   // Handle the submit button press event
                   Navigator.pushNamed(
-                      context, RouteManager.home);
+                      context, RouteManager.scan);
                 },
                 child: const Text(
                   'IMPORT',

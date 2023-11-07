@@ -50,7 +50,7 @@ Widget customDrawer(BuildContext context) {
           leading: const Icon(Icons.scanner),
           title: const Text('Scan Kiểm Tra'),
           onTap: () {
-            Navigator.pushReplacementNamed(context, RouteManager.scan);
+            Navigator.pushReplacementNamed(context, RouteManager.imageInput);
           },
         ),
         const Divider(),

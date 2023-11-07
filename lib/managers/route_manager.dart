@@ -14,6 +14,9 @@ class RouteManager {
   static String studentTranscript = 'studentTranscript';
   static String studentTranscriptDetails = 'studentTranscriptDetails';
   static String imageInput = 'imageInput';
+  static String scan = 'scan';
+  static String comparison = 'comparison';
+  static String result = 'result';
   static String profile = 'profile';
 
   static Map<String, Widget Function(BuildContext)> routes = {

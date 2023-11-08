@@ -5,8 +5,6 @@ import 'package:flutter_hutech_classroom/models/student_result.dart';
 import 'package:flutter_hutech_classroom/models/user.dart';
 import 'package:flutter_hutech_classroom/widgets/layout/custom_appbar.dart';
 import 'package:flutter_hutech_classroom/widgets/layout/custom_drawer.dart';
-import 'package:flutter_hutech_classroom/widgets/tables/custom_table.dart';
-import 'package:flutter_hutech_classroom/widgets/tables/custom_table_cell.dart';
 import 'package:flutter_hutech_classroom/widgets/tables/student_result_table.dart';
 
 class ScanScreen extends StatelessWidget {

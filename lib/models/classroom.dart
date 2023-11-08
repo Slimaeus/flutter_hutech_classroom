@@ -1,4 +1,3 @@
-import 'package:flutter_hutech_classroom/models/faculty.dart';
 import 'package:flutter_hutech_classroom/models/user.dart';
 import 'package:json_annotation/json_annotation.dart';
 

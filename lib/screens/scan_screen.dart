@@ -1,7 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_hutech_classroom/managers/route_manager.dart';
+import 'package:flutter_hutech_classroom/models/classroom.dart';
+import 'package:flutter_hutech_classroom/models/student_result.dart';
+import 'package:flutter_hutech_classroom/models/user.dart';
 import 'package:flutter_hutech_classroom/widgets/layout/custom_appbar.dart';
 import 'package:flutter_hutech_classroom/widgets/layout/custom_drawer.dart';
+import 'package:flutter_hutech_classroom/widgets/tables/custom_table.dart';
+import 'package:flutter_hutech_classroom/widgets/tables/custom_table_cell.dart';
+import 'package:flutter_hutech_classroom/widgets/tables/student_result_table.dart';
 
 class ScanScreen extends StatelessWidget {
   const ScanScreen({super.key, required this.title});
@@ -75,7 +81,27 @@ class ScanScreen extends StatelessWidget {
                 ),
               ),
               const SizedBox(height: 10),
-              _buildScannedScoreTable(),
+              studentResultTable([
+                StudentResult(
+                    ordinalNumber: 1,
+                    score: 9.5,
+                    student: User(
+                        id: '1',
+                        userName: '2080600914',
+                        firstName: 'Thái',
+                        lastName: 'Nguyễn Hồng'),
+                    classroom: Classroom(className: '20DTHD3')),
+                StudentResult(
+                    ordinalNumber: 2,
+                    score: 10,
+                    student: User(
+                        id: '2',
+                        userName: '2080600803',
+                        firstName: 'Vân',
+                        lastName: 'Trương Thục'),
+                    classroom: Classroom(className: '20DTHD3')),
+              ]),
+              // _buildScannedScoreTable(),
               const SizedBox(height: 10),
               ElevatedButton(
                 style: ElevatedButton.styleFrom(
@@ -100,78 +126,6 @@ class ScanScreen extends StatelessWidget {
             ],
           ),
         )),
-      ),
-    );
-  }
-
-  Widget _buildScannedScoreTable() {
-    return Table(
-      border: TableBorder.all(),
-      columnWidths: const {
-        0: FixedColumnWidth(100.0),
-        5: FixedColumnWidth(100.0),
-      },
-      children: [
-        TableRow(
-          children: [
-            _buildTableHeaderCell('STT'),
-            _buildTableHeaderCell('Mã SV'),
-            _buildTableHeaderCell('Họ SV'),
-            _buildTableHeaderCell('Tên SV'),
-            _buildTableHeaderCell('Mã lớp'),
-            _buildTableHeaderCell('Điểm'),
-          ],
-        ),
-        TableRow(
-          children: [
-            _buildTableCell('1'),
-            _buildTableCell('12345'),
-            _buildTableCell('Nguyen Van', alignLeft: true),
-            _buildTableCell('A', alignLeft: true),
-            _buildTableCell('ABC123'),
-            _buildTableCell('10.0'),
-          ],
-        ),
-        TableRow(
-          children: [
-            _buildTableCell('2'),
-            _buildTableCell('67890'),
-            _buildTableCell('Tran Thi', alignLeft: true),
-            _buildTableCell('B', alignLeft: true),
-            _buildTableCell('DEF456'),
-            _buildTableCell('7.0'),
-          ],
-        ),
-        // Thêm các hàng khác tương tự ở đây
-      ],
-    );
-  }
-
-  Widget _buildTableHeaderCell(String value) {
-    return Container(
-      color: Colors.blue,
-      child: Padding(
-        padding: const EdgeInsets.all(8.0),
-        child: Align(
-          alignment: Alignment.center,
-          child: Text(
-            value,
-            style: const TextStyle(
-                fontWeight: FontWeight.bold, color: Colors.white),
-          ),
-        ),
-      ),
-    );
-  }
-
-  Widget _buildTableCell(String value, {bool alignLeft = false}) {
-    return Padding(
-      padding: const EdgeInsets.all(8.0),
-      child: TableCell(
-        child: Align(
-          alignment: alignLeft ? Alignment.centerLeft : Alignment.center,
-          child: Text(value),
-        ),
       ),
     );
   }

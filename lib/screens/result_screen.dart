@@ -12,7 +12,20 @@ class ResultScreen extends StatelessWidget {
     return Scaffold(
       appBar: customAppBar(context, title: title, hasLeading: true),
       endDrawer: customDrawer(context),
-      body: const Text('data'),
+      body: SingleChildScrollView(
+        child: Center(
+            child: Padding(
+          padding: EdgeInsets.symmetric(
+              vertical: MediaQuery.of(context).size.height * 0.01,
+              horizontal: MediaQuery.of(context).size.width * 0.1),
+          child: const Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text("Kết quả...")
+            ],
+          ),
+        )),
+      ),
     );
   }
 }

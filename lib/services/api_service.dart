@@ -10,7 +10,7 @@ class ApiService {
 
   Future<ApiResponse<TResponse>> get<TResponse>(
       String endpoint, TResponse Function(dynamic json) fromJson,
-      {dynamic headers}) async {
+      {dynamic headers = const {}}) async {
     try {
       final response =
           await http.get(Uri.parse('$baseUrl$endpoint'), headers: headers);
@@ -36,7 +36,7 @@ class ApiService {
 
   Future<ApiResponse<TResponse>> post<TResponse>(
       String endpoint, TResponse Function(dynamic json) fromJson, dynamic body,
-      {dynamic headers}) async {
+      {dynamic headers = const {}}) async {
     try {
       final response = await http.post(Uri.parse('$baseUrl$endpoint'),
           body: jsonEncode(body),
@@ -66,7 +66,7 @@ class ApiService {
 
   Future<ApiResponse<TResponse>> put<TResponse>(
       String endpoint, TResponse Function(dynamic json) fromJson, dynamic body,
-      {dynamic headers}) async {
+      {dynamic headers = const {}}) async {
     try {
       final response = await http.put(Uri.parse('$baseUrl$endpoint'),
           body: jsonEncode(body),
@@ -96,7 +96,7 @@ class ApiService {
 
   Future<ApiResponse<TResponse>> patch<TResponse>(
       String endpoint, TResponse Function(dynamic json) fromJson, dynamic body,
-      {dynamic headers}) async {
+      {dynamic headers = const {}}) async {
     try {
       final response = await http.patch(Uri.parse('$baseUrl$endpoint'),
           body: jsonEncode(body),
@@ -126,7 +126,7 @@ class ApiService {
 
   Future<ApiResponse<TResponse>> delete<TResponse>(
       String endpoint, TResponse Function(dynamic json) fromJson,
-      {dynamic headers}) async {
+      {dynamic headers = const {}}) async {
     try {
       final response =
           await http.delete(Uri.parse('$baseUrl$endpoint'), headers: headers);

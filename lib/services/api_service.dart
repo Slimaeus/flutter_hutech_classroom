@@ -15,20 +15,20 @@ class ApiService {
       final response =
           await http.get(Uri.parse('$baseUrl$endpoint'), headers: headers);
 
-      print('Api [GET] $baseUrl$endpoint');
+      developer.log('Api [GET] $baseUrl$endpoint');
       if (response.statusCode == 200) {
-        print('Success [GET]: ${response.body}');
+        developer.log('Success [GET]: ${response.body}');
         final dynamic jsonResponse = json.decode(response.body);
         return ApiResponse.success(fromJson(jsonResponse));
       } else {
         final dynamic errorJson = json.decode(response.body);
         final errors =
             errorJson['errors'] ?? {'errors': 'Unknown error occurred'};
-        print('Errors [GET]: $errorJson');
+        developer.log('Errors [GET]: $errorJson');
         return ApiResponse.failed(errors);
       }
     } on Exception catch (e) {
-      print('Errors [GET]: ${e.toString()}');
+      developer.log('Errors [GET]: ${e.toString()}');
 
       return ApiResponse.failed({'errors': 'Network Error'});
     }

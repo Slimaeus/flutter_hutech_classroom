@@ -9,24 +9,26 @@ class ApiService {
   ApiService(this.baseUrl);
 
   Future<ApiResponse<TResponse>> get<TResponse>(
-      String endpoint, TResponse Function(dynamic json) fromJson) async {
+      String endpoint, TResponse Function(dynamic json) fromJson,
+      {dynamic headers}) async {
     try {
-      final response = await http.get(Uri.parse('$baseUrl$endpoint'));
+      final response =
+          await http.get(Uri.parse('$baseUrl$endpoint'), headers: headers);
 
-      developer.log('Api [GET] $baseUrl$endpoint');
+      print('Api [GET] $baseUrl$endpoint');
       if (response.statusCode == 200) {
-        developer.log('Success [GET]: ${response.body}');
+        print('Success [GET]: ${response.body}');
         final dynamic jsonResponse = json.decode(response.body);
         return ApiResponse.success(fromJson(jsonResponse));
       } else {
         final dynamic errorJson = json.decode(response.body);
         final errors =
             errorJson['errors'] ?? {'errors': 'Unknown error occurred'};
-        developer.log('Errors [GET]: $errorJson');
+        print('Errors [GET]: $errorJson');
         return ApiResponse.failed(errors);
       }
     } on Exception catch (e) {
-      developer.log('Errors [GET]: ${e.toString()}');
+      print('Errors [GET]: ${e.toString()}');
 
       return ApiResponse.failed({'errors': 'Network Error'});
     }
@@ -34,12 +36,13 @@ class ApiService {
 
   Future<ApiResponse<TResponse>> post<TResponse>(
       String endpoint, TResponse Function(dynamic json) fromJson, dynamic body,
-      {dynamic header}) async {
+      {dynamic headers}) async {
     try {
       final response = await http.post(Uri.parse('$baseUrl$endpoint'),
           body: jsonEncode(body),
           headers: {
             'Content-Type': 'application/json; charset=UTF-8',
+            ...headers
           });
       developer.log('Api [POST] $baseUrl$endpoint');
 
@@ -61,12 +64,16 @@ class ApiService {
     }
   }
 
-  Future<ApiResponse<TResponse>> put<TResponse>(String endpoint,
-      TResponse Function(dynamic json) fromJson, dynamic body) async {
+  Future<ApiResponse<TResponse>> put<TResponse>(
+      String endpoint, TResponse Function(dynamic json) fromJson, dynamic body,
+      {dynamic headers}) async {
     try {
       final response = await http.put(Uri.parse('$baseUrl$endpoint'),
           body: jsonEncode(body),
-          headers: {'Content-Type': 'application/json; charset=UTF-8'});
+          headers: {
+            'Content-Type': 'application/json; charset=UTF-8',
+            ...headers
+          });
       developer.log('Api [PUT] $baseUrl$endpoint');
 
       if (response.statusCode == 200) {
@@ -87,12 +94,16 @@ class ApiService {
     }
   }
 
-  Future<ApiResponse<TResponse>> patch<TResponse>(String endpoint,
-      TResponse Function(dynamic json) fromJson, dynamic body) async {
+  Future<ApiResponse<TResponse>> patch<TResponse>(
+      String endpoint, TResponse Function(dynamic json) fromJson, dynamic body,
+      {dynamic headers}) async {
     try {
       final response = await http.patch(Uri.parse('$baseUrl$endpoint'),
           body: jsonEncode(body),
-          headers: {'Content-Type': 'application/json; charset=UTF-8'});
+          headers: {
+            'Content-Type': 'application/json; charset=UTF-8',
+            ...headers
+          });
       developer.log('Api [PATCH] $baseUrl$endpoint');
 
       if (response.statusCode == 200) {
@@ -114,9 +125,11 @@ class ApiService {
   }
 
   Future<ApiResponse<TResponse>> delete<TResponse>(
-      String endpoint, TResponse Function(dynamic json) fromJson) async {
+      String endpoint, TResponse Function(dynamic json) fromJson,
+      {dynamic headers}) async {
     try {
-      final response = await http.delete(Uri.parse('$baseUrl$endpoint'));
+      final response =
+          await http.delete(Uri.parse('$baseUrl$endpoint'), headers: headers);
 
       developer.log('Api [DELETE] $baseUrl$endpoint');
       if (response.statusCode == 200) {

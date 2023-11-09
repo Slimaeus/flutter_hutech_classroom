@@ -23,6 +23,22 @@ abstract class UserStoreBase extends BaseStore with Store, BaseStoreMixin {
   User user = User();
 
   @action
+  Future<bool> getCurrentUser() async {
+    isLoggingIn = true;
+    var result = await _apiService.get<User>(
+        "v1/Account/@me", (json) => User.fromJson(json),
+        headers: {'Authorization': 'Bearer ${_commonStore.jwt}'});
+    if (result.isSucceed && result.data != null) {
+      user = result.data as User;
+      await _commonStore.setToken(user.token!);
+      isLoggingIn = false;
+      return true;
+    }
+    isLoggingIn = false;
+    return false;
+  }
+
+  @action
   Future<bool> login(String userName, String password) async {
     isLoggingIn = true;
     var result = await _apiService.post<User>(
@@ -46,7 +62,6 @@ abstract class UserStoreBase extends BaseStore with Store, BaseStoreMixin {
 
   @action
   Future logout() async {
-    print('Logging out');
     await _commonStore.removeToken();
     user = User();
   }

@@ -40,6 +40,14 @@ mixin _$UserStore on UserStoreBase, Store {
     });
   }
 
+  late final _$getCurrentUserAsyncAction =
+      AsyncAction('UserStoreBase.getCurrentUser', context: context);
+
+  @override
+  Future<bool> getCurrentUser() {
+    return _$getCurrentUserAsyncAction.run(() => super.getCurrentUser());
+  }
+
   late final _$loginAsyncAction =
       AsyncAction('UserStoreBase.login', context: context);
 

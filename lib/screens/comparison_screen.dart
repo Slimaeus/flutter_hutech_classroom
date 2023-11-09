@@ -1,7 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_hutech_classroom/managers/route_manager.dart';
+import 'package:flutter_hutech_classroom/models/classroom.dart';
+import 'package:flutter_hutech_classroom/models/student_result.dart';
+import 'package:flutter_hutech_classroom/models/user.dart';
 import 'package:flutter_hutech_classroom/widgets/layout/custom_appbar.dart';
 import 'package:flutter_hutech_classroom/widgets/layout/custom_drawer.dart';
+import 'package:flutter_hutech_classroom/widgets/tables/student_result_table.dart';
 
 class ComparisonScreen extends StatefulWidget {
   const ComparisonScreen({super.key, required this.title});
@@ -44,7 +48,26 @@ class _ComparisonScreenState extends State<ComparisonScreen> {
                 ),
               ),
               const SizedBox(height: 10),
-              _buildScannedScoreTable(),
+              studentResultTable([
+                StudentResult(
+                    ordinalNumber: 1,
+                    score: 9.5,
+                    student: User(
+                        id: '1',
+                        userName: '2080600914',
+                        firstName: 'Thái',
+                        lastName: 'Nguyễn Hồng'),
+                    classroom: Classroom(className: '20DTHD3')),
+                StudentResult(
+                    ordinalNumber: 2,
+                    score: 10,
+                    student: User(
+                        id: '2',
+                        userName: '2080600803',
+                        firstName: 'Vân',
+                        lastName: 'Trương Thục'),
+                    classroom: Classroom(className: '20DTHD3')),
+              ]),
               const Divider(height: 50.0),
               const Text(
                 "CHỌN BẢNG ĐIỂM ĐỂ SO SÁNH:",

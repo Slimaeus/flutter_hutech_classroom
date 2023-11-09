@@ -99,7 +99,6 @@ class ScanScreen extends StatelessWidget {
                         lastName: 'Trương Thục'),
                     classroom: Classroom(className: '20DTHD3')),
               ]),
-              // _buildScannedScoreTable(),
               const SizedBox(height: 10),
               ElevatedButton(
                 style: ElevatedButton.styleFrom(

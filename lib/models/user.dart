@@ -10,7 +10,7 @@ class User {
   final String? firstName;
   final String? lastName;
   final Faculty? faculty;
-  final String? token = "";
+  final String? token;
   final List<String> roles;
 
   User(
@@ -19,6 +19,7 @@ class User {
       this.firstName,
       this.lastName,
       this.faculty,
+      this.token,
       this.roles = const []});
 
   factory User.fromJson(Map<String, dynamic> json) => _$UserFromJson(json);

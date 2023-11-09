@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_hutech_classroom/managers/path_manager.dart';
 import 'package:flutter_hutech_classroom/managers/route_manager.dart';
+import 'package:flutter_hutech_classroom/stores/common_store.dart';
 import 'package:flutter_hutech_classroom/stores/user_store.dart';
 import 'package:flutter_hutech_classroom/widgets/auth/login_form.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
@@ -19,11 +20,19 @@ class LoginScreen extends StatefulWidget {
 
 class _LoginScreenState extends State<LoginScreen> {
   late UserStore userStore;
+  late CommonStore commonStore;
 
   @override
   void initState() {
     super.initState();
     userStore = context.read<UserStore>();
+    userStore.onInit(context);
+    commonStore = context.read<CommonStore>();
+    commonStore.loadToken().then((value) {
+      if (commonStore.jwt != null) {
+        Navigator.popAndPushNamed(context, RouteManager.home);
+      }
+    });
   }
 
   @override

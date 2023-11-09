@@ -5,6 +5,7 @@ import 'package:provider/provider.dart';
 
 Widget customDrawer(BuildContext context) {
   UserStore userStore = context.read<UserStore>();
+  userStore.onInit(context);
 
   return Drawer(
     child: ListView(
@@ -64,11 +65,11 @@ Widget customDrawer(BuildContext context) {
         ListTile(
           leading: const Icon(Icons.exit_to_app),
           title: const Text('Đăng Xuất'),
-          onTap: () {
-            if (userStore.user.id != null) {
-              userStore.resetValue();
+          onTap: () async {
+            await userStore.logout();
+            if (context.mounted) {
+              Navigator.pushReplacementNamed(context, RouteManager.login);
             }
-            Navigator.pushReplacementNamed(context, RouteManager.login);
           },
         ),
       ],

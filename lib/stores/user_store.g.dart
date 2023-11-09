@@ -48,18 +48,12 @@ mixin _$UserStore on UserStoreBase, Store {
     return _$loginAsyncAction.run(() => super.login(userName, password));
   }
 
-  late final _$UserStoreBaseActionController =
-      ActionController(name: 'UserStoreBase', context: context);
+  late final _$logoutAsyncAction =
+      AsyncAction('UserStoreBase.logout', context: context);
 
   @override
-  void resetValue() {
-    final _$actionInfo = _$UserStoreBaseActionController.startAction(
-        name: 'UserStoreBase.resetValue');
-    try {
-      return super.resetValue();
-    } finally {
-      _$UserStoreBaseActionController.endAction(_$actionInfo);
-    }
+  Future<dynamic> logout() {
+    return _$logoutAsyncAction.run(() => super.logout());
   }
 
   @override

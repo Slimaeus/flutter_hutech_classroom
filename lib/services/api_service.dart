@@ -32,12 +32,15 @@ class ApiService {
     }
   }
 
-  Future<ApiResponse<TResponse>> post<TResponse>(String endpoint,
-      TResponse Function(dynamic json) fromJson, dynamic body) async {
+  Future<ApiResponse<TResponse>> post<TResponse>(
+      String endpoint, TResponse Function(dynamic json) fromJson, dynamic body,
+      {dynamic header}) async {
     try {
       final response = await http.post(Uri.parse('$baseUrl$endpoint'),
           body: jsonEncode(body),
-          headers: {'Content-Type': 'application/json; charset=UTF-8'});
+          headers: {
+            'Content-Type': 'application/json; charset=UTF-8',
+          });
       developer.log('Api [POST] $baseUrl$endpoint');
 
       if (response.statusCode == 200) {

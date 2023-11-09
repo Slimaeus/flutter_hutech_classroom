@@ -14,6 +14,7 @@ User _$UserFromJson(Map<String, dynamic> json) => User(
       faculty: json['faculty'] == null
           ? null
           : Faculty.fromJson(json['faculty'] as Map<String, dynamic>),
+      token: json['token'] as String?,
       roles:
           (json['roles'] as List<dynamic>?)?.map((e) => e as String).toList() ??
               const [],
@@ -25,5 +26,6 @@ Map<String, dynamic> _$UserToJson(User instance) => <String, dynamic>{
       'firstName': instance.firstName,
       'lastName': instance.lastName,
       'faculty': instance.faculty,
+      'token': instance.token,
       'roles': instance.roles,
     };

@@ -11,4 +11,7 @@ abstract class BaseStore with Store, BaseStoreMixin {
 
   @override
   Future<void> onWidgetBuildDone(BuildContext context) async {}
+
+  @override
+  void resetValue() {}
 }

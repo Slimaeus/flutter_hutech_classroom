@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:io';
 import 'package:flutter_hutech_classroom/models/api_response.dart';
 import 'package:http/http.dart' as http;
 import 'dart:developer' as developer;
@@ -29,6 +30,55 @@ class ApiService {
       }
     } on Exception catch (e) {
       developer.log('Errors [GET]: ${e.toString()}');
+
+      return ApiResponse.failed({'errors': 'Network Error'});
+    }
+  }
+
+  Future<ApiResponse<TResponse>> uploadFile<TResponse>(
+      String endpoint,
+      Map<String, String> fields,
+      String fieldName,
+      String filePath,
+      File file,
+      TResponse Function(dynamic json) fromJson,
+      {dynamic headers = const {}}) async {
+    try {
+      var request =
+          http.MultipartRequest('POST', Uri.parse('$baseUrl$endpoint'));
+
+      request.headers.addAll(headers);
+
+      request.fields.addAll(fields);
+
+      var stream = http.ByteStream(file.openRead());
+
+      stream.cast();
+
+      var length = await file.length();
+
+      var multipart =
+          http.MultipartFile(fieldName, stream, length, filename: file.path);
+
+      request.files.add(multipart);
+
+      var response = await request.send();
+      var body = await response.stream.bytesToString();
+      developer.log('Api [UPLOAD FILE POST] $baseUrl$endpoint');
+
+      if (response.statusCode == 200) {
+        developer.log('Success [POST]: $body');
+        final dynamic jsonResponse = json.decode(body);
+        return ApiResponse.success(fromJson(jsonResponse));
+      } else {
+        final dynamic errorJson = json.decode(body);
+        final errors =
+            errorJson['errors'] ?? {'errors': 'Unknown error occurred'};
+        developer.log('Errors [UPLOAD FILE POST]: $errorJson');
+        return ApiResponse.failed(errors);
+      }
+    } on Exception catch (e) {
+      developer.log('Errors [UPLOAD FILE POST]: ${e.toString()}');
 
       return ApiResponse.failed({'errors': 'Network Error'});
     }

@@ -3,13 +3,10 @@ import 'dart:io';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_hutech_classroom/managers/route_manager.dart';
-import 'package:flutter_hutech_classroom/models/student_result.dart';
-import 'package:flutter_hutech_classroom/services/api_service.dart';
 import 'package:flutter_hutech_classroom/stores/common_store.dart';
 import 'package:flutter_hutech_classroom/stores/result_store.dart';
 import 'package:flutter_hutech_classroom/widgets/layout/custom_appbar.dart';
 import 'package:flutter_hutech_classroom/widgets/layout/custom_drawer.dart';
-import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:provider/provider.dart';
 
 class ImageInputScreen extends StatefulWidget {
@@ -22,7 +19,6 @@ class ImageInputScreen extends StatefulWidget {
 }
 
 class _ImageInputScreenState extends State<ImageInputScreen> {
-  File? _file;
   late CommonStore commonStore;
   late ResultStore resultStore;
 
@@ -120,11 +116,14 @@ class _ImageInputScreenState extends State<ImageInputScreen> {
                 onPressed: () async {
                   // Handle the submit button press event
                   // Navigator.pushNamed(context, RouteManager.scan);
-                  await resultStore.getResults();
-
-                  for (var element in resultStore.results) {
-                    print(element.ordinalNumber);
+                  await resultStore.fetchScannedTranscript();
+                  if (mounted) {
+                    Navigator.pushNamed(context, RouteManager.scan);
                   }
+
+                  // for (var element in resultStore.results) {
+                  //   print(element.ordinalNumber);
+                  // }
                 },
                 child: const Text(
                   'TIẾP TỤC',

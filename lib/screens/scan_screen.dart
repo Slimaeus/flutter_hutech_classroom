@@ -1,21 +1,38 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_hutech_classroom/managers/route_manager.dart';
 import 'package:flutter_hutech_classroom/models/classroom.dart';
 import 'package:flutter_hutech_classroom/models/student_result.dart';
 import 'package:flutter_hutech_classroom/models/user.dart';
+import 'package:flutter_hutech_classroom/stores/result_store.dart';
 import 'package:flutter_hutech_classroom/widgets/layout/custom_appbar.dart';
 import 'package:flutter_hutech_classroom/widgets/layout/custom_drawer.dart';
 import 'package:flutter_hutech_classroom/widgets/tables/student_result_table.dart';
+import 'package:provider/provider.dart';
 
-class ScanScreen extends StatelessWidget {
+class ScanScreen extends StatefulWidget {
   const ScanScreen({super.key, required this.title});
 
   final String title;
 
   @override
+  State<ScanScreen> createState() => _ScanScreenState();
+}
+
+class _ScanScreenState extends State<ScanScreen> {
+  late ResultStore resultStore;
+
+  @override
+  void initState() {
+    super.initState();
+    resultStore = context.read<ResultStore>();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: customAppBar(context, title: title, hasLeading: true),
+      appBar: customAppBar(context, title: widget.title, hasLeading: true),
       endDrawer: customDrawer(context),
       body: SingleChildScrollView(
         child: Center(
@@ -27,23 +44,29 @@ class ScanScreen extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               //TODO: Đưa ảnh qua tại đây!
-              const SizedBox(
+              SizedBox(
                 width: double.infinity,
-                height: 500,
+                height: resultStore.resultImage != null
+                    ? Image.file(resultStore.resultImage as File).height
+                    : 500,
                 child: Card(
                   elevation: 3,
                   child: Padding(
-                    padding: EdgeInsets.all(16.0),
+                    padding: const EdgeInsets.all(16.0),
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Text(
+                        const Text(
                           'Ảnh',
                           style: TextStyle(
                             fontSize: 18,
                             fontWeight: FontWeight.bold,
                           ),
                         ),
+                        if (resultStore.resultImage != null)
+                          Text(resultStore.resultImage!.path),
+                        if (resultStore.resultImage != null)
+                          Image.file(resultStore.resultImage as File)
                       ],
                     ),
                   ),
@@ -79,26 +102,7 @@ class ScanScreen extends StatelessWidget {
                 ),
               ),
               const SizedBox(height: 10),
-              studentResultTable([
-                StudentResult(
-                    ordinalNumber: 1,
-                    score: 9.5,
-                    student: User(
-                        id: '1',
-                        userName: '2080600914',
-                        firstName: 'Thái',
-                        lastName: 'Nguyễn Hồng'),
-                    classroom: Classroom(className: '20DTHD3')),
-                StudentResult(
-                    ordinalNumber: 2,
-                    score: 10,
-                    student: User(
-                        id: '2',
-                        userName: '2080600803',
-                        firstName: 'Vân',
-                        lastName: 'Trương Thục'),
-                    classroom: Classroom(className: '20DTHD3')),
-              ]),
+              studentResultTable(resultStore.scannedTranscript),
               const SizedBox(height: 10),
               ElevatedButton(
                 style: ElevatedButton.styleFrom(

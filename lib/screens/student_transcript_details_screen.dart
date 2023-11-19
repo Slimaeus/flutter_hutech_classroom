@@ -2,20 +2,37 @@ import 'package:flutter/material.dart';
 import 'package:flutter_hutech_classroom/models/classroom.dart';
 import 'package:flutter_hutech_classroom/models/student_result.dart';
 import 'package:flutter_hutech_classroom/models/user.dart';
+import 'package:flutter_hutech_classroom/stores/result_store.dart';
 import 'package:flutter_hutech_classroom/widgets/layout/custom_appbar.dart';
 import 'package:flutter_hutech_classroom/widgets/layout/custom_drawer.dart';
 import 'package:flutter_hutech_classroom/widgets/tables/student_result_table.dart';
+import 'package:provider/provider.dart';
 
-class StudentTranscriptDetailsScreen extends StatelessWidget {
+class StudentTranscriptDetailsScreen extends StatefulWidget {
   const StudentTranscriptDetailsScreen({Key? key, required this.title})
       : super(key: key);
 
   final String title;
 
   @override
+  State<StudentTranscriptDetailsScreen> createState() =>
+      _StudentTranscriptDetailsScreenState();
+}
+
+class _StudentTranscriptDetailsScreenState
+    extends State<StudentTranscriptDetailsScreen> {
+  late ResultStore resultStore;
+
+  @override
+  void initState() {
+    super.initState();
+    resultStore = context.read<ResultStore>();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: customAppBar(context, title: title, hasLeading: true),
+      appBar: customAppBar(context, title: widget.title, hasLeading: true),
       endDrawer: customDrawer(context),
       body: SingleChildScrollView(
         child: Center(
@@ -87,26 +104,7 @@ class StudentTranscriptDetailsScreen extends StatelessWidget {
                   ],
                 ),
                 const SizedBox(height: 10),
-                studentResultTable([
-                  StudentResult(
-                      ordinalNumber: 1,
-                      score: 9.5,
-                      student: User(
-                          id: '1',
-                          userName: '2080600914',
-                          firstName: 'Thái',
-                          lastName: 'Nguyễn Hồng'),
-                      classroom: Classroom(className: '20DTHD3')),
-                  StudentResult(
-                      ordinalNumber: 2,
-                      score: 10,
-                      student: User(
-                          id: '2',
-                          userName: '2080600803',
-                          firstName: 'Vân',
-                          lastName: 'Trương Thục'),
-                      classroom: Classroom(className: '20DTHD3')),
-                ]),
+                studentResultTable(resultStore.scannedTranscript),
                 const Divider(height: 50.0),
                 const Text(
                   'BẢNG ĐIỂM CUỐI KỲ',

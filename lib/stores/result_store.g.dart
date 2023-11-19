@@ -41,28 +41,45 @@ mixin _$ResultStore on ResultStoreBase, Store {
     });
   }
 
-  late final _$resultsAtom =
-      Atom(name: 'ResultStoreBase.results', context: context);
+  late final _$scannedTranscriptAtom =
+      Atom(name: 'ResultStoreBase.scannedTranscript', context: context);
 
   @override
-  ObservableList<StudentResult> get results {
-    _$resultsAtom.reportRead();
-    return super.results;
+  ObservableList<StudentResult> get scannedTranscript {
+    _$scannedTranscriptAtom.reportRead();
+    return super.scannedTranscript;
   }
 
   @override
-  set results(ObservableList<StudentResult> value) {
-    _$resultsAtom.reportWrite(value, super.results, () {
-      super.results = value;
+  set scannedTranscript(ObservableList<StudentResult> value) {
+    _$scannedTranscriptAtom.reportWrite(value, super.scannedTranscript, () {
+      super.scannedTranscript = value;
     });
   }
 
-  late final _$getResultsAsyncAction =
-      AsyncAction('ResultStoreBase.getResults', context: context);
+  late final _$transcriptAtom =
+      Atom(name: 'ResultStoreBase.transcript', context: context);
 
   @override
-  Future<bool> getResults() {
-    return _$getResultsAsyncAction.run(() => super.getResults());
+  ObservableList<StudentResult> get transcript {
+    _$transcriptAtom.reportRead();
+    return super.transcript;
+  }
+
+  @override
+  set transcript(ObservableList<StudentResult> value) {
+    _$transcriptAtom.reportWrite(value, super.transcript, () {
+      super.transcript = value;
+    });
+  }
+
+  late final _$fetchScannedTranscriptAsyncAction =
+      AsyncAction('ResultStoreBase.fetchScannedTranscript', context: context);
+
+  @override
+  Future<bool> fetchScannedTranscript() {
+    return _$fetchScannedTranscriptAsyncAction
+        .run(() => super.fetchScannedTranscript());
   }
 
   late final _$ResultStoreBaseActionController =
@@ -84,7 +101,8 @@ mixin _$ResultStore on ResultStoreBase, Store {
     return '''
 isFetchingResults: ${isFetchingResults},
 resultImage: ${resultImage},
-results: ${results}
+scannedTranscript: ${scannedTranscript},
+transcript: ${transcript}
     ''';
   }
 }

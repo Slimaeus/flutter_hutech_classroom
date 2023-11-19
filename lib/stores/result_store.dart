@@ -1,7 +1,9 @@
 import 'dart:io';
 
 import 'package:flutter/src/widgets/framework.dart';
+import 'package:flutter_hutech_classroom/models/classroom.dart';
 import 'package:flutter_hutech_classroom/models/student_result.dart';
+import 'package:flutter_hutech_classroom/models/user.dart';
 import 'package:flutter_hutech_classroom/services/api_service.dart';
 import 'package:flutter_hutech_classroom/stores/base_store_mixin.dart';
 import 'package:flutter_hutech_classroom/stores/base_store.dart';
@@ -25,7 +27,10 @@ abstract class ResultStoreBase extends BaseStore with Store, BaseStoreMixin {
   File? resultImage;
 
   @observable
-  ObservableList<StudentResult> results = ObservableList();
+  ObservableList<StudentResult> scannedTranscript = ObservableList();
+
+  @observable
+  ObservableList<StudentResult> transcript = ObservableList();
 
   @action
   void setImage(File image) {
@@ -33,7 +38,28 @@ abstract class ResultStoreBase extends BaseStore with Store, BaseStoreMixin {
   }
 
   @action
-  Future<bool> getResults() async {
+  Future<bool> fetchScannedTranscript() async {
+    scannedTranscript = ObservableList<StudentResult>.of([
+      StudentResult(
+          ordinalNumber: 1,
+          score: 9.5,
+          student: User(
+              id: '1',
+              userName: '2080600914',
+              firstName: 'Thái',
+              lastName: 'Nguyễn Hồng'),
+          classroom: Classroom(className: '20DTHD3')),
+      StudentResult(
+          ordinalNumber: 2,
+          score: 10,
+          student: User(
+              id: '2',
+              userName: '2080600803',
+              firstName: 'Vân',
+              lastName: 'Trương Thục'),
+          classroom: Classroom(className: '20DTHD3')),
+    ]);
+    return true;
     isFetchingResults = true;
     var response = await _apiService.uploadFile<List<StudentResult>>(
         'v1/Features/vision/test',
@@ -44,7 +70,7 @@ abstract class ResultStoreBase extends BaseStore with Store, BaseStoreMixin {
       return (results as List).map((r) => StudentResult.fromJson(r)).toList();
     }, headers: {'Authorization': 'Bearer ${_commonStore.jwt}'});
     if (response.isSucceed && response.data != null) {
-      results = ObservableList.of(response.data!);
+      scannedTranscript = ObservableList.of(response.data!);
       isFetchingResults = false;
       return true;
     }

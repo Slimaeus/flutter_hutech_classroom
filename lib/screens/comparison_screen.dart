@@ -3,9 +3,13 @@ import 'package:flutter_hutech_classroom/managers/route_manager.dart';
 import 'package:flutter_hutech_classroom/models/classroom.dart';
 import 'package:flutter_hutech_classroom/models/student_result.dart';
 import 'package:flutter_hutech_classroom/models/user.dart';
+import 'package:flutter_hutech_classroom/stores/classroom_store.dart';
+import 'package:flutter_hutech_classroom/stores/result_store.dart';
 import 'package:flutter_hutech_classroom/widgets/layout/custom_appbar.dart';
 import 'package:flutter_hutech_classroom/widgets/layout/custom_drawer.dart';
 import 'package:flutter_hutech_classroom/widgets/tables/student_result_table.dart';
+import 'package:flutter_mobx/flutter_mobx.dart';
+import 'package:provider/provider.dart';
 
 class ComparisonScreen extends StatefulWidget {
   const ComparisonScreen({super.key, required this.title});
@@ -17,6 +21,8 @@ class ComparisonScreen extends StatefulWidget {
 }
 
 class _ComparisonScreenState extends State<ComparisonScreen> {
+  String? selectedClassroom;
+
   String? selectedYear;
 
   String? selectedSemester;
@@ -24,6 +30,16 @@ class _ComparisonScreenState extends State<ComparisonScreen> {
   String? selectedCourse;
 
   String? selectedGroup;
+  late ResultStore resultStore;
+  late ClassroomStore classroomStore;
+
+  @override
+  void initState() {
+    super.initState();
+    resultStore = context.read<ResultStore>();
+    classroomStore = context.read<ClassroomStore>();
+    classroomStore.onInit(context);
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -48,26 +64,7 @@ class _ComparisonScreenState extends State<ComparisonScreen> {
                 ),
               ),
               const SizedBox(height: 10),
-              studentResultTable([
-                StudentResult(
-                    ordinalNumber: 1,
-                    score: 9.5,
-                    student: User(
-                        id: '1',
-                        userName: '2080600914',
-                        firstName: 'Thái',
-                        lastName: 'Nguyễn Hồng'),
-                    classroom: Classroom(className: '20DTHD3')),
-                StudentResult(
-                    ordinalNumber: 2,
-                    score: 10,
-                    student: User(
-                        id: '2',
-                        userName: '2080600803',
-                        firstName: 'Vân',
-                        lastName: 'Trương Thục'),
-                    classroom: Classroom(className: '20DTHD3')),
-              ]),
+              studentResultTable(resultStore.scannedTranscript),
               const Divider(height: 50.0),
               const Text(
                 "CHỌN BẢNG ĐIỂM ĐỂ SO SÁNH:",
@@ -77,6 +74,20 @@ class _ComparisonScreenState extends State<ComparisonScreen> {
                 ),
               ),
               const SizedBox(height: 20),
+              FutureBuilder(
+                  future: classroomStore.fetchClassrooms(),
+                  builder: (ctx, snapshot) {
+                    if (snapshot.connectionState == ConnectionState.waiting) {
+                      return const CircularProgressIndicator();
+                    }
+                    return _buildDropdownField('Lớp học', [
+                      ...classroomStore.classrooms.map((c) => c.id!).toList()
+                    ], (value) {
+                      selectedClassroom = value;
+                    });
+                  }),
+
+              const SizedBox(height: 10),
               _buildDropdownField('Năm học', ['Year1', 'Year2', 'Year3'],
                   (value) {
                 selectedYear = value;
@@ -136,7 +147,8 @@ class _ComparisonScreenState extends State<ComparisonScreen> {
                 ],
               ),
               const SizedBox(height: 10),
-              _buildSearchedScoreTable(),
+              studentResultTable(resultStore.transcript),
+              // _buildSearchedScoreTable(),
               const SizedBox(height: 10),
               ElevatedButton(
                 style: ElevatedButton.styleFrom(

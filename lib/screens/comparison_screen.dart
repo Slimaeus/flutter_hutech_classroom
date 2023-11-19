@@ -1,10 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_hutech_classroom/managers/route_manager.dart';
+import 'package:flutter_hutech_classroom/models/classroom.dart';
+import 'package:flutter_hutech_classroom/models/score_type.dart';
 import 'package:flutter_hutech_classroom/stores/classroom_store.dart';
 import 'package:flutter_hutech_classroom/stores/result_store.dart';
 import 'package:flutter_hutech_classroom/stores/score_store.dart';
 import 'package:flutter_hutech_classroom/widgets/layout/custom_appbar.dart';
 import 'package:flutter_hutech_classroom/widgets/layout/custom_drawer.dart';
+import 'package:flutter_hutech_classroom/widgets/layout/custom_dropdown_field.dart';
 import 'package:flutter_hutech_classroom/widgets/tables/student_result_table.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:provider/provider.dart';
@@ -19,7 +22,7 @@ class ComparisonScreen extends StatefulWidget {
 }
 
 class _ComparisonScreenState extends State<ComparisonScreen> {
-  String? selectedClassroom;
+  Classroom? selectedClassroom;
 
   String? selectedYear;
 
@@ -29,7 +32,7 @@ class _ComparisonScreenState extends State<ComparisonScreen> {
 
   String? selectedGroup;
 
-  int? selectedScoreType;
+  ScoreType? selectedScoreType;
   late ResultStore resultStore;
   late ClassroomStore classroomStore;
   late ScoreStore scoreStore;
@@ -83,9 +86,10 @@ class _ComparisonScreenState extends State<ComparisonScreen> {
                     if (snapshot.connectionState == ConnectionState.waiting) {
                       return const CircularProgressIndicator();
                     }
-                    return _buildDropdownField('Lớp học', [
-                      ...classroomStore.classrooms.map((c) => c.id!).toList()
-                    ], (value) {
+                    return customDropdownField<Classroom>(
+                        'Lớp học',
+                        [...classroomStore.classrooms],
+                        (item) => item!.className!, (value) {
                       selectedClassroom = value;
                     });
                   }),
@@ -96,12 +100,11 @@ class _ComparisonScreenState extends State<ComparisonScreen> {
                     if (snapshot.connectionState == ConnectionState.waiting) {
                       return const CircularProgressIndicator();
                     }
-                    return _buildDropdownField('Loại điểm', [
-                      ...scoreStore.scoreTypes
-                          .map((c) => c.id!.toString())
-                          .toList()
-                    ], (value) {
-                      selectedScoreType = int.tryParse(value!);
+                    return customDropdownField<ScoreType>(
+                        'Lớp học',
+                        [...scoreStore.scoreTypes],
+                        (item) => item!.name!, (value) {
+                      selectedScoreType = value;
                     });
                   }),
               const SizedBox(height: 10),
@@ -138,7 +141,7 @@ class _ComparisonScreenState extends State<ComparisonScreen> {
                   // Handle the submit button press event
                   if (selectedClassroom != null) {
                     await classroomStore.fetchTranscriptWithScoreType(
-                        selectedClassroom!, selectedScoreType!);
+                        selectedClassroom!.id!, selectedScoreType!.id!);
                   }
                 },
                 child: const Text(

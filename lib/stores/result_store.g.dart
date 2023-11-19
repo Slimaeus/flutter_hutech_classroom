@@ -57,22 +57,6 @@ mixin _$ResultStore on ResultStoreBase, Store {
     });
   }
 
-  late final _$transcriptAtom =
-      Atom(name: 'ResultStoreBase.transcript', context: context);
-
-  @override
-  ObservableList<StudentResult> get transcript {
-    _$transcriptAtom.reportRead();
-    return super.transcript;
-  }
-
-  @override
-  set transcript(ObservableList<StudentResult> value) {
-    _$transcriptAtom.reportWrite(value, super.transcript, () {
-      super.transcript = value;
-    });
-  }
-
   late final _$fetchScannedTranscriptAsyncAction =
       AsyncAction('ResultStoreBase.fetchScannedTranscript', context: context);
 
@@ -101,8 +85,7 @@ mixin _$ResultStore on ResultStoreBase, Store {
     return '''
 isFetchingResults: ${isFetchingResults},
 resultImage: ${resultImage},
-scannedTranscript: ${scannedTranscript},
-transcript: ${transcript}
+scannedTranscript: ${scannedTranscript}
     ''';
   }
 }

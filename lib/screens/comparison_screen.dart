@@ -1,10 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_hutech_classroom/managers/route_manager.dart';
-import 'package:flutter_hutech_classroom/models/classroom.dart';
-import 'package:flutter_hutech_classroom/models/student_result.dart';
-import 'package:flutter_hutech_classroom/models/user.dart';
 import 'package:flutter_hutech_classroom/stores/classroom_store.dart';
 import 'package:flutter_hutech_classroom/stores/result_store.dart';
+import 'package:flutter_hutech_classroom/stores/score_store.dart';
 import 'package:flutter_hutech_classroom/widgets/layout/custom_appbar.dart';
 import 'package:flutter_hutech_classroom/widgets/layout/custom_drawer.dart';
 import 'package:flutter_hutech_classroom/widgets/tables/student_result_table.dart';
@@ -30,8 +28,11 @@ class _ComparisonScreenState extends State<ComparisonScreen> {
   String? selectedCourse;
 
   String? selectedGroup;
+
+  int? selectedScoreType;
   late ResultStore resultStore;
   late ClassroomStore classroomStore;
+  late ScoreStore scoreStore;
 
   @override
   void initState() {
@@ -39,6 +40,8 @@ class _ComparisonScreenState extends State<ComparisonScreen> {
     resultStore = context.read<ResultStore>();
     classroomStore = context.read<ClassroomStore>();
     classroomStore.onInit(context);
+    scoreStore = context.read<ScoreStore>();
+    scoreStore.onInit(context);
   }
 
   @override
@@ -86,7 +89,21 @@ class _ComparisonScreenState extends State<ComparisonScreen> {
                       selectedClassroom = value;
                     });
                   }),
-
+              const SizedBox(height: 10),
+              FutureBuilder(
+                  future: scoreStore.fetchScoreTypes(),
+                  builder: (ctx, snapshot) {
+                    if (snapshot.connectionState == ConnectionState.waiting) {
+                      return const CircularProgressIndicator();
+                    }
+                    return _buildDropdownField('Loại điểm', [
+                      ...scoreStore.scoreTypes
+                          .map((c) => c.id!.toString())
+                          .toList()
+                    ], (value) {
+                      selectedScoreType = int.tryParse(value!);
+                    });
+                  }),
               const SizedBox(height: 10),
               _buildDropdownField('Năm học', ['Year1', 'Year2', 'Year3'],
                   (value) {
@@ -117,8 +134,12 @@ class _ComparisonScreenState extends State<ComparisonScreen> {
                     borderRadius: BorderRadius.circular(5),
                   ),
                 ),
-                onPressed: () {
+                onPressed: () async {
                   // Handle the submit button press event
+                  if (selectedClassroom != null) {
+                    await classroomStore.fetchTranscriptWithScoreType(
+                        selectedClassroom!, selectedScoreType!);
+                  }
                 },
                 child: const Text(
                   'TRA CỨU',
@@ -147,7 +168,9 @@ class _ComparisonScreenState extends State<ComparisonScreen> {
                 ],
               ),
               const SizedBox(height: 10),
-              studentResultTable(resultStore.transcript),
+              Observer(
+                  builder: (context) =>
+                      studentResultTable(classroomStore.transcript)),
               // _buildSearchedScoreTable(),
               const SizedBox(height: 10),
               ElevatedButton(
@@ -173,121 +196,6 @@ class _ComparisonScreenState extends State<ComparisonScreen> {
             ],
           ),
         )),
-      ),
-    );
-  }
-
-  Widget _buildScannedScoreTable() {
-    return Table(
-      border: TableBorder.all(),
-      columnWidths: const {
-        0: FixedColumnWidth(100.0),
-        5: FixedColumnWidth(100.0),
-      },
-      children: [
-        TableRow(
-          children: [
-            _buildTableHeaderCell('STT'),
-            _buildTableHeaderCell('Mã SV'),
-            _buildTableHeaderCell('Họ SV'),
-            _buildTableHeaderCell('Tên SV'),
-            _buildTableHeaderCell('Mã lớp'),
-            _buildTableHeaderCell('Điểm'),
-          ],
-        ),
-        TableRow(
-          children: [
-            _buildTableCell('1'),
-            _buildTableCell('12345'),
-            _buildTableCell('Nguyen Van', alignLeft: true),
-            _buildTableCell('A', alignLeft: true),
-            _buildTableCell('ABC123'),
-            _buildTableCell('10.0'),
-          ],
-        ),
-        TableRow(
-          children: [
-            _buildTableCell('2'),
-            _buildTableCell('67890'),
-            _buildTableCell('Tran Thi', alignLeft: true),
-            _buildTableCell('B', alignLeft: true),
-            _buildTableCell('DEF456'),
-            _buildTableCell('7.0'),
-          ],
-        ),
-        // Thêm các hàng khác tương tự ở đây
-      ],
-    );
-  }
-
-  Widget _buildSearchedScoreTable() {
-    return Table(
-      border: TableBorder.all(),
-      columnWidths: const {
-        0: FixedColumnWidth(100.0),
-        5: FixedColumnWidth(100.0),
-      },
-      children: [
-        TableRow(
-          children: [
-            _buildTableHeaderCell('STT'),
-            _buildTableHeaderCell('Mã SV'),
-            _buildTableHeaderCell('Họ SV'),
-            _buildTableHeaderCell('Tên SV'),
-            _buildTableHeaderCell('Mã lớp'),
-            _buildTableHeaderCell('Điểm'),
-          ],
-        ),
-        TableRow(
-          children: [
-            _buildTableCell('1'),
-            _buildTableCell('12345'),
-            _buildTableCell('Nguyen Van', alignLeft: true),
-            _buildTableCell('A', alignLeft: true),
-            _buildTableCell('ABC123'),
-            _buildTableCell('10.0'),
-          ],
-        ),
-        TableRow(
-          children: [
-            _buildTableCell('2'),
-            _buildTableCell('67890'),
-            _buildTableCell('Tran Thi', alignLeft: true),
-            _buildTableCell('B', alignLeft: true),
-            _buildTableCell('DEF456'),
-            _buildTableCell('7.0'),
-          ],
-        ),
-        // Thêm các hàng khác tương tự ở đây
-      ],
-    );
-  }
-
-  Widget _buildTableHeaderCell(String value) {
-    return Container(
-      color: Colors.blue,
-      child: Padding(
-        padding: const EdgeInsets.all(8.0),
-        child: Align(
-          alignment: Alignment.center,
-          child: Text(
-            value,
-            style: const TextStyle(
-                fontWeight: FontWeight.bold, color: Colors.white),
-          ),
-        ),
-      ),
-    );
-  }
-
-  Widget _buildTableCell(String value, {bool alignLeft = false}) {
-    return Padding(
-      padding: const EdgeInsets.all(8.0),
-      child: TableCell(
-        child: Align(
-          alignment: alignLeft ? Alignment.centerLeft : Alignment.center,
-          child: Text(value),
-        ),
       ),
     );
   }

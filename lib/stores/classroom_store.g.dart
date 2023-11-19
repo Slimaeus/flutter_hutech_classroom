@@ -41,11 +41,28 @@ mixin _$ClassroomStore on ClassroomStoreBase, Store {
     });
   }
 
+  late final _$transcriptAtom =
+      Atom(name: 'ClassroomStoreBase.transcript', context: context);
+
+  @override
+  ObservableList<StudentResult> get transcript {
+    _$transcriptAtom.reportRead();
+    return super.transcript;
+  }
+
+  @override
+  set transcript(ObservableList<StudentResult> value) {
+    _$transcriptAtom.reportWrite(value, super.transcript, () {
+      super.transcript = value;
+    });
+  }
+
   @override
   String toString() {
     return '''
 isFetchingClassroom: ${isFetchingClassroom},
-classrooms: ${classrooms}
+classrooms: ${classrooms},
+transcript: ${transcript}
     ''';
   }
 }

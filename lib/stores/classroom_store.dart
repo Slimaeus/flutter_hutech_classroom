@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_hutech_classroom/models/classroom.dart';
+import 'package:flutter_hutech_classroom/models/student_result.dart';
 import 'package:flutter_hutech_classroom/services/api_service.dart';
 import 'package:flutter_hutech_classroom/stores/base_store_mixin.dart';
 import 'package:flutter_hutech_classroom/stores/common_store.dart';
@@ -22,6 +23,9 @@ abstract class ClassroomStoreBase extends BaseStore with Store, BaseStoreMixin {
   @observable
   ObservableList<Classroom> classrooms = ObservableList();
 
+  @observable
+  ObservableList<StudentResult> transcript = ObservableList();
+
   Future<bool> fetchClassrooms() async {
     isFetchingClassroom = true;
     var response =
@@ -34,6 +38,31 @@ abstract class ClassroomStoreBase extends BaseStore with Store, BaseStoreMixin {
       return true;
     }
     isFetchingClassroom = false;
+    return false;
+  }
+
+  Future<bool> fetchTranscript(String classroomId) async {
+    var response = await _apiService.get<List<StudentResult>>(
+        'v1/Classrooms/$classroomId/results', (results) {
+      return (results as List).map((r) => StudentResult.fromJson(r)).toList();
+    }, headers: {'Authorization': 'Bearer ${_commonStore.jwt}'});
+    if (response.isSucceed && response.data != null) {
+      transcript = ObservableList.of(response.data!);
+      return true;
+    }
+    return false;
+  }
+
+  Future<bool> fetchTranscriptWithScoreType(
+      String classroomId, int scoreType) async {
+    var response = await _apiService.get<List<StudentResult>>(
+        'v1/Classrooms/$classroomId/results/$scoreType', (results) {
+      return (results as List).map((r) => StudentResult.fromJson(r)).toList();
+    }, headers: {'Authorization': 'Bearer ${_commonStore.jwt}'});
+    if (response.isSucceed && response.data != null) {
+      transcript = ObservableList.of(response.data!);
+      return true;
+    }
     return false;
   }
 

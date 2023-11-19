@@ -29,9 +29,6 @@ abstract class ResultStoreBase extends BaseStore with Store, BaseStoreMixin {
   @observable
   ObservableList<StudentResult> scannedTranscript = ObservableList();
 
-  @observable
-  ObservableList<StudentResult> transcript = ObservableList();
-
   @action
   void setImage(File image) {
     resultImage = image;

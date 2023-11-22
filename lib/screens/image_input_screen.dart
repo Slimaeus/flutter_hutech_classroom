@@ -118,7 +118,7 @@ class _ImageInputScreenState extends State<ImageInputScreen> {
                   // Navigator.pushNamed(context, RouteManager.scan);
                   await resultStore.fetchScannedTranscript();
                   if (mounted) {
-                    Navigator.pushNamed(context, RouteManager.scan);
+                    Navigator.pushNamed(context, RouteManager.comparison);
                   }
 
                   // for (var element in resultStore.results) {

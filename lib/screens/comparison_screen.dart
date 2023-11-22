@@ -89,7 +89,9 @@ class _ComparisonScreenState extends State<ComparisonScreen> {
                     return customDropdownField<Classroom>(
                         'Lớp học',
                         [...classroomStore.classrooms],
-                        (item) => item!.className!, (value) {
+                        (item) =>
+                            '${item!.className!} (${item.title!} - Nhóm: ${item.studyGroup})',
+                        (value) {
                       selectedClassroom = value;
                     });
                   }),
@@ -101,32 +103,32 @@ class _ComparisonScreenState extends State<ComparisonScreen> {
                       return const CircularProgressIndicator();
                     }
                     return customDropdownField<ScoreType>(
-                        'Lớp học',
+                        'Loại điểm',
                         [...scoreStore.scoreTypes],
                         (item) => item!.name!, (value) {
                       selectedScoreType = value;
                     });
                   }),
               const SizedBox(height: 10),
-              _buildDropdownField('Năm học', ['Year1', 'Year2', 'Year3'],
-                  (value) {
-                selectedYear = value;
-              }),
-              const SizedBox(height: 10),
-              _buildDropdownField(
-                  'Học kỳ', ['Semester1', 'Semester2', 'Semester3'], (value) {
-                selectedSemester = value;
-              }),
-              const SizedBox(height: 10),
-              _buildDropdownField(
-                  'Mã học phần', ['Course1', 'Course2', 'Course3'], (value) {
-                selectedCourse = value;
-              }),
-              const SizedBox(height: 10),
-              _buildDropdownField('Nhóm', ['Group1', 'Group2', 'Group3'],
-                  (value) {
-                selectedGroup = value;
-              }),
+              // _buildDropdownField('Năm học', ['Year1', 'Year2', 'Year3'],
+              //     (value) {
+              //   selectedYear = value;
+              // }),
+              // const SizedBox(height: 10),
+              // _buildDropdownField(
+              //     'Học kỳ', ['Semester1', 'Semester2', 'Semester3'], (value) {
+              //   selectedSemester = value;
+              // }),
+              // const SizedBox(height: 10),
+              // _buildDropdownField(
+              //     'Mã học phần', ['Course1', 'Course2', 'Course3'], (value) {
+              //   selectedCourse = value;
+              // }),
+              // const SizedBox(height: 10),
+              // _buildDropdownField('Nhóm', ['Group1', 'Group2', 'Group3'],
+              //     (value) {
+              //   selectedGroup = value;
+              // }),
               const SizedBox(height: 10),
               ElevatedButton(
                 style: ElevatedButton.styleFrom(

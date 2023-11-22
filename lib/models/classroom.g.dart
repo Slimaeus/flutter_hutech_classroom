@@ -14,7 +14,7 @@ Classroom _$ClassroomFromJson(Map<String, dynamic> json) => Classroom(
       studyPeriod: json['studyPeriod'] as String?,
       className: json['class'] as String?,
       schoolYear: json['schoolYear'] as String?,
-      schoolGroup: json['schoolGroup'] as String?,
+      studyGroup: json['studyGroup'] as String?,
       practicalStudyGroup: json['practicalStudyGroup'] as String?,
       lecturer: json['lecturer'] == null
           ? null
@@ -29,7 +29,7 @@ Map<String, dynamic> _$ClassroomToJson(Classroom instance) => <String, dynamic>{
       'studyPeriod': instance.studyPeriod,
       'class': instance.className,
       'schoolYear': instance.schoolYear,
-      'schoolGroup': instance.schoolGroup,
+      'studyGroup': instance.studyGroup,
       'practicalStudyGroup': instance.practicalStudyGroup,
       'lecturer': instance.lecturer,
     };

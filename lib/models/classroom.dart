@@ -13,7 +13,7 @@ class Classroom {
   @JsonKey(name: 'class')
   final String? className;
   final String? schoolYear;
-  final String? schoolGroup;
+  final String? studyGroup;
   final String? practicalStudyGroup;
   final User? lecturer;
 
@@ -25,7 +25,7 @@ class Classroom {
       this.studyPeriod,
       this.className,
       this.schoolYear,
-      this.schoolGroup,
+      this.studyGroup,
       this.practicalStudyGroup,
       this.lecturer});
 

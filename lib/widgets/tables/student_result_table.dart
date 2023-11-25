@@ -23,21 +23,20 @@ Widget studentResultTable(List<StudentResult> studentResult) {
             customTableCell(r.student!.lastName!, alignLeft: true),
             customTableCell(r.student!.firstName!, alignLeft: true),
           ] else ...[
-            customTableCell(r.studentId ?? "Không có"),
-            customTableCell("Không có", alignLeft: true),
-            customTableCell("Không có", alignLeft: true),
+            customTableCell(r.studentId ?? ""),
+            customTableCell("", alignLeft: true),
+            customTableCell("", alignLeft: true),
           ],
           if (r.classroom != null && r.classroom?.className != null)
             customTableCell(r.classroom!.className!, alignLeft: true)
           else if (r.student?.className != null)
             customTableCell(
-                r.student?.className != null
-                    ? r.student!.className!
-                    : "Không có",
+                r.student?.className != null ? r.student!.className! : "",
                 alignLeft: true)
           else
-            customTableCell("Không có", alignLeft: true),
-          customTableCell(r.score != null ? r.score.toString() : "Không có")
+            customTableCell("", alignLeft: true),
+          customTableCell(
+              r.score != null && r.score != -1 ? r.score.toString() : "")
         ])
   ]);
 }

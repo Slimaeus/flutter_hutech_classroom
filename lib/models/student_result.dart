@@ -12,13 +12,14 @@ class StudentResult {
   final User? student;
   final Classroom? classroom;
   final ScoreType? scoreType;
-  StudentResult({
-    this.ordinalNumber,
-    this.score,
-    this.student,
-    this.classroom,
-    this.scoreType,
-  });
+  final String? studentId;
+  StudentResult(
+      {this.ordinalNumber,
+      this.score,
+      this.student,
+      this.classroom,
+      this.scoreType,
+      this.studentId});
 
   factory StudentResult.fromJson(Map<String, dynamic> json) =>
       _$StudentResultFromJson(json);

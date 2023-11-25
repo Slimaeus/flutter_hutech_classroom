@@ -10,6 +10,8 @@ class User {
   final String? firstName;
   final String? lastName;
   final Faculty? faculty;
+  @JsonKey(name: 'class')
+  final String? className;
   final String? token;
   final List<String> roles;
 
@@ -20,6 +22,7 @@ class User {
       this.lastName,
       this.faculty,
       this.token,
+      this.className,
       this.roles = const []});
 
   factory User.fromJson(Map<String, dynamic> json) => _$UserFromJson(json);

@@ -113,9 +113,12 @@ class _ScanScreenState extends State<ScanScreen> {
                     borderRadius: BorderRadius.circular(5),
                   ),
                 ),
-                onPressed: () {
+                onPressed: () async {
                   // Handle the submit button press event
-                  Navigator.pushNamed(context, RouteManager.comparison);
+                  await resultStore.fetchScannedTranscript();
+                  if (context.mounted) {
+                    Navigator.pushNamed(context, RouteManager.comparison);
+                  }
                 },
                 child: const Text(
                   'TIẾP TỤC',

@@ -32,8 +32,8 @@ Widget studentResultTable(List<StudentResult> studentResult) {
           else if (r.student?.className != null)
             customTableCell(
                 r.student?.className != null
-                    ? "Không có"
-                    : r.student!.className!,
+                    ? r.student!.className!
+                    : "Không có",
                 alignLeft: true)
           else
             customTableCell("Không có", alignLeft: true),

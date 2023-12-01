@@ -1,3 +1,6 @@
+import 'dart:io';
+
+import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_hutech_classroom/managers/route_manager.dart';
 import 'package:flutter_hutech_classroom/models/classroom.dart';
@@ -31,6 +34,8 @@ class _ComparisonScreenState extends State<ComparisonScreen> {
   String? selectedCourse;
 
   String? selectedGroup;
+
+  bool isImport = false;
 
   ScoreType? selectedScoreType;
   late ResultStore resultStore;
@@ -90,7 +95,7 @@ class _ComparisonScreenState extends State<ComparisonScreen> {
                         'Lớp học',
                         [...classroomStore.classrooms],
                         (item) =>
-                            '${item!.className!} (${item.title!} - Nhóm: ${item.studyGroup})',
+                            '${item!.className!} (${item.title ?? ""} - Nhóm: ${item.studyGroup})',
                         (value) {
                       selectedClassroom = value;
                     });
@@ -109,49 +114,150 @@ class _ComparisonScreenState extends State<ComparisonScreen> {
                       selectedScoreType = value;
                     });
                   }),
-              const SizedBox(height: 10),
-              // _buildDropdownField('Năm học', ['Year1', 'Year2', 'Year3'],
-              //     (value) {
-              //   selectedYear = value;
-              // }),
               // const SizedBox(height: 10),
-              // _buildDropdownField(
-              //     'Học kỳ', ['Semester1', 'Semester2', 'Semester3'], (value) {
-              //   selectedSemester = value;
-              // }),
-              // const SizedBox(height: 10),
-              // _buildDropdownField(
-              //     'Mã học phần', ['Course1', 'Course2', 'Course3'], (value) {
-              //   selectedCourse = value;
-              // }),
-              // const SizedBox(height: 10),
-              // _buildDropdownField('Nhóm', ['Group1', 'Group2', 'Group3'],
-              //     (value) {
-              //   selectedGroup = value;
-              // }),
-              const SizedBox(height: 10),
-              ElevatedButton(
-                style: ElevatedButton.styleFrom(
-                  foregroundColor: Colors.white,
-                  backgroundColor: Colors.blue,
-                  padding: const EdgeInsets.all(20),
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(5),
+              const Divider(height: 50.0),
+              Visibility(
+                  visible: isImport,
+                  child: Column(
+                    children: [
+                      Text(scoreStore.scoreExcelFile?.path ?? "Không có"),
+                      const Divider(height: 50.0),
+                      Row(
+                        children: [
+                          ElevatedButton(
+                            style: ElevatedButton.styleFrom(
+                              foregroundColor: Colors.white,
+                              backgroundColor: Colors.blue,
+                              padding: const EdgeInsets.all(20),
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(5),
+                              ),
+                            ),
+                            onPressed: () async {
+                              // Handle the submit button press event
+                              FilePickerResult? result = await FilePicker
+                                  .platform
+                                  .pickFiles(allowedExtensions: [
+                                'xlsx',
+                                'xls',
+                                'csv'
+                              ]);
+
+                              if (result != null) {
+                                setState(() {
+                                  scoreStore.setScoreExcelFile(
+                                      File(result.files.single.path!));
+                                });
+                              } else {
+                                // User canceled the picker
+                              }
+                            },
+                            child: const Text(
+                              'NHẬP TỆP ĐIỂM EXCEL',
+                              style: TextStyle(
+                                fontSize: 18,
+                              ),
+                            ),
+                          ),
+                          const SizedBox(
+                            width: 10,
+                          ),
+                          ElevatedButton(
+                            style: ElevatedButton.styleFrom(
+                              foregroundColor: Colors.white,
+                              backgroundColor: Colors.blue,
+                              padding: const EdgeInsets.all(20),
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(5),
+                              ),
+                            ),
+                            onPressed: () async {
+                              // Handle the submit button press event
+                              if (selectedClassroom?.id == null ||
+                                  selectedScoreType?.id == null) return;
+                              await scoreStore.importScoreExcel(
+                                  selectedClassroom!.id!,
+                                  selectedScoreType!.id!);
+                              if (mounted) {
+                                Navigator.pushNamed(
+                                    context, RouteManager.comparison);
+                              }
+                            },
+                            child: const Text(
+                              'CẬP NHẬT ĐIỂM',
+                              style: TextStyle(
+                                fontSize: 18,
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+                      const SizedBox(
+                        height: 10,
+                      ),
+                    ],
+                  )),
+
+              Row(
+                children: [
+                  Visibility(
+                    visible: !isImport,
+                    child: Row(
+                      children: [
+                        ElevatedButton(
+                          style: ElevatedButton.styleFrom(
+                            foregroundColor: Colors.white,
+                            backgroundColor: Colors.blue,
+                            padding: const EdgeInsets.all(20),
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(5),
+                            ),
+                          ),
+                          onPressed: () async {
+                            // Handle the submit button press event
+                            if (selectedClassroom != null) {
+                              await classroomStore.fetchTranscriptWithScoreType(
+                                  selectedClassroom!.id!,
+                                  selectedScoreType!.id!);
+                            }
+                          },
+                          child: const Text(
+                            'TRA CỨU',
+                            style: TextStyle(
+                              fontSize: 18,
+                            ),
+                          ),
+                        ),
+                        const SizedBox(
+                          height: 20,
+                          width: 10,
+                        ),
+                      ],
+                    ),
                   ),
-                ),
-                onPressed: () async {
-                  // Handle the submit button press event
-                  if (selectedClassroom != null) {
-                    await classroomStore.fetchTranscriptWithScoreType(
-                        selectedClassroom!.id!, selectedScoreType!.id!);
-                  }
-                },
-                child: const Text(
-                  'TRA CỨU',
-                  style: TextStyle(
-                    fontSize: 18,
+                  ElevatedButton(
+                    style: ElevatedButton.styleFrom(
+                      foregroundColor: Colors.white,
+                      backgroundColor: Colors.blue,
+                      padding: const EdgeInsets.all(20),
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(5),
+                      ),
+                    ),
+                    onPressed: () async {
+                      // Handle the submit button press event
+                      setState(() {
+                        isImport = !isImport;
+                      });
+                    },
+                    child: Text(
+                      isImport ? 'TRA CỨU' : 'NHẬP ĐIỂM',
+                      style: const TextStyle(
+                        fontSize: 18,
+                      ),
+                    ),
                   ),
-                ),
+                ],
               ),
               const SizedBox(height: 20),
               //!: Trả về bảng điểm khi tra cứu thành công

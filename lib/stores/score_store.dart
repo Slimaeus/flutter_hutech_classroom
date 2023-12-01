@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_hutech_classroom/models/score_type.dart';
 import 'package:flutter_hutech_classroom/services/api_service.dart';
@@ -17,6 +19,9 @@ abstract class ScoreStoreBase extends BaseStore with Store, BaseStoreMixin {
   late CommonStore _commonStore;
 
   @observable
+  File? scoreExcelFile;
+
+  @observable
   ObservableList<ScoreType> scoreTypes = ObservableList();
 
   Future<bool> fetchScoreTypes() async {
@@ -26,6 +31,27 @@ abstract class ScoreStoreBase extends BaseStore with Store, BaseStoreMixin {
     }, headers: {'Authorization': 'Bearer ${_commonStore.jwt}'});
     if (response.isSucceed && response.data != null) {
       scoreTypes = ObservableList.of(response.data!);
+      return true;
+    }
+    return false;
+  }
+
+  @action
+  void setScoreExcelFile(File file) {
+    scoreExcelFile = file;
+  }
+
+  @action
+  Future<bool> importScoreExcel(String classroomId, int scoreTypeId) async {
+    var response = await _apiService.uploadFile(
+        'v1/Classrooms/$classroomId/Scores/$scoreTypeId/Import',
+        {'type': 'image/jpg'},
+        'file',
+        scoreExcelFile!.path,
+        scoreExcelFile!,
+        (results) {},
+        headers: {'Authorization': 'Bearer ${_commonStore.jwt}'});
+    if (response.isSucceed) {
       return true;
     }
     return false;

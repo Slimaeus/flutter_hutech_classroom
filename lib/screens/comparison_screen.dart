@@ -48,8 +48,10 @@ class _ComparisonScreenState extends State<ComparisonScreen> {
     resultStore = context.read<ResultStore>();
     classroomStore = context.read<ClassroomStore>();
     classroomStore.onInit(context);
+    classroomStore.fetchClassrooms();
     scoreStore = context.read<ScoreStore>();
     scoreStore.onInit(context);
+    scoreStore.fetchScoreTypes();
   }
 
   @override
@@ -85,35 +87,31 @@ class _ComparisonScreenState extends State<ComparisonScreen> {
                 ),
               ),
               const SizedBox(height: 20),
-              FutureBuilder(
-                  future: classroomStore.fetchClassrooms(),
-                  builder: (ctx, snapshot) {
-                    if (snapshot.connectionState == ConnectionState.waiting) {
-                      return const CircularProgressIndicator();
-                    }
-                    return customDropdownField<Classroom>(
-                        'Lớp học',
-                        [...classroomStore.classrooms],
-                        (item) =>
-                            '${item!.className!} (${item.title ?? ""} - Nhóm: ${item.studyGroup})',
-                        (value) {
-                      selectedClassroom = value;
-                    });
-                  }),
+              Observer(
+                  // future: ,
+                  builder: (ctx) {
+                if (classroomStore.isFetchingClassroom) {
+                  return const CircularProgressIndicator();
+                }
+                return customDropdownField<Classroom>(
+                    'Lớp học',
+                    [...classroomStore.classrooms],
+                    (item) =>
+                        '${item!.className!} (${item.title ?? ""} - Nhóm: ${item.studyGroup})',
+                    (value) {
+                  selectedClassroom = value;
+                });
+              }),
               const SizedBox(height: 10),
-              FutureBuilder(
-                  future: scoreStore.fetchScoreTypes(),
-                  builder: (ctx, snapshot) {
-                    if (snapshot.connectionState == ConnectionState.waiting) {
-                      return const CircularProgressIndicator();
-                    }
-                    return customDropdownField<ScoreType>(
-                        'Loại điểm',
-                        [...scoreStore.scoreTypes],
-                        (item) => item!.name!, (value) {
-                      selectedScoreType = value;
-                    });
-                  }),
+              Observer(builder: (ctx) {
+                if (scoreStore.isFetchingScore) {
+                  return const CircularProgressIndicator();
+                }
+                return customDropdownField<ScoreType>('Loại điểm',
+                    [...scoreStore.scoreTypes], (item) => item!.name!, (value) {
+                  selectedScoreType = value;
+                });
+              }),
               // const SizedBox(height: 10),
               const Divider(height: 50.0),
               Visibility(

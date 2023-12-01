@@ -19,20 +19,26 @@ abstract class ScoreStoreBase extends BaseStore with Store, BaseStoreMixin {
   late CommonStore _commonStore;
 
   @observable
+  bool isFetchingScore = false;
+
+  @observable
   File? scoreExcelFile;
 
   @observable
   ObservableList<ScoreType> scoreTypes = ObservableList();
 
   Future<bool> fetchScoreTypes() async {
+    isFetchingScore = true;
     var response =
         await _apiService.get<List<ScoreType>>('v1/ScoreTypes', (results) {
       return (results as List).map((c) => ScoreType.fromJson(c)).toList();
     }, headers: {'Authorization': 'Bearer ${_commonStore.jwt}'});
     if (response.isSucceed && response.data != null) {
       scoreTypes = ObservableList.of(response.data!);
+      isFetchingScore = false;
       return true;
     }
+    isFetchingScore = false;
     return false;
   }
 

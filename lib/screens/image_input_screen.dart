@@ -7,7 +7,9 @@ import 'package:flutter_hutech_classroom/stores/common_store.dart';
 import 'package:flutter_hutech_classroom/stores/result_store.dart';
 import 'package:flutter_hutech_classroom/widgets/layout/custom_appbar.dart';
 import 'package:flutter_hutech_classroom/widgets/layout/custom_drawer.dart';
+import 'package:crop_your_image/crop_your_image.dart';
 import 'package:provider/provider.dart';
+import 'package:path/path.dart' as p;
 
 class ImageInputScreen extends StatefulWidget {
   const ImageInputScreen({super.key, required this.title});
@@ -21,6 +23,8 @@ class ImageInputScreen extends StatefulWidget {
 class _ImageInputScreenState extends State<ImageInputScreen> {
   late CommonStore commonStore;
   late ResultStore resultStore;
+  final _cropController = CropController();
+  int times = 0;
 
   @override
   void initState() {
@@ -43,6 +47,7 @@ class _ImageInputScreenState extends State<ImageInputScreen> {
               horizontal: MediaQuery.of(context).size.width * 0.1),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
+            mainAxisSize: MainAxisSize.min,
             children: [
               ElevatedButton(
                 style: ElevatedButton.styleFrom(
@@ -58,7 +63,10 @@ class _ImageInputScreenState extends State<ImageInputScreen> {
                   FilePickerResult? result = await FilePicker.platform
                       .pickFiles(allowedExtensions: ['jpg', 'png']);
 
-                  if (result != null) {
+                  if (result != null &&
+                      ['jpg', 'png'].contains(p
+                          .extension(result.files.single.path!)
+                          .substring(1))) {
                     setState(() {
                       resultStore.setImage(File(result.files.single.path!));
                     });
@@ -74,7 +82,62 @@ class _ImageInputScreenState extends State<ImageInputScreen> {
                 ),
               ),
               const SizedBox(height: 10),
-              //TODO: Handle cắt ảnh tại đây!
+              if (resultStore.resultImage != null)
+                SizedBox(
+                  height: MediaQuery.of(context).size.height,
+                  width: MediaQuery.of(context).size.width,
+                  child: FutureBuilder(
+                      future: resultStore.resultImage!.readAsBytes(),
+                      builder: (context, snapshot) {
+                        if (snapshot.connectionState ==
+                            ConnectionState.waiting) {
+                          return const Center(
+                              child: CircularProgressIndicator());
+                        }
+                        if (!snapshot.hasData) {
+                          return const SizedBox.shrink();
+                        }
+                        return Crop(
+                          image: snapshot.data!,
+                          controller: _cropController,
+                          onCropped: (image) async {
+                            // ! After change the Transcript, Crop Widget updated but
+                            // ! it crop the previous Transcript not the new one
+                            File croppedFile = File(
+                                'cropped_${times}_${p.basename(resultStore.resultImage!.path)}');
+                            File croppedImage =
+                                await croppedFile.writeAsBytes(image);
+                            setState(() {
+                              resultStore.setCroppedImage(croppedImage);
+                            });
+                            File previousFile = File(
+                                'cropped_${times - 1}_${p.basename(resultStore.resultImage!.path)}');
+                            if (times > 0 && await previousFile.exists()) {
+                              await previousFile.delete();
+                            }
+                            times++;
+                          },
+                        );
+                      }),
+                ),
+              if (resultStore.resultImage != null)
+                ElevatedButton(
+                  style: ElevatedButton.styleFrom(
+                    foregroundColor: Colors.white,
+                    backgroundColor: Colors.blue,
+                    padding: const EdgeInsets.all(20),
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(5),
+                    ),
+                  ),
+                  onPressed: _cropController.crop,
+                  child: const Text(
+                    'CẮT ẢNH',
+                    style: TextStyle(
+                      fontSize: 18,
+                    ),
+                  ),
+                ),
               SizedBox(
                 width: double.infinity,
                 height: resultStore.resultImage != null
@@ -94,10 +157,10 @@ class _ImageInputScreenState extends State<ImageInputScreen> {
                             fontWeight: FontWeight.bold,
                           ),
                         ),
-                        if (resultStore.resultImage != null)
-                          Text(resultStore.resultImage!.path),
-                        if (resultStore.resultImage != null)
-                          Image.file(resultStore.resultImage as File)
+                        if (resultStore.croppedImage != null)
+                          Text(resultStore.croppedImage!.path),
+                        if (resultStore.croppedImage != null)
+                          Image.file(resultStore.croppedImage as File),
                       ],
                     ),
                   ),

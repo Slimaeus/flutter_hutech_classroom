@@ -41,6 +41,22 @@ mixin _$ResultStore on ResultStoreBase, Store {
     });
   }
 
+  late final _$croppedImageAtom =
+      Atom(name: 'ResultStoreBase.croppedImage', context: context);
+
+  @override
+  File? get croppedImage {
+    _$croppedImageAtom.reportRead();
+    return super.croppedImage;
+  }
+
+  @override
+  set croppedImage(File? value) {
+    _$croppedImageAtom.reportWrite(value, super.croppedImage, () {
+      super.croppedImage = value;
+    });
+  }
+
   late final _$scannedTranscriptAtom =
       Atom(name: 'ResultStoreBase.scannedTranscript', context: context);
 
@@ -81,10 +97,22 @@ mixin _$ResultStore on ResultStoreBase, Store {
   }
 
   @override
+  void setCroppedImage(File image) {
+    final _$actionInfo = _$ResultStoreBaseActionController.startAction(
+        name: 'ResultStoreBase.setCroppedImage');
+    try {
+      return super.setCroppedImage(image);
+    } finally {
+      _$ResultStoreBaseActionController.endAction(_$actionInfo);
+    }
+  }
+
+  @override
   String toString() {
     return '''
 isFetchingResults: ${isFetchingResults},
 resultImage: ${resultImage},
+croppedImage: ${croppedImage},
 scannedTranscript: ${scannedTranscript}
     ''';
   }

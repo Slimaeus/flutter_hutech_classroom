@@ -24,7 +24,15 @@ abstract class ClassroomStoreBase extends BaseStore with Store, BaseStoreMixin {
   ObservableList<Classroom> classrooms = ObservableList();
 
   @observable
+  Classroom selectedClassroom = Classroom();
+
+  @observable
   ObservableList<StudentResult> transcript = ObservableList();
+
+  @action
+  void setClassroom(Classroom classroom) {
+    selectedClassroom = classroom;
+  }
 
   Future<bool> fetchClassrooms() async {
     isFetchingClassroom = true;

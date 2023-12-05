@@ -14,11 +14,15 @@ Classroom _$ClassroomFromJson(Map<String, dynamic> json) => Classroom(
       studyPeriod: json['studyPeriod'] as String?,
       className: json['class'] as String?,
       schoolYear: json['schoolYear'] as String?,
+      semester: $enumDecodeNullable(_$SemesterEnumMap, json['semester']),
       studyGroup: json['studyGroup'] as String?,
       practicalStudyGroup: json['practicalStudyGroup'] as String?,
       lecturer: json['lecturer'] == null
           ? null
           : User.fromJson(json['lecturer'] as Map<String, dynamic>),
+      subject: json['subject'] == null
+          ? null
+          : Subject.fromJson(json['subject'] as Map<String, dynamic>),
     );
 
 Map<String, dynamic> _$ClassroomToJson(Classroom instance) => <String, dynamic>{
@@ -29,7 +33,15 @@ Map<String, dynamic> _$ClassroomToJson(Classroom instance) => <String, dynamic>{
       'studyPeriod': instance.studyPeriod,
       'class': instance.className,
       'schoolYear': instance.schoolYear,
+      'semester': _$SemesterEnumMap[instance.semester],
       'studyGroup': instance.studyGroup,
       'practicalStudyGroup': instance.practicalStudyGroup,
       'lecturer': instance.lecturer,
+      'subject': instance.subject,
     };
+
+const _$SemesterEnumMap = {
+  Semester.i: 'I',
+  Semester.ii: 'II',
+  Semester.iii: 'III',
+};

@@ -41,6 +41,22 @@ mixin _$ClassroomStore on ClassroomStoreBase, Store {
     });
   }
 
+  late final _$selectedClassroomAtom =
+      Atom(name: 'ClassroomStoreBase.selectedClassroom', context: context);
+
+  @override
+  Classroom get selectedClassroom {
+    _$selectedClassroomAtom.reportRead();
+    return super.selectedClassroom;
+  }
+
+  @override
+  set selectedClassroom(Classroom value) {
+    _$selectedClassroomAtom.reportWrite(value, super.selectedClassroom, () {
+      super.selectedClassroom = value;
+    });
+  }
+
   late final _$transcriptAtom =
       Atom(name: 'ClassroomStoreBase.transcript', context: context);
 
@@ -57,11 +73,26 @@ mixin _$ClassroomStore on ClassroomStoreBase, Store {
     });
   }
 
+  late final _$ClassroomStoreBaseActionController =
+      ActionController(name: 'ClassroomStoreBase', context: context);
+
+  @override
+  void setClassroom(Classroom classroom) {
+    final _$actionInfo = _$ClassroomStoreBaseActionController.startAction(
+        name: 'ClassroomStoreBase.setClassroom');
+    try {
+      return super.setClassroom(classroom);
+    } finally {
+      _$ClassroomStoreBaseActionController.endAction(_$actionInfo);
+    }
+  }
+
   @override
   String toString() {
     return '''
 isFetchingClassroom: ${isFetchingClassroom},
 classrooms: ${classrooms},
+selectedClassroom: ${selectedClassroom},
 transcript: ${transcript}
     ''';
   }

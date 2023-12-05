@@ -1,8 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_hutech_classroom/managers/path_manager.dart';
 import 'package:flutter_hutech_classroom/managers/route_manager.dart';
+import 'package:flutter_hutech_classroom/models/classroom.dart';
+import 'package:flutter_hutech_classroom/stores/classroom_store.dart';
 import 'package:flutter_hutech_classroom/widgets/layout/custom_appbar.dart';
 import 'package:flutter_hutech_classroom/widgets/layout/custom_drawer.dart';
+import 'package:flutter_hutech_classroom/widgets/layout/custom_dropdown_field.dart';
+import 'package:flutter_mobx/flutter_mobx.dart';
+import 'package:provider/provider.dart';
 
 class StudentTranscriptScreen extends StatefulWidget {
   const StudentTranscriptScreen({Key? key, required this.title})
@@ -16,13 +21,16 @@ class StudentTranscriptScreen extends StatefulWidget {
 }
 
 class _StudentTranscriptScreenState extends State<StudentTranscriptScreen> {
-  String? selectedYear;
+  Classroom? selectedClassroom;
+  late ClassroomStore classroomStore;
 
-  String? selectedSemester;
-
-  String? selectedCourse;
-
-  String? selectedGroup;
+  @override
+  void initState() {
+    super.initState();
+    classroomStore = context.read<ClassroomStore>();
+    classroomStore.onInit(context);
+    classroomStore.fetchClassrooms();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -49,24 +57,21 @@ class _StudentTranscriptScreenState extends State<StudentTranscriptScreen> {
                   PathManager.pic3,
                   height: 350,
                 ),
-                _buildDropdownField('Năm học', ['Year1', 'Year2', 'Year3'],
-                    (value) {
-                  selectedYear = value;
-                }),
-                const SizedBox(height: 10),
-                _buildDropdownField(
-                    'Học kỳ', ['Semester1', 'Semester2', 'Semester3'], (value) {
-                  selectedSemester = value;
-                }),
-                const SizedBox(height: 10),
-                _buildDropdownField(
-                    'Mã học phần', ['Course1', 'Course2', 'Course3'], (value) {
-                  selectedCourse = value;
-                }),
-                const SizedBox(height: 10),
-                _buildDropdownField('Nhóm', ['Group1', 'Group2', 'Group3'],
-                    (value) {
-                  selectedGroup = value;
+                const SizedBox(height: 20),
+                Observer(
+                    // future: ,
+                    builder: (ctx) {
+                  if (classroomStore.isFetchingClassroom) {
+                    return const CircularProgressIndicator();
+                  }
+                  return customDropdownField<Classroom>(
+                      'Lớp học',
+                      [...classroomStore.classrooms],
+                      (item) =>
+                          '${item!.className!} (${item.title ?? ""} - Nhóm: ${item.studyGroup})',
+                      (value) {
+                    selectedClassroom = value;
+                  });
                 }),
                 //Nhóm thực hành
                 const SizedBox(height: 20),
@@ -80,10 +85,17 @@ class _StudentTranscriptScreenState extends State<StudentTranscriptScreen> {
                       borderRadius: BorderRadius.circular(5),
                     ),
                   ),
-                  onPressed: () {
+                  onPressed: () async {
                     // Handle the submit button press event
-                    Navigator.pushNamed(
-                        context, RouteManager.studentTranscriptDetails);
+                    if (selectedClassroom != null) {
+                      classroomStore.setClassroom(selectedClassroom!);
+                      await classroomStore
+                          .fetchTranscript(selectedClassroom!.id!);
+                      if (mounted) {
+                        Navigator.pushNamed(
+                            context, RouteManager.studentTranscriptDetails);
+                      }
+                    }
                   },
                   child: const Text(
                     'TRA CỨU',
@@ -97,23 +109,6 @@ class _StudentTranscriptScreenState extends State<StudentTranscriptScreen> {
           ),
         ),
       ),
-    );
-  }
-
-  Widget _buildDropdownField(
-      String label, List<String> items, void Function(String?) onChanged) {
-    return DropdownButtonFormField<String>(
-      decoration: InputDecoration(
-        labelText: label,
-        border: const OutlineInputBorder(),
-      ),
-      items: items.map((String value) {
-        return DropdownMenuItem<String>(
-          value: value,
-          child: Text(value),
-        );
-      }).toList(),
-      onChanged: onChanged,
     );
   }
 }

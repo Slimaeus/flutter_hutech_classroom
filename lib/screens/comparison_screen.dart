@@ -25,7 +25,6 @@ class ComparisonScreen extends StatefulWidget {
 }
 
 class _ComparisonScreenState extends State<ComparisonScreen> {
-  Classroom? selectedClassroom;
 
   String? selectedYear;
 
@@ -37,6 +36,7 @@ class _ComparisonScreenState extends State<ComparisonScreen> {
 
   bool isImport = false;
 
+  Classroom? selectedClassroom;
   ScoreType? selectedScoreType;
   late ResultStore resultStore;
   late ClassroomStore classroomStore;
@@ -213,7 +213,7 @@ class _ComparisonScreenState extends State<ComparisonScreen> {
                           ),
                           onPressed: () async {
                             // Handle the submit button press event
-                            if (selectedClassroom != null) {
+                            if (selectedClassroom != null && selectedScoreType != null) {
                               await classroomStore.fetchTranscriptWithScoreType(
                                   selectedClassroom!.id!,
                                   selectedScoreType!.id!);

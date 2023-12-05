@@ -44,7 +44,7 @@ abstract class ResultStoreBase extends BaseStore with Store, BaseStoreMixin {
 
   @action
   Future<bool> fetchScannedTranscript() async {
-    bool isTest = !isFetchingResults;
+    bool isTest = isFetchingResults;
     if (isTest) {
       scannedTranscript = ObservableList<StudentResult>.of([
         StudentResult(
@@ -73,8 +73,8 @@ abstract class ResultStoreBase extends BaseStore with Store, BaseStoreMixin {
         'v1/Scores/ScanResult',
         {'type': 'image/jpg'},
         'file',
-        resultImage!.path,
-        resultImage!, (results) {
+        croppedImage!.path,
+        croppedImage!, (results) {
       return (results as List).map((r) => StudentResult.fromJson(r)).toList();
     }, headers: {'Authorization': 'Bearer ${_commonStore.jwt}'});
     if (response.isSucceed && response.data != null) {

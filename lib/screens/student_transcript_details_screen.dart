@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_hutech_classroom/extensions/semester_extensions.dart';
 import 'package:flutter_hutech_classroom/models/classroom.dart';
 import 'package:flutter_hutech_classroom/models/student_result.dart';
 import 'package:flutter_hutech_classroom/models/user.dart';
+import 'package:flutter_hutech_classroom/stores/classroom_store.dart';
 import 'package:flutter_hutech_classroom/stores/result_store.dart';
 import 'package:flutter_hutech_classroom/widgets/layout/custom_appbar.dart';
 import 'package:flutter_hutech_classroom/widgets/layout/custom_drawer.dart';
@@ -22,11 +24,14 @@ class StudentTranscriptDetailsScreen extends StatefulWidget {
 class _StudentTranscriptDetailsScreenState
     extends State<StudentTranscriptDetailsScreen> {
   late ResultStore resultStore;
+  late ClassroomStore classroomStore;
 
   @override
   void initState() {
     super.initState();
     resultStore = context.read<ResultStore>();
+    classroomStore = context.read<ClassroomStore>();
+    classroomStore.onInit(context);
   }
 
   @override
@@ -63,9 +68,21 @@ class _StudentTranscriptDetailsScreenState
                               child: Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
-                                  _buildInfoRow('Năm học', '2023'),
-                                  _buildInfoRow('Học kỳ', '1'),
-                                  _buildInfoRow('Mã học phần', 'ABC123'),
+                                  _buildInfoRow(
+                                      'Năm học',
+                                      classroomStore
+                                              .selectedClassroom.schoolYear ??
+                                          "Không có"),
+                                  _buildInfoRow(
+                                      'Học kỳ',
+                                      classroomStore.selectedClassroom.semester
+                                              ?.toText() ??
+                                          "Không có"),
+                                  _buildInfoRow(
+                                      'Mã học phần',
+                                      classroomStore.selectedClassroom.subject
+                                              ?.code ??
+                                          "Không có"),
                                 ],
                               ),
                             ),
@@ -73,9 +90,24 @@ class _StudentTranscriptDetailsScreenState
                               child: Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
-                                  _buildInfoRow('Học phần', 'Tên học phần'),
-                                  _buildInfoRow('Số tín chỉ', '3'),
-                                  _buildInfoRow('Nhóm', 'Group A'),
+                                  _buildInfoRow(
+                                      'Học phần',
+                                      classroomStore.selectedClassroom.subject
+                                              ?.title ??
+                                          "Không có"),
+                                  _buildInfoRow(
+                                      'Số tín chỉ',
+                                      classroomStore.selectedClassroom.subject
+                                              ?.totalCredits
+                                              .toString() ??
+                                          "Không có"),
+                                  _buildInfoRow(
+                                      'Nhóm',
+                                      classroomStore
+                                              .selectedClassroom.studyGroup ??
+                                          classroomStore.selectedClassroom
+                                              .practicalStudyGroup ??
+                                          "Không có"),
                                 ],
                               ),
                             ),
@@ -104,7 +136,9 @@ class _StudentTranscriptDetailsScreenState
                   ],
                 ),
                 const SizedBox(height: 10),
-                studentResultTable(resultStore.scannedTranscript),
+                studentResultTable(classroomStore.transcript
+                    .where((t) => t.scoreType?.id == 1)
+                    .toList()),
                 const Divider(height: 50.0),
                 const Text(
                   'BẢNG ĐIỂM CUỐI KỲ',
@@ -124,26 +158,9 @@ class _StudentTranscriptDetailsScreenState
                   ],
                 ),
                 const SizedBox(height: 10),
-                studentResultTable([
-                  StudentResult(
-                      ordinalNumber: 1,
-                      score: 9.5,
-                      student: User(
-                          id: '1',
-                          userName: '2080600914',
-                          firstName: 'Thái',
-                          lastName: 'Nguyễn Hồng'),
-                      classroom: Classroom(className: '20DTHD3')),
-                  StudentResult(
-                      ordinalNumber: 2,
-                      score: 10,
-                      student: User(
-                          id: '2',
-                          userName: '2080600803',
-                          firstName: 'Vân',
-                          lastName: 'Trương Thục'),
-                      classroom: Classroom(className: '20DTHD3')),
-                ]),
+                studentResultTable(classroomStore.transcript
+                    .where((t) => t.scoreType?.id == 2)
+                    .toList()),
                 const Divider(height: 50.0),
                 Card(
                   elevation: 3,

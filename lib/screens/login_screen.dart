@@ -30,8 +30,10 @@ class _LoginScreenState extends State<LoginScreen> {
     commonStore = context.read<CommonStore>();
     commonStore.loadToken().then((_) {
       if (commonStore.hasToken) {
-        userStore.getCurrentUser().then((_) {
-          Navigator.popAndPushNamed(context, RouteManager.home);
+        userStore.getCurrentUser().then((result) {
+          if (result) {
+            Navigator.popAndPushNamed(context, RouteManager.home);
+          }
         });
       }
     });

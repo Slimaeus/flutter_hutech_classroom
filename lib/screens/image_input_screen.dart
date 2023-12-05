@@ -179,7 +179,6 @@ class _ImageInputScreenState extends State<ImageInputScreen> {
                 onPressed: () async {
                   // Handle the submit button press event
                   // Navigator.pushNamed(context, RouteManager.scan);
-                  await resultStore.fetchScannedTranscript();
                   if (mounted) {
                     Navigator.pushNamed(context, RouteManager.comparison);
                   }

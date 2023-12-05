@@ -68,6 +68,7 @@ abstract class ResultStoreBase extends BaseStore with Store, BaseStoreMixin {
       ]);
       return true;
     }
+    if (croppedImage == null) return false;
     isFetchingResults = true;
     var response = await _apiService.uploadFile<List<StudentResult>>(
         'v1/Scores/ScanResult',
@@ -80,9 +81,11 @@ abstract class ResultStoreBase extends BaseStore with Store, BaseStoreMixin {
     if (response.isSucceed && response.data != null) {
       scannedTranscript = ObservableList.of(response.data!);
       isFetchingResults = false;
+      await croppedImage!.delete();
       return true;
     }
     isFetchingResults = false;
+    await croppedImage!.delete();
     return false;
   }
 

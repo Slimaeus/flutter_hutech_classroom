@@ -1,8 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_hutech_classroom/extensions/semester_extensions.dart';
-import 'package:flutter_hutech_classroom/models/classroom.dart';
-import 'package:flutter_hutech_classroom/models/student_result.dart';
-import 'package:flutter_hutech_classroom/models/user.dart';
 import 'package:flutter_hutech_classroom/stores/classroom_store.dart';
 import 'package:flutter_hutech_classroom/stores/result_store.dart';
 import 'package:flutter_hutech_classroom/widgets/layout/custom_appbar.dart';

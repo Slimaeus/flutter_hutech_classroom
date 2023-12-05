@@ -25,7 +25,6 @@ class ComparisonScreen extends StatefulWidget {
 }
 
 class _ComparisonScreenState extends State<ComparisonScreen> {
-
   String? selectedYear;
 
   String? selectedSemester;
@@ -46,6 +45,7 @@ class _ComparisonScreenState extends State<ComparisonScreen> {
   void initState() {
     super.initState();
     resultStore = context.read<ResultStore>();
+    resultStore.fetchScannedTranscript();
     classroomStore = context.read<ClassroomStore>();
     classroomStore.onInit(context);
     classroomStore.fetchClassrooms();
@@ -77,7 +77,12 @@ class _ComparisonScreenState extends State<ComparisonScreen> {
                 ),
               ),
               const SizedBox(height: 10),
-              studentResultTable(resultStore.scannedTranscript),
+              Observer(builder: (ctx) {
+                if (resultStore.isFetchingResults) {
+                  return const CircularProgressIndicator();
+                }
+                return studentResultTable(resultStore.scannedTranscript);
+              }),
               const Divider(height: 50.0),
               const Text(
                 "CHỌN BẢNG ĐIỂM ĐỂ SO SÁNH:",
@@ -213,7 +218,8 @@ class _ComparisonScreenState extends State<ComparisonScreen> {
                           ),
                           onPressed: () async {
                             // Handle the submit button press event
-                            if (selectedClassroom != null && selectedScoreType != null) {
+                            if (selectedClassroom != null &&
+                                selectedScoreType != null) {
                               await classroomStore.fetchTranscriptWithScoreType(
                                   selectedClassroom!.id!,
                                   selectedScoreType!.id!);

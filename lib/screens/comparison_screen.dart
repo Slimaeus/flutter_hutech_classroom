@@ -74,11 +74,13 @@ class _ComparisonScreenState extends State<ComparisonScreen> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              const Text(
-                "BẢNG ĐIỂM ĐÃ QUÉT ĐƯỢC:",
-                style: TextStyle(
-                  fontSize: 25,
-                  fontWeight: FontWeight.bold,
+              const Center(
+                child: Text(
+                  "BẢNG ĐIỂM ĐÃ QUÉT ĐƯỢC:",
+                  style: TextStyle(
+                    fontSize: 25,
+                    fontWeight: FontWeight.bold,
+                  ),
                 ),
               ),
               const SizedBox(height: 10),
@@ -270,84 +272,60 @@ class _ComparisonScreenState extends State<ComparisonScreen> {
               ),
               const SizedBox(height: 20),
               //!: Trả về bảng điểm khi tra cứu thành công
-              const Text(
-                "BẢNG ĐIỂM TRA CỨU ĐƯỢC:",
-                style: TextStyle(
-                  fontSize: 25,
-                  fontWeight: FontWeight.bold,
-                ),
-              ),
+
+              // Row(
+              //   mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              //   children: [
+              //     _buildInfoRow('Ngày kiểm tra', '20/11/2023'),
+              //     _buildInfoRow('Giờ thi', '08'),
+              //     _buildInfoRow('Phút', '30'),
+              //     _buildInfoRow('Phòng', '101'),
+              //   ],
+              // ),
               const SizedBox(height: 10),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  _buildInfoRow('Ngày kiểm tra', '20/11/2023'),
-                  _buildInfoRow('Giờ thi', '08'),
-                  _buildInfoRow('Phút', '30'),
-                  _buildInfoRow('Phòng', '101'),
-                ],
-              ),
-              const SizedBox(height: 10),
-              Observer(
-                  builder: (context) =>
-                      studentResultTable(classroomStore.transcript)),
+              Observer(builder: (context) {
+                if (classroomStore.transcript.isEmpty) {
+                  return const SizedBox.shrink();
+                }
+                return Column(
+                  children: [
+                    const Text(
+                      "BẢNG ĐIỂM TRA CỨU ĐƯỢC:",
+                      style: TextStyle(
+                        fontSize: 25,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                    const SizedBox(height: 10),
+                    studentResultTable(classroomStore.transcript),
+                  ],
+                );
+              }),
               // _buildSearchedScoreTable(),
               const SizedBox(height: 10),
-              ElevatedButton(
-                style: ElevatedButton.styleFrom(
-                  foregroundColor: Colors.white,
-                  backgroundColor: Colors.blue,
-                  padding: const EdgeInsets.all(20),
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(5),
-                  ),
-                ),
-                onPressed: () {
-                  // Handle the submit button press event
-                  Navigator.pushNamed(context, RouteManager.result);
-                },
-                child: const Text(
-                  'TIẾN HÀNH KIỂM TRA',
-                  style: TextStyle(
-                    fontSize: 18,
-                  ),
-                ),
-              ),
+              // ElevatedButton(
+              //   style: ElevatedButton.styleFrom(
+              //     foregroundColor: Colors.white,
+              //     backgroundColor: Colors.blue,
+              //     padding: const EdgeInsets.all(20),
+              //     shape: RoundedRectangleBorder(
+              //       borderRadius: BorderRadius.circular(5),
+              //     ),
+              //   ),
+              //   onPressed: () {
+              //     // Handle the submit button press event
+              //     Navigator.pushNamed(context, RouteManager.result);
+              //   },
+              //   child: const Text(
+              //     'TIẾN HÀNH KIỂM TRA',
+              //     style: TextStyle(
+              //       fontSize: 18,
+              //     ),
+              //   ),
+              // ),
             ],
           ),
         )),
-      ),
-    );
-  }
-
-  Widget _buildDropdownField(
-      String label, List<String> items, void Function(String?) onChanged) {
-    return DropdownButtonFormField<String>(
-      decoration: InputDecoration(
-        labelText: label,
-        border: const OutlineInputBorder(),
-      ),
-      items: items.map((String value) {
-        return DropdownMenuItem<String>(
-          value: value,
-          child: Text(value),
-        );
-      }).toList(),
-      onChanged: onChanged,
-    );
-  }
-
-  Widget _buildInfoRow(String label, String value) {
-    return Padding(
-      padding: const EdgeInsets.symmetric(vertical: 8.0),
-      child: Row(
-        children: [
-          Text(
-            '$label: ',
-            style: const TextStyle(fontWeight: FontWeight.bold),
-          ),
-          Text(value),
-        ],
       ),
     );
   }

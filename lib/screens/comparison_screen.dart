@@ -55,6 +55,12 @@ class _ComparisonScreenState extends State<ComparisonScreen> {
   }
 
   @override
+  void dispose() {
+    classroomStore.onDispose(context);
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: customAppBar(context, title: widget.title, hasLeading: true),
@@ -68,7 +74,6 @@ class _ComparisonScreenState extends State<ComparisonScreen> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              //TODO: Render ảnh trả về tại đây!
               const Text(
                 "BẢNG ĐIỂM ĐÃ QUÉT ĐƯỢC:",
                 style: TextStyle(
@@ -79,7 +84,7 @@ class _ComparisonScreenState extends State<ComparisonScreen> {
               const SizedBox(height: 10),
               Observer(builder: (ctx) {
                 if (resultStore.isFetchingResults) {
-                  return const CircularProgressIndicator();
+                  return const LinearProgressIndicator();
                 }
                 return studentResultTable(resultStore.scannedTranscript);
               }),

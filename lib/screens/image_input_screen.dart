@@ -180,7 +180,7 @@ class _ImageInputScreenState extends State<ImageInputScreen> {
                   // Handle the submit button press event
                   // Navigator.pushNamed(context, RouteManager.scan);
                   if (mounted) {
-                    Navigator.pushNamed(context, RouteManager.comparison);
+                    Navigator.popAndPushNamed(context, RouteManager.comparison);
                   }
 
                   // for (var element in resultStore.results) {

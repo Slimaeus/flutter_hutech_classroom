@@ -78,4 +78,10 @@ abstract class ClassroomStoreBase extends BaseStore with Store, BaseStoreMixin {
   void onInit(BuildContext context) {
     _commonStore = context.read<CommonStore>();
   }
+
+  @override
+  void onDispose(BuildContext context) {
+    transcript = ObservableList();
+    super.onDispose(context);
+  }
 }

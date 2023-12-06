@@ -82,6 +82,8 @@ abstract class ResultStoreBase extends BaseStore with Store, BaseStoreMixin {
       scannedTranscript = ObservableList.of(response.data!);
       isFetchingResults = false;
       await croppedImage!.delete();
+      croppedImage = null;
+      resultImage = null;
       return true;
     }
     isFetchingResults = false;
@@ -96,12 +98,7 @@ abstract class ResultStoreBase extends BaseStore with Store, BaseStoreMixin {
 
   @override
   void onDispose(BuildContext context) {
-    if (resultImage != null) {
-      resultImage!.deleteSync();
-    }
-    if (croppedImage != null) {
-      croppedImage!.deleteSync();
-    }
+    scannedTranscript = ObservableList();
     super.onDispose(context);
   }
 }

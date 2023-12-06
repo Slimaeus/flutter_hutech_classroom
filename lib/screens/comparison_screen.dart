@@ -2,7 +2,6 @@ import 'dart:io';
 
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_hutech_classroom/managers/route_manager.dart';
 import 'package:flutter_hutech_classroom/models/classroom.dart';
 import 'package:flutter_hutech_classroom/models/score_type.dart';
 import 'package:flutter_hutech_classroom/stores/classroom_store.dart';
@@ -91,9 +90,9 @@ class _ComparisonScreenState extends State<ComparisonScreen> {
                 return studentResultTable(resultStore.scannedTranscript);
               }),
               const Divider(height: 50.0),
-              const Text(
-                "CHỌN BẢNG ĐIỂM ĐỂ SO SÁNH:",
-                style: TextStyle(
+              Text(
+                "CHỌN BẢNG ĐIỂM ĐỂ ${isImport ? "NHẬP" : "SO SÁNH"}:",
+                style: const TextStyle(
                   fontSize: 25,
                   fontWeight: FontWeight.bold,
                 ),
@@ -185,12 +184,15 @@ class _ComparisonScreenState extends State<ComparisonScreen> {
                               // Handle the submit button press event
                               if (selectedClassroom?.id == null ||
                                   selectedScoreType?.id == null) return;
-                              await scoreStore.importScoreExcel(
+                              var result = await scoreStore.importScoreExcel(
                                   selectedClassroom!.id!,
                                   selectedScoreType!.id!);
-                              if (mounted) {
-                                Navigator.pushNamed(
-                                    context, RouteManager.comparison);
+
+                              if (result && context.mounted) {
+                                ScaffoldMessenger.of(context)
+                                    .showSnackBar(const SnackBar(
+                                  content: Text('Cập nhật thành công!'),
+                                ));
                               }
                             },
                             child: const Text(
@@ -202,13 +204,10 @@ class _ComparisonScreenState extends State<ComparisonScreen> {
                           ),
                         ],
                       ),
-                      const SizedBox(
-                        height: 10,
-                      ),
                     ],
                   )),
 
-              Row(
+              Column(
                 children: [
                   Visibility(
                     visible: !isImport,
@@ -216,7 +215,8 @@ class _ComparisonScreenState extends State<ComparisonScreen> {
                       children: [
                         ElevatedButton(
                           style: ElevatedButton.styleFrom(
-                            foregroundColor: Colors.white,
+                            foregroundColor:
+                                const Color.fromRGBO(255, 255, 255, 1),
                             backgroundColor: Colors.blue,
                             padding: const EdgeInsets.all(20),
                             shape: RoundedRectangleBorder(
@@ -239,40 +239,37 @@ class _ComparisonScreenState extends State<ComparisonScreen> {
                             ),
                           ),
                         ),
-                        const SizedBox(
-                          height: 20,
-                          width: 10,
-                        ),
                       ],
                     ),
                   ),
-                  ElevatedButton(
-                    style: ElevatedButton.styleFrom(
-                      foregroundColor: Colors.white,
-                      backgroundColor: Colors.blue,
-                      padding: const EdgeInsets.all(20),
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(5),
-                      ),
-                    ),
-                    onPressed: () async {
-                      // Handle the submit button press event
-                      setState(() {
-                        isImport = !isImport;
-                      });
-                    },
-                    child: Text(
-                      isImport ? 'TRA CỨU' : 'NHẬP ĐIỂM',
-                      style: const TextStyle(
-                        fontSize: 18,
-                      ),
-                    ),
+                  const SizedBox(
+                    height: 10,
+                    width: 10,
                   ),
                 ],
               ),
-              const SizedBox(height: 20),
-              //!: Trả về bảng điểm khi tra cứu thành công
-
+              ElevatedButton(
+                style: ElevatedButton.styleFrom(
+                  foregroundColor: Colors.blue,
+                  backgroundColor: Colors.white,
+                  padding: const EdgeInsets.all(20),
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(5),
+                  ),
+                ),
+                onPressed: () async {
+                  // Handle the submit button press event
+                  setState(() {
+                    isImport = !isImport;
+                  });
+                },
+                child: Text(
+                  isImport ? 'TRA CỨU' : 'NHẬP ĐIỂM',
+                  style: const TextStyle(
+                    fontSize: 18,
+                  ),
+                ),
+              ),
               // Row(
               //   mainAxisAlignment: MainAxisAlignment.spaceBetween,
               //   children: [

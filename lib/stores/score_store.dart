@@ -58,8 +58,10 @@ abstract class ScoreStoreBase extends BaseStore with Store, BaseStoreMixin {
         (results) {},
         headers: {'Authorization': 'Bearer ${_commonStore.jwt}'});
     if (response.isSucceed) {
+      scoreExcelFile = null;
       return true;
     }
+    scoreExcelFile = null;
     return false;
   }
 

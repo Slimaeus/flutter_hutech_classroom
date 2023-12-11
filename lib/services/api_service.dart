@@ -17,7 +17,7 @@ class ApiService {
           await http.get(Uri.parse('$baseUrl$endpoint'), headers: headers);
 
       developer.log('Api [GET] $baseUrl$endpoint');
-      if (response.statusCode == 200) {
+      if (response.statusCode < 400) {
         developer.log('Success [GET]: ${response.body}');
         final dynamic jsonResponse = json.decode(response.body);
         return ApiResponse.success(fromJson(jsonResponse));
@@ -65,10 +65,10 @@ class ApiService {
       var response = await request.send();
       var body = await response.stream.bytesToString();
       developer.log('Api [UPLOAD FILE POST] $baseUrl$endpoint');
-
-      if (response.statusCode == 200) {
+      if (response.statusCode < 400) {
         developer.log('Success [POST]: $body');
-        final dynamic jsonResponse = json.decode(body);
+
+        final dynamic jsonResponse = body.isNotEmpty ? json.decode(body) : {};
         return ApiResponse.success(fromJson(jsonResponse));
       } else {
         final dynamic errorJson = json.decode(body);
@@ -96,7 +96,7 @@ class ApiService {
           });
       developer.log('Api [POST] $baseUrl$endpoint');
 
-      if (response.statusCode == 200) {
+      if (response.statusCode < 400) {
         developer.log('Success [POST]: ${response.body}');
         final dynamic jsonResponse = json.decode(response.body);
         return ApiResponse.success(fromJson(jsonResponse));
@@ -126,7 +126,7 @@ class ApiService {
           });
       developer.log('Api [PUT] $baseUrl$endpoint');
 
-      if (response.statusCode == 200) {
+      if (response.statusCode < 400) {
         developer.log('Success [PUT]: ${response.body}');
         final dynamic jsonResponse = json.decode(response.body);
         return ApiResponse.success(fromJson(jsonResponse));
@@ -156,7 +156,7 @@ class ApiService {
           });
       developer.log('Api [PATCH] $baseUrl$endpoint');
 
-      if (response.statusCode == 200) {
+      if (response.statusCode < 400) {
         developer.log('Success [PATCH]: ${response.body}');
         final dynamic jsonResponse = json.decode(response.body);
         return ApiResponse.success(fromJson(jsonResponse));
@@ -182,7 +182,7 @@ class ApiService {
           await http.delete(Uri.parse('$baseUrl$endpoint'), headers: headers);
 
       developer.log('Api [DELETE] $baseUrl$endpoint');
-      if (response.statusCode == 200) {
+      if (response.statusCode < 400) {
         developer.log('Success [DELETE]: ${response.body}');
         final dynamic jsonResponse = json.decode(response.body);
         return ApiResponse.success(fromJson(jsonResponse));

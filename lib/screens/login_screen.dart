@@ -109,6 +109,12 @@ class _LoginScreenState extends State<LoginScreen> {
                                   var isSucceed =
                                       await userStore.login(userName, password);
                                   if (isSucceed && context.mounted) {
+                                    ScaffoldMessenger.of(context)
+                                        .showSnackBar(const SnackBar(
+                                      content: Text("Đăng nhập thành công!"),
+                                      backgroundColor: Colors.blue,
+                                      duration: Duration(seconds: 2),
+                                    ));
                                     Navigator.pushReplacementNamed(
                                         context, RouteManager.home);
                                   }

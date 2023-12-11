@@ -187,11 +187,28 @@ class _ComparisonScreenState extends State<ComparisonScreen> {
                               var result = await scoreStore.importScoreExcel(
                                   selectedClassroom!.id!,
                                   selectedScoreType!.id!);
+                              // if (context.mounted) {
+                              //   ScaffoldMessenger.of(context)
+                              //       .showSnackBar(SnackBar(
+                              //     content: Text(result.toString()),
+                              //     backgroundColor: Colors.blue,
+                              //     duration: const Duration(seconds: 2),
+                              //   ));
+                              // }
 
                               if (result && context.mounted) {
                                 ScaffoldMessenger.of(context)
                                     .showSnackBar(const SnackBar(
-                                  content: Text('Cập nhật thành công!'),
+                                  content: Text("Cập nhập thành công!"),
+                                  backgroundColor: Colors.blue,
+                                  duration: Duration(seconds: 2),
+                                ));
+                              } else if (context.mounted) {
+                                ScaffoldMessenger.of(context)
+                                    .showSnackBar(SnackBar(
+                                  content: Text("Cập nhập thất bại!$result"),
+                                  backgroundColor: Colors.red,
+                                  duration: const Duration(seconds: 2),
                                 ));
                               }
                             },

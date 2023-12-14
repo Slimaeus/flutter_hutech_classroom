@@ -17,16 +17,17 @@ import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:provider/provider.dart';
 import 'package:path/path.dart' as p;
 
-class ImageInputScreen extends StatefulWidget {
-  const ImageInputScreen({super.key, required this.title});
+class MultipleImageInputScreen extends StatefulWidget {
+  const MultipleImageInputScreen({super.key, required this.title});
 
   final String title;
 
   @override
-  State<ImageInputScreen> createState() => _ImageInputScreenState();
+  State<MultipleImageInputScreen> createState() =>
+      _MultipleImageInputScreenState();
 }
 
-class _ImageInputScreenState extends State<ImageInputScreen> {
+class _MultipleImageInputScreenState extends State<MultipleImageInputScreen> {
   Classroom? selectedClassroom;
   ScoreType? selectedScoreType;
   late ClassroomStore classroomStore;
@@ -53,7 +54,7 @@ class _ImageInputScreenState extends State<ImageInputScreen> {
   @override
   void dispose() {
     classroomStore.onDispose(context);
-    resultStore.onDispose(context);
+    // resultStore.onDispose(context);
     super.dispose();
   }
 
@@ -204,22 +205,42 @@ class _ImageInputScreenState extends State<ImageInputScreen> {
                   elevation: 3,
                   child: Padding(
                     padding: const EdgeInsets.all(16.0),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        const Text(
-                          'Ảnh',
-                          style: TextStyle(
-                            fontSize: 18,
-                            fontWeight: FontWeight.bold,
-                          ),
+                    child: Observer(builder: (context) {
+                      return SingleChildScrollView(
+                        scrollDirection: Axis.horizontal,
+                        child: Row(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          mainAxisSize: MainAxisSize.max,
+                          children: resultStore.croppedImages
+                              .map((element) => Padding(
+                                    padding: const EdgeInsets.all(8.0),
+                                    child: Column(
+                                      children: [
+                                        const Text(
+                                          'Ảnh',
+                                          style: TextStyle(
+                                            fontSize: 18,
+                                            fontWeight: FontWeight.bold,
+                                          ),
+                                        ),
+                                        Text(element.path),
+                                        ClipRRect(
+                                          borderRadius: const BorderRadius.only(
+                                            topLeft: Radius.circular(8.0),
+                                            topRight: Radius.circular(8.0),
+                                          ),
+                                          child: Image.file(
+                                            element,
+                                            height: 400,
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                  ))
+                              .toList(),
                         ),
-                        if (resultStore.croppedImage != null)
-                          Text(resultStore.croppedImage!.path),
-                        if (resultStore.croppedImage != null)
-                          Image.file(resultStore.croppedImage as File),
-                      ],
-                    ),
+                      );
+                    }),
                   ),
                 ),
               ),
@@ -237,7 +258,8 @@ class _ImageInputScreenState extends State<ImageInputScreen> {
                   // Handle the submit button press event
                   // Navigator.pushNamed(context, RouteManager.scan);
                   if (mounted) {
-                    Navigator.popAndPushNamed(context, RouteManager.comparison);
+                    Navigator.popAndPushNamed(
+                        context, RouteManager.mulipleComparision);
                   }
 
                   // for (var element in resultStore.results) {

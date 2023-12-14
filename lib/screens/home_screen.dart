@@ -133,6 +133,35 @@ class _HomeScreenState extends State<HomeScreen> {
                                 ),
                               ),
                             ),
+                            Padding(
+                              padding: const EdgeInsets.all(8.0),
+                              child: ElevatedButton(
+                                onPressed: () {
+                                  Navigator.pushNamed(
+                                      context, RouteManager.multipleImageInput);
+                                },
+                                style: ElevatedButton.styleFrom(
+                                  padding: const EdgeInsets.all(20),
+                                  minimumSize: const Size(200, 200),
+                                  shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(5),
+                                  ),
+                                ),
+                                child: const Column(
+                                  children: [
+                                    Icon(
+                                      Icons.scanner,
+                                      size: 50,
+                                    ),
+                                    SizedBox(height: 8),
+                                    Text(
+                                      'Scan Kiểm Tra nhiều bảng điểm',
+                                      style: TextStyle(fontSize: 20),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            ),
                           ],
                         ),
                       )

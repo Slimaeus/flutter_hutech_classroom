@@ -19,16 +19,17 @@ import 'package:http/http.dart' as http;
 import 'package:path/path.dart' as path;
 import 'package:provider/provider.dart';
 
-class ComparisonScreen extends StatefulWidget {
-  const ComparisonScreen({super.key, required this.title});
+class MultipleComparisonScreen extends StatefulWidget {
+  const MultipleComparisonScreen({super.key, required this.title});
 
   final String title;
 
   @override
-  State<ComparisonScreen> createState() => _ComparisonScreenState();
+  State<MultipleComparisonScreen> createState() =>
+      _MultipleComparisonScreenState();
 }
 
-class _ComparisonScreenState extends State<ComparisonScreen> {
+class _MultipleComparisonScreenState extends State<MultipleComparisonScreen> {
   String? selectedYear;
 
   String? selectedSemester;
@@ -86,36 +87,8 @@ class _ComparisonScreenState extends State<ComparisonScreen> {
               IconButton(
                   onPressed: () async {
                     if (resultStore.croppedImage == null) return;
-                    // var url = Uri.parse(
-                    //     "https://localhost:7153/api/v1/Features/Files/ReceiveMultipleFile");
-                    // var request = http.MultipartRequest('POST', url);
-                    // var fileModels = <FileModel>[
-                    //   FileModel(
-                    //       classroomId: 'classroomId',
-                    //       file: resultStore.croppedImage!)
-                    // ];
-                    // for (var i = 0; i < fileModels.length; i++) {
-                    //   var fileModel = fileModels[i];
-                    //   var file = await http.MultipartFile.fromPath(
-                    //     'fileModels[$i].file', // field name
-                    //     fileModel.file.path, // file path
-                    //     filename:
-                    //         path.basename(fileModel.file.path), // file name
-                    //   );
-                    //   request.files.add(file);
-                    //   request.fields['fileModels[$i].classroomId'] =
-                    //       fileModel.classroomId;
-                    // }
-                    // var response = await request.send();
-                    // if (response.statusCode == 200) {
-                    //   print(await response.stream.bytesToString());
-                    //   print("Uploaded!");
-                    // } else {
-                    //   print("Failed to upload file.");
-                    // }
-
                     var url = Uri.parse(
-                        "https://localhost:7153/api/v1/Scores/ScanMultipleResult");
+                        "https://hutechclassroom.azurewebsites.net/api/v1/Scores/ScanMultipleResult");
 
                     var request = http.MultipartRequest('POST', url);
                     var fileModels = resultStore.croppedImages;

@@ -13,13 +13,15 @@ class StudentResult {
   final Classroom? classroom;
   final ScoreType? scoreType;
   final String? studentId;
+  final double? comparedScore;
   StudentResult(
       {this.ordinalNumber,
       this.score,
       this.student,
       this.classroom,
       this.scoreType,
-      this.studentId});
+      this.studentId,
+      this.comparedScore});
 
   factory StudentResult.fromJson(Map<String, dynamic> json) =>
       _$StudentResultFromJson(json);

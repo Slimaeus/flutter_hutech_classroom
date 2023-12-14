@@ -4,6 +4,7 @@ import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_hutech_classroom/models/classroom.dart';
 import 'package:flutter_hutech_classroom/models/score_type.dart';
+import 'package:flutter_hutech_classroom/models/student_result.dart';
 import 'package:flutter_hutech_classroom/stores/classroom_store.dart';
 import 'package:flutter_hutech_classroom/stores/result_store.dart';
 import 'package:flutter_hutech_classroom/stores/score_store.dart';
@@ -247,6 +248,51 @@ class _ComparisonScreenState extends State<ComparisonScreen> {
                               await classroomStore.fetchTranscriptWithScoreType(
                                   selectedClassroom!.id!,
                                   selectedScoreType!.id!);
+
+                              var classroomTranscript = {
+                                for (var element in classroomStore.transcript)
+                                  element.student!.userName: element
+                              };
+                              var scannedTranscript =
+                                  resultStore.scannedTranscript;
+
+                              var list =
+                                  List<StudentResult>.empty(growable: true);
+
+                              for (StudentResult sr in scannedTranscript) {
+                                if (sr.studentId == null &&
+                                    sr.student?.id == null) continue;
+                                for (var element in classroomTranscript.keys) {
+                                  print(element);
+                                }
+
+                                if (sr.student?.id != null &&
+                                    classroomTranscript.keys
+                                        .contains(sr.student!.userName)) {
+                                  var value = classroomTranscript[
+                                      sr.student!.userName]!;
+                                  var newValue = StudentResult(
+                                      ordinalNumber: sr.ordinalNumber,
+                                      classroom: sr.classroom,
+                                      score: sr.score!,
+                                      scoreType: sr.scoreType,
+                                      student: sr.student,
+                                      studentId: sr.studentId,
+                                      comparedScore: value.score!);
+                                  list.add(newValue);
+                                } else {
+                                  var newValue = StudentResult(
+                                      ordinalNumber: sr.ordinalNumber,
+                                      classroom: sr.classroom,
+                                      score: sr.score!,
+                                      scoreType: sr.scoreType,
+                                      student: sr.student,
+                                      studentId: sr.studentId);
+                                  list.add(newValue);
+                                }
+                              }
+
+                              resultStore.setScannedTranscript(list);
                             }
                           },
                           child: const Text(

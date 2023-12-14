@@ -12,6 +12,8 @@ Widget studentResultTable(List<StudentResult> studentResult) {
     customTableHeaderCell('Tên SV'),
     customTableHeaderCell('Mã lớp'),
     customTableHeaderCell('Điểm'),
+    if (studentResult.any((element) => element.comparedScore != null))
+      customTableHeaderCell('Điểm được lưu'),
   ], [
     ...studentResult.map((r) => [
           customTableCell(r.ordinalNumber.toString()),
@@ -36,7 +38,11 @@ Widget studentResultTable(List<StudentResult> studentResult) {
           else
             customTableCell("", alignLeft: true),
           customTableCell(
-              r.score != null && r.score != -1 ? r.score.toString() : "")
+              r.score != null && r.score != -1 ? r.score.toString() : ""),
+          if (studentResult.any((element) => element.comparedScore != null))
+            customTableCell(r.comparedScore != null && r.comparedScore != -1
+                ? r.comparedScore.toString()
+                : ""),
         ])
   ]);
 }

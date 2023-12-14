@@ -123,16 +123,16 @@ class _StudentTranscriptDetailsScreenState
                   ),
                 ),
                 const SizedBox(height: 10),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    _buildInfoRow('Ngày kiểm tra', '20/11/2023'),
-                    _buildInfoRow('Giờ thi', '08'),
-                    _buildInfoRow('Phút', '30'),
-                    _buildInfoRow('Phòng', '101'),
-                  ],
-                ),
-                const SizedBox(height: 10),
+                // Row(
+                //   mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                //   children: [
+                //     _buildInfoRow('Ngày kiểm tra', '20/11/2023'),
+                //     _buildInfoRow('Giờ thi', '08'),
+                //     _buildInfoRow('Phút', '30'),
+                //     _buildInfoRow('Phòng', '101'),
+                //   ],
+                // ),
+                // const SizedBox(height: 10),
                 studentResultTable(classroomStore.transcript
                     .where((t) => t.scoreType?.id == 1)
                     .toList()),
@@ -145,16 +145,16 @@ class _StudentTranscriptDetailsScreenState
                   ),
                 ),
                 const SizedBox(height: 10),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    _buildInfoRow('Ngày kiểm tra', '30/11/2023'),
-                    _buildInfoRow('Giờ thi', '10'),
-                    _buildInfoRow('Phút', '120'),
-                    _buildInfoRow('Phòng', '111'),
-                  ],
-                ),
-                const SizedBox(height: 10),
+                // Row(
+                //   mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                //   children: [
+                //     _buildInfoRow('Ngày kiểm tra', '30/11/2023'),
+                //     _buildInfoRow('Giờ thi', '10'),
+                //     _buildInfoRow('Phút', '120'),
+                //     _buildInfoRow('Phòng', '111'),
+                //   ],
+                // ),
+                // const SizedBox(height: 10),
                 studentResultTable(classroomStore.transcript
                     .where((t) => t.scoreType?.id == 2)
                     .toList()),

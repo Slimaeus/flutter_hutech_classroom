@@ -32,6 +32,13 @@ class _StudentTranscriptDetailsScreenState
   }
 
   @override
+  void dispose() {
+    classroomStore.onDispose(context);
+    resultStore.onDispose(context);
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: customAppBar(context, title: widget.title, hasLeading: true),

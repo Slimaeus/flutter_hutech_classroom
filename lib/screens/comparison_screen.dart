@@ -57,6 +57,7 @@ class _ComparisonScreenState extends State<ComparisonScreen> {
   @override
   void dispose() {
     classroomStore.onDispose(context);
+    resultStore.onDispose(context);
     super.dispose();
   }
 

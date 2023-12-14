@@ -104,6 +104,11 @@ abstract class ResultStoreBase extends BaseStore with Store, BaseStoreMixin {
   @override
   void onDispose(BuildContext context) {
     scannedTranscript = ObservableList();
+    if (croppedImage != null) {
+      croppedImage!.deleteSync();
+    }
+    croppedImage = null;
+    resultImage = null;
     super.onDispose(context);
   }
 }

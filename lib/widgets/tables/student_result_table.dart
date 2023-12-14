@@ -13,7 +13,7 @@ Widget studentResultTable(List<StudentResult> studentResult) {
     customTableHeaderCell('Mã lớp'),
     customTableHeaderCell('Điểm'),
     if (studentResult.any((element) => element.comparedScore != null))
-      customTableHeaderCell('Điểm được lưu'),
+      customTableHeaderCell('Điểm hệ thống'),
   ], [
     ...studentResult.map((r) => [
           customTableCell(r.ordinalNumber.toString()),

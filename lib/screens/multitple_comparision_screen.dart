@@ -53,6 +53,7 @@ class _MultipleComparisonScreenState extends State<MultipleComparisonScreen> {
     super.initState();
     resultStore = context.read<ResultStore>();
     resultStore.fetchScannedTranscript();
+    resultStore.fetchMultipleScannedTranscript();
     classroomStore = context.read<ClassroomStore>();
     classroomStore.onInit(context);
     classroomStore.fetchClassrooms();
@@ -84,51 +85,51 @@ class _MultipleComparisonScreenState extends State<MultipleComparisonScreen> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              IconButton(
-                  onPressed: () async {
-                    if (resultStore.croppedImage == null) return;
-                    var url = Uri.parse(
-                        "https://hutechclassroom.azurewebsites.net/api/v1/Scores/ScanMultipleResult");
+              // IconButton(
+              //     onPressed: () async {
+              //       if (resultStore.croppedImages.isEmpty) return;
+              //       var url = Uri.parse(
+              //           "https://hutechclassroom.azurewebsites.net/api/v1/Scores/ScanMultipleResult");
 
-                    var request = http.MultipartRequest('POST', url);
-                    var fileModels = resultStore.croppedImages;
-                    for (var i = 0; i < fileModels.length; i++) {
-                      var fileModel = fileModels[i];
-                      var file = await http.MultipartFile.fromPath(
-                        'files', // field name
-                        fileModel.path, // file path
-                        filename: path.basename(fileModel.path), // file name
-                      );
-                      request.files.add(file);
-                      request.headers.addAll(
-                          {'Authorization': 'Bearer ${commonStore.jwt}'});
-                      // request.fields['fileModels[$i].classroomId'] =
-                      //     fileModel.classroomId;
-                    }
-                    resultStore.isFetchingResults = true;
-                    var response = await request.send();
-                    if (response.statusCode < 400) {
-                      var body = await response.stream.bytesToString();
-                      final dynamic jsonResponse =
-                          body.isNotEmpty ? json.decode(body) : {};
-                      var lists = List<dynamic>.from(jsonResponse);
-                      var studentResultLists = lists
-                          .map((list) => (list as List)
-                              .map((c) => StudentResult.fromJson(c))
-                              .toList())
-                          .toList();
-                      resultStore
-                          .setMultipleScannedTranscript(studentResultLists);
+              //       var request = http.MultipartRequest('POST', url);
+              //       var fileModels = resultStore.croppedImages;
+              //       for (var i = 0; i < fileModels.length; i++) {
+              //         var fileModel = fileModels[i];
+              //         var file = await http.MultipartFile.fromPath(
+              //           'files', // field name
+              //           fileModel.path, // file path
+              //           filename: path.basename(fileModel.path), // file name
+              //         );
+              //         request.files.add(file);
+              //         request.headers.addAll(
+              //             {'Authorization': 'Bearer ${commonStore.jwt}'});
+              //         // request.fields['fileModels[$i].classroomId'] =
+              //         //     fileModel.classroomId;
+              //       }
+              //       resultStore.isFetchingResults = true;
+              //       var response = await request.send();
+              //       if (response.statusCode < 400) {
+              //         var body = await response.stream.bytesToString();
+              //         final dynamic jsonResponse =
+              //             body.isNotEmpty ? json.decode(body) : {};
+              //         var lists = List<dynamic>.from(jsonResponse);
+              //         var studentResultLists = lists
+              //             .map((list) => (list as List)
+              //                 .map((c) => StudentResult.fromJson(c))
+              //                 .toList())
+              //             .toList();
+              //         resultStore
+              //             .setMultipleScannedTranscript(studentResultLists);
 
-                      print("Uploaded!");
-                    } else {
-                      print(response.statusCode);
-                      print(await response.stream.bytesToString());
-                      print("Failed to upload file.");
-                    }
-                    resultStore.isFetchingResults = false;
-                  },
-                  icon: const Icon(Icons.file_upload)),
+              //         print("Uploaded!");
+              //       } else {
+              //         print(response.statusCode);
+              //         print(await response.stream.bytesToString());
+              //         print("Failed to upload file.");
+              //       }
+              //       resultStore.isFetchingResults = false;
+              //     },
+              //     icon: const Icon(Icons.file_upload)),
               const Center(
                 child: Text(
                   "BẢNG ĐIỂM ĐÃ QUÉT ĐƯỢC:",

@@ -72,40 +72,40 @@ class _ImageInputScreenState extends State<ImageInputScreen> {
             crossAxisAlignment: CrossAxisAlignment.start,
             mainAxisSize: MainAxisSize.min,
             children: [
-              const Text(
-                "CHỌN THÔNG TIN",
-                style: TextStyle(
-                  fontSize: 25,
-                  fontWeight: FontWeight.bold,
-                ),
-              ),
-              const SizedBox(height: 20),
-              Observer(
-                  // future: ,
-                  builder: (ctx) {
-                if (classroomStore.isFetchingClassroom) {
-                  return const CircularProgressIndicator();
-                }
-                return customDropdownField<Classroom>(
-                    'Lớp học',
-                    [...classroomStore.classrooms],
-                    (item) =>
-                        '${item!.className!} (${item.title ?? ""} - Nhóm: ${item.studyGroup})',
-                    (value) {
-                  selectedClassroom = value;
-                });
-              }),
-              const SizedBox(height: 10),
-              Observer(builder: (ctx) {
-                if (scoreStore.isFetchingScore) {
-                  return const CircularProgressIndicator();
-                }
-                return customDropdownField<ScoreType>('Loại điểm',
-                    [...scoreStore.scoreTypes], (item) => item!.name!, (value) {
-                  selectedScoreType = value;
-                });
-              }),
-              const SizedBox(height: 10),
+              // const Text(
+              //   "CHỌN THÔNG TIN",
+              //   style: TextStyle(
+              //     fontSize: 25,
+              //     fontWeight: FontWeight.bold,
+              //   ),
+              // ),
+              // const SizedBox(height: 20),
+              // Observer(
+              //     // future: ,
+              //     builder: (ctx) {
+              //   if (classroomStore.isFetchingClassroom) {
+              //     return const CircularProgressIndicator();
+              //   }
+              //   return customDropdownField<Classroom>(
+              //       'Lớp học',
+              //       [...classroomStore.classrooms],
+              //       (item) =>
+              //           '${item!.className!} (${item.title ?? ""} - Nhóm: ${item.studyGroup})',
+              //       (value) {
+              //     selectedClassroom = value;
+              //   });
+              // }),
+              // const SizedBox(height: 10),
+              // Observer(builder: (ctx) {
+              //   if (scoreStore.isFetchingScore) {
+              //     return const CircularProgressIndicator();
+              //   }
+              //   return customDropdownField<ScoreType>('Loại điểm',
+              //       [...scoreStore.scoreTypes], (item) => item!.name!, (value) {
+              //     selectedScoreType = value;
+              //   });
+              // }),
+              // const SizedBox(height: 10),
               ElevatedButton(
                 style: ElevatedButton.styleFrom(
                   foregroundColor: Colors.white,
@@ -196,62 +196,65 @@ class _ImageInputScreenState extends State<ImageInputScreen> {
                     ),
                   ),
                 ),
-              SizedBox(
-                width: double.infinity,
-                height: resultStore.resultImage != null
-                    ? Image.file(resultStore.resultImage as File).height
-                    : 500,
-                child: Card(
-                  elevation: 3,
-                  child: Padding(
-                    padding: const EdgeInsets.all(16.0),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        const Text(
-                          'Ảnh',
-                          style: TextStyle(
-                            fontSize: 18,
-                            fontWeight: FontWeight.bold,
+              if (resultStore.croppedImage != null)
+                SizedBox(
+                  width: double.infinity,
+                  height: resultStore.resultImage != null
+                      ? Image.file(resultStore.resultImage as File).height
+                      : 500,
+                  child: Card(
+                    elevation: 3,
+                    child: Padding(
+                      padding: const EdgeInsets.all(16.0),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          const Text(
+                            'Ảnh',
+                            style: TextStyle(
+                              fontSize: 18,
+                              fontWeight: FontWeight.bold,
+                            ),
                           ),
-                        ),
-                        if (resultStore.croppedImage != null)
-                          Text(resultStore.croppedImage!.path),
-                        if (resultStore.croppedImage != null)
-                          Image.file(resultStore.croppedImage as File),
-                      ],
+                          if (resultStore.croppedImage != null)
+                            Text(resultStore.croppedImage!.path),
+                          if (resultStore.croppedImage != null)
+                            Image.file(resultStore.croppedImage as File),
+                        ],
+                      ),
                     ),
                   ),
                 ),
-              ),
-              const SizedBox(height: 10),
-              ElevatedButton(
-                style: ElevatedButton.styleFrom(
-                  foregroundColor: Colors.white,
-                  backgroundColor: Colors.blue,
-                  padding: const EdgeInsets.all(20),
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(5),
+              if (resultStore.croppedImage != null) const SizedBox(height: 10),
+              if (resultStore.croppedImage != null)
+                ElevatedButton(
+                  style: ElevatedButton.styleFrom(
+                    foregroundColor: Colors.white,
+                    backgroundColor: Colors.blue,
+                    padding: const EdgeInsets.all(20),
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(5),
+                    ),
                   ),
-                ),
-                onPressed: () async {
-                  // Handle the submit button press event
-                  // Navigator.pushNamed(context, RouteManager.scan);
-                  if (mounted) {
-                    Navigator.popAndPushNamed(context, RouteManager.comparison);
-                  }
+                  onPressed: () async {
+                    // Handle the submit button press event
+                    // Navigator.pushNamed(context, RouteManager.scan);
+                    if (mounted) {
+                      Navigator.popAndPushNamed(
+                          context, RouteManager.comparison);
+                    }
 
-                  // for (var element in resultStore.results) {
-                  //   print(element.ordinalNumber);
-                  // }
-                },
-                child: const Text(
-                  'TIẾP TỤC',
-                  style: TextStyle(
-                    fontSize: 18,
+                    // for (var element in resultStore.results) {
+                    //   print(element.ordinalNumber);
+                    // }
+                  },
+                  child: const Text(
+                    'TIẾP TỤC',
+                    style: TextStyle(
+                      fontSize: 18,
+                    ),
                   ),
                 ),
-              ),
             ],
           ),
         )),

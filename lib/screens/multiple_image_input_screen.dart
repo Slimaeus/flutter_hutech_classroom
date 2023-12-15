@@ -12,10 +12,9 @@ import 'package:flutter_hutech_classroom/stores/score_store.dart';
 import 'package:flutter_hutech_classroom/widgets/layout/custom_appbar.dart';
 import 'package:flutter_hutech_classroom/widgets/layout/custom_drawer.dart';
 import 'package:crop_your_image/crop_your_image.dart';
-import 'package:flutter_hutech_classroom/widgets/layout/custom_dropdown_field.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:provider/provider.dart';
-import 'package:path/path.dart' as p;
+import 'package:path/path.dart' as path;
 
 class MultipleImageInputScreen extends StatefulWidget {
   const MultipleImageInputScreen({super.key, required this.title});
@@ -42,6 +41,7 @@ class _MultipleImageInputScreenState extends State<MultipleImageInputScreen> {
     super.initState();
     resultStore = context.read<ResultStore>();
     resultStore.onInit(context);
+    resultStore.resetValue();
     commonStore = context.read<CommonStore>();
     classroomStore = context.read<ClassroomStore>();
     classroomStore.onInit(context);
@@ -73,40 +73,40 @@ class _MultipleImageInputScreenState extends State<MultipleImageInputScreen> {
             crossAxisAlignment: CrossAxisAlignment.start,
             mainAxisSize: MainAxisSize.min,
             children: [
-              const Text(
-                "CHỌN THÔNG TIN",
-                style: TextStyle(
-                  fontSize: 25,
-                  fontWeight: FontWeight.bold,
-                ),
-              ),
-              const SizedBox(height: 20),
-              Observer(
-                  // future: ,
-                  builder: (ctx) {
-                if (classroomStore.isFetchingClassroom) {
-                  return const CircularProgressIndicator();
-                }
-                return customDropdownField<Classroom>(
-                    'Lớp học',
-                    [...classroomStore.classrooms],
-                    (item) =>
-                        '${item!.className!} (${item.title ?? ""} - Nhóm: ${item.studyGroup})',
-                    (value) {
-                  selectedClassroom = value;
-                });
-              }),
-              const SizedBox(height: 10),
-              Observer(builder: (ctx) {
-                if (scoreStore.isFetchingScore) {
-                  return const CircularProgressIndicator();
-                }
-                return customDropdownField<ScoreType>('Loại điểm',
-                    [...scoreStore.scoreTypes], (item) => item!.name!, (value) {
-                  selectedScoreType = value;
-                });
-              }),
-              const SizedBox(height: 10),
+              // const Text(
+              //   "CHỌN THÔNG TIN",
+              //   style: TextStyle(
+              //     fontSize: 25,
+              //     fontWeight: FontWeight.bold,
+              //   ),
+              // ),
+              // const SizedBox(height: 20),
+              // Observer(
+              //     // future: ,
+              //     builder: (ctx) {
+              //   if (classroomStore.isFetchingClassroom) {
+              //     return const CircularProgressIndicator();
+              //   }
+              //   return customDropdownField<Classroom>(
+              //       'Lớp học',
+              //       [...classroomStore.classrooms],
+              //       (item) =>
+              //           '${item!.className!} (${item.title ?? ""} - Nhóm: ${item.studyGroup})',
+              //       (value) {
+              //     selectedClassroom = value;
+              //   });
+              // }),
+              // const SizedBox(height: 10),
+              // Observer(builder: (ctx) {
+              //   if (scoreStore.isFetchingScore) {
+              //     return const CircularProgressIndicator();
+              //   }
+              //   return customDropdownField<ScoreType>('Loại điểm',
+              //       [...scoreStore.scoreTypes], (item) => item!.name!, (value) {
+              //     selectedScoreType = value;
+              //   });
+              // }),
+              // const SizedBox(height: 10),
               ElevatedButton(
                 style: ElevatedButton.styleFrom(
                   foregroundColor: Colors.white,
@@ -122,7 +122,7 @@ class _MultipleImageInputScreenState extends State<MultipleImageInputScreen> {
                       .pickFiles(allowedExtensions: ['jpg', 'png']);
 
                   if (result != null &&
-                      ['jpg', 'png'].contains(p
+                      ['jpg', 'png'].contains(path
                           .extension(result.files.single.path!)
                           .substring(1))) {
                     setState(() {
@@ -162,14 +162,14 @@ class _MultipleImageInputScreenState extends State<MultipleImageInputScreen> {
                             // ! After change the Transcript, Crop Widget updated but
                             // ! it crop the previous Transcript not the new one
                             File croppedFile = File(
-                                'cropped_${times}_${p.basename(resultStore.resultImage!.path)}');
+                                'cropped_${times}_${path.basename(resultStore.resultImage!.path)}');
                             File croppedImage =
                                 await croppedFile.writeAsBytes(image);
                             setState(() {
                               resultStore.setCroppedImage(croppedImage);
                             });
                             File previousFile = File(
-                                'cropped_${times - 1}_${p.basename(resultStore.resultImage!.path)}');
+                                'cropped_${times - 1}_${path.basename(resultStore.resultImage!.path)}');
                             // if (times > 0 && await previousFile.exists()) {
                             //   await previousFile.delete();
                             // }
@@ -248,34 +248,35 @@ class _MultipleImageInputScreenState extends State<MultipleImageInputScreen> {
                   ),
                 ),
               const SizedBox(height: 10),
-              ElevatedButton(
-                style: ElevatedButton.styleFrom(
-                  foregroundColor: Colors.white,
-                  backgroundColor: Colors.blue,
-                  padding: const EdgeInsets.all(20),
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(5),
+              if (resultStore.croppedImages.isNotEmpty)
+                ElevatedButton(
+                  style: ElevatedButton.styleFrom(
+                    foregroundColor: Colors.white,
+                    backgroundColor: Colors.blue,
+                    padding: const EdgeInsets.all(20),
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(5),
+                    ),
                   ),
-                ),
-                onPressed: () async {
-                  // Handle the submit button press event
-                  // Navigator.pushNamed(context, RouteManager.scan);
-                  if (mounted) {
-                    Navigator.popAndPushNamed(
-                        context, RouteManager.mulipleComparision);
-                  }
+                  onPressed: () async {
+                    // Handle the submit button press event
+                    // Navigator.pushNamed(context, RouteManager.scan);
+                    if (mounted) {
+                      Navigator.popAndPushNamed(
+                          context, RouteManager.mulipleComparision);
+                    }
 
-                  // for (var element in resultStore.results) {
-                  //   print(element.ordinalNumber);
-                  // }
-                },
-                child: const Text(
-                  'TIẾP TỤC',
-                  style: TextStyle(
-                    fontSize: 18,
+                    // for (var element in resultStore.results) {
+                    //   print(element.ordinalNumber);
+                    // }
+                  },
+                  child: const Text(
+                    'TIẾP TỤC',
+                    style: TextStyle(
+                      fontSize: 18,
+                    ),
                   ),
                 ),
-              ),
             ],
           ),
         )),

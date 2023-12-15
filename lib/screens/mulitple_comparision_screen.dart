@@ -1,9 +1,9 @@
+import 'dart:convert';
 import 'dart:io';
 
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_hutech_classroom/models/classroom.dart';
-import 'package:flutter_hutech_classroom/models/file_model.dart';
 import 'package:flutter_hutech_classroom/models/score_type.dart';
 import 'package:flutter_hutech_classroom/models/student_result.dart';
 import 'package:flutter_hutech_classroom/stores/classroom_store.dart';
@@ -106,11 +106,26 @@ class _MultipleComparisonScreenState extends State<MultipleComparisonScreen> {
                       //     fileModel.classroomId;
                     }
                     var response = await request.send();
-                    if (response.statusCode == 200) {
-                      print(await response.stream.bytesToString());
+                    if (response.statusCode < 400) {
+                      var body = await response.stream.bytesToString();
+                      final dynamic jsonResponse =
+                          body.isNotEmpty ? json.decode(body) : {};
+                      var lists = List<dynamic>.from(jsonResponse);
+                      var studentResultLists = lists.map((list) =>
+                          (list as List)
+                              .map((c) => StudentResult.fromJson(c))
+                              .toList());
+
+                      for (var element in studentResultLists) {
+                        for (var srs in element) {
+                          print(srs.ordinalNumber);
+                        }
+                      }
+
                       print("Uploaded!");
                     } else {
                       print(response.statusCode);
+                      print(await response.stream.bytesToString());
                       print("Failed to upload file.");
                     }
                   },

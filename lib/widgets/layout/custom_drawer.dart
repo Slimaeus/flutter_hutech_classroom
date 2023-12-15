@@ -54,6 +54,14 @@ Widget customDrawer(BuildContext context) {
             Navigator.pushReplacementNamed(context, RouteManager.imageInput);
           },
         ),
+        ListTile(
+          leading: const Icon(Icons.scanner),
+          title: const Text('Scan Kiểm Tra Nhiều Bảng Điểm'),
+          onTap: () {
+            Navigator.pushReplacementNamed(
+                context, RouteManager.multipleImageInput);
+          },
+        ),
         const Divider(),
         ListTile(
           leading: const Icon(Icons.person),

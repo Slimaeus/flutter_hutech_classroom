@@ -12,8 +12,6 @@ import 'package:flutter_hutech_classroom/stores/score_store.dart';
 import 'package:flutter_hutech_classroom/widgets/layout/custom_appbar.dart';
 import 'package:flutter_hutech_classroom/widgets/layout/custom_drawer.dart';
 import 'package:crop_your_image/crop_your_image.dart';
-import 'package:flutter_hutech_classroom/widgets/layout/custom_dropdown_field.dart';
-import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:provider/provider.dart';
 import 'package:path/path.dart' as p;
 
@@ -167,8 +165,8 @@ class _ImageInputScreenState extends State<ImageInputScreen> {
                             setState(() {
                               resultStore.setCroppedImage(croppedImage);
                             });
-                            File previousFile = File(
-                                'cropped_${times - 1}_${p.basename(resultStore.resultImage!.path)}');
+                            // File previousFile = File(
+                            //     'cropped_${times - 1}_${p.basename(resultStore.resultImage!.path)}');
                             // if (times > 0 && await previousFile.exists()) {
                             //   await previousFile.delete();
                             // }

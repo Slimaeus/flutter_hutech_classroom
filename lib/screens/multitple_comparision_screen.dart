@@ -1,4 +1,3 @@
-import 'dart:convert';
 import 'dart:io';
 
 import 'package:file_picker/file_picker.dart';
@@ -15,8 +14,6 @@ import 'package:flutter_hutech_classroom/widgets/layout/custom_drawer.dart';
 import 'package:flutter_hutech_classroom/widgets/layout/custom_dropdown_field.dart';
 import 'package:flutter_hutech_classroom/widgets/tables/student_result_table.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
-import 'package:http/http.dart' as http;
-import 'package:path/path.dart' as path;
 import 'package:provider/provider.dart';
 
 class MultipleComparisonScreen extends StatefulWidget {

@@ -168,8 +168,8 @@ class _MultipleImageInputScreenState extends State<MultipleImageInputScreen> {
                             setState(() {
                               resultStore.setCroppedImage(croppedImage);
                             });
-                            File previousFile = File(
-                                'cropped_${times - 1}_${path.basename(resultStore.resultImage!.path)}');
+                            // File previousFile = File(
+                            //     'cropped_${times - 1}_${path.basename(resultStore.resultImage!.path)}');
                             // if (times > 0 && await previousFile.exists()) {
                             //   await previousFile.delete();
                             // }

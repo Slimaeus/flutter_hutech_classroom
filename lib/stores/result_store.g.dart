@@ -57,6 +57,22 @@ mixin _$ResultStore on ResultStoreBase, Store {
     });
   }
 
+  late final _$croppedImagesAtom =
+      Atom(name: 'ResultStoreBase.croppedImages', context: context);
+
+  @override
+  ObservableList<File> get croppedImages {
+    _$croppedImagesAtom.reportRead();
+    return super.croppedImages;
+  }
+
+  @override
+  set croppedImages(ObservableList<File> value) {
+    _$croppedImagesAtom.reportWrite(value, super.croppedImages, () {
+      super.croppedImages = value;
+    });
+  }
+
   late final _$scannedTranscriptAtom =
       Atom(name: 'ResultStoreBase.scannedTranscript', context: context);
 
@@ -70,6 +86,23 @@ mixin _$ResultStore on ResultStoreBase, Store {
   set scannedTranscript(ObservableList<StudentResult> value) {
     _$scannedTranscriptAtom.reportWrite(value, super.scannedTranscript, () {
       super.scannedTranscript = value;
+    });
+  }
+
+  late final _$multipleScannedTranscriptAtom =
+      Atom(name: 'ResultStoreBase.multipleScannedTranscript', context: context);
+
+  @override
+  ObservableList<List<StudentResult>> get multipleScannedTranscript {
+    _$multipleScannedTranscriptAtom.reportRead();
+    return super.multipleScannedTranscript;
+  }
+
+  @override
+  set multipleScannedTranscript(ObservableList<List<StudentResult>> value) {
+    _$multipleScannedTranscriptAtom
+        .reportWrite(value, super.multipleScannedTranscript, () {
+      super.multipleScannedTranscript = value;
     });
   }
 
@@ -108,12 +141,36 @@ mixin _$ResultStore on ResultStoreBase, Store {
   }
 
   @override
+  void setMultipleScannedTranscript(List<List<StudentResult>> lists) {
+    final _$actionInfo = _$ResultStoreBaseActionController.startAction(
+        name: 'ResultStoreBase.setMultipleScannedTranscript');
+    try {
+      return super.setMultipleScannedTranscript(lists);
+    } finally {
+      _$ResultStoreBaseActionController.endAction(_$actionInfo);
+    }
+  }
+
+  @override
+  void setScannedTranscript(List<StudentResult> list) {
+    final _$actionInfo = _$ResultStoreBaseActionController.startAction(
+        name: 'ResultStoreBase.setScannedTranscript');
+    try {
+      return super.setScannedTranscript(list);
+    } finally {
+      _$ResultStoreBaseActionController.endAction(_$actionInfo);
+    }
+  }
+
+  @override
   String toString() {
     return '''
 isFetchingResults: ${isFetchingResults},
 resultImage: ${resultImage},
 croppedImage: ${croppedImage},
-scannedTranscript: ${scannedTranscript}
+croppedImages: ${croppedImages},
+scannedTranscript: ${scannedTranscript},
+multipleScannedTranscript: ${multipleScannedTranscript}
     ''';
   }
 }

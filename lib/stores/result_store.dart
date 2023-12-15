@@ -35,6 +35,10 @@ abstract class ResultStoreBase extends BaseStore with Store, BaseStoreMixin {
   @observable
   ObservableList<StudentResult> scannedTranscript = ObservableList();
 
+  @observable
+  ObservableList<List<StudentResult>> multipleScannedTranscript =
+      ObservableList();
+
   @action
   void setImage(File image) {
     resultImage = image;
@@ -45,9 +49,11 @@ abstract class ResultStoreBase extends BaseStore with Store, BaseStoreMixin {
     croppedImage = null;
     croppedImage = image;
     croppedImages.add(image);
-    croppedImages.forEach((element) {
-      print(element.path);
-    });
+  }
+
+  @action
+  void setMultipleScannedTranscript(List<List<StudentResult>> lists) {
+    multipleScannedTranscript = ObservableList.of(lists);
   }
 
   @action
@@ -111,7 +117,7 @@ abstract class ResultStoreBase extends BaseStore with Store, BaseStoreMixin {
 
   @override
   void onDispose(BuildContext context) {
-    scannedTranscript = ObservableList();
+    // scannedTranscript = ObservableList();
     // if (croppedImage != null) {
     //   croppedImage!.deleteSync();
     // }

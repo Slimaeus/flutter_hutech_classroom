@@ -105,22 +105,20 @@ class _MultipleComparisonScreenState extends State<MultipleComparisonScreen> {
                       // request.fields['fileModels[$i].classroomId'] =
                       //     fileModel.classroomId;
                     }
+                    resultStore.isFetchingResults = true;
                     var response = await request.send();
                     if (response.statusCode < 400) {
                       var body = await response.stream.bytesToString();
                       final dynamic jsonResponse =
                           body.isNotEmpty ? json.decode(body) : {};
                       var lists = List<dynamic>.from(jsonResponse);
-                      var studentResultLists = lists.map((list) =>
-                          (list as List)
+                      var studentResultLists = lists
+                          .map((list) => (list as List)
                               .map((c) => StudentResult.fromJson(c))
-                              .toList());
-
-                      for (var element in studentResultLists) {
-                        for (var srs in element) {
-                          print(srs.ordinalNumber);
-                        }
-                      }
+                              .toList())
+                          .toList();
+                      resultStore
+                          .setMultipleScannedTranscript(studentResultLists);
 
                       print("Uploaded!");
                     } else {
@@ -128,6 +126,7 @@ class _MultipleComparisonScreenState extends State<MultipleComparisonScreen> {
                       print(await response.stream.bytesToString());
                       print("Failed to upload file.");
                     }
+                    resultStore.isFetchingResults = false;
                   },
                   icon: const Icon(Icons.file_upload)),
               const Center(
@@ -144,7 +143,16 @@ class _MultipleComparisonScreenState extends State<MultipleComparisonScreen> {
                 if (resultStore.isFetchingResults) {
                   return const LinearProgressIndicator();
                 }
-                return studentResultTable(resultStore.scannedTranscript);
+                return Column(
+                  children: resultStore.multipleScannedTranscript
+                      .map(
+                        (t) => Column(children: [
+                          studentResultTable(t),
+                          const SizedBox(height: 10),
+                        ]),
+                      )
+                      .toList(),
+                );
               }),
               const Divider(height: 50.0),
               Text(

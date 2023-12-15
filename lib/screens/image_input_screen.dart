@@ -177,6 +177,7 @@ class _ImageInputScreenState extends State<ImageInputScreen> {
                         );
                       }),
                 ),
+              const SizedBox(height: 10),
               if (resultStore.resultImage != null)
                 ElevatedButton(
                   style: ElevatedButton.styleFrom(

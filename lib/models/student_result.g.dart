@@ -20,6 +20,7 @@ StudentResult _$StudentResultFromJson(Map<String, dynamic> json) =>
           ? null
           : ScoreType.fromJson(json['scoreType'] as Map<String, dynamic>),
       studentId: json['studentId'] as String?,
+      comparedScore: (json['comparedScore'] as num?)?.toDouble(),
     );
 
 Map<String, dynamic> _$StudentResultToJson(StudentResult instance) =>
@@ -30,4 +31,5 @@ Map<String, dynamic> _$StudentResultToJson(StudentResult instance) =>
       'classroom': instance.classroom,
       'scoreType': instance.scoreType,
       'studentId': instance.studentId,
+      'comparedScore': instance.comparedScore,
     };

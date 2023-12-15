@@ -38,11 +38,22 @@ Widget studentResultTable(List<StudentResult> studentResult) {
           else
             customTableCell("", alignLeft: true),
           customTableCell(
-              r.score != null && r.score != -1 ? r.score.toString() : ""),
+              r.score != null && r.score != -1 ? r.score.toString() : "",
+              color: r.comparedScore != null
+                  ? r.score == r.comparedScore
+                      ? Colors.green
+                      : Colors.red
+                  : Colors.black),
           if (studentResult.any((element) => element.comparedScore != null))
-            customTableCell(r.comparedScore != null && r.comparedScore != -1
-                ? r.comparedScore.toString()
-                : ""),
+            customTableCell(
+                r.comparedScore != null && r.comparedScore != -1
+                    ? r.comparedScore.toString()
+                    : "",
+                color: r.comparedScore != null
+                    ? r.score == r.comparedScore
+                        ? Colors.green
+                        : Colors.red
+                    : Colors.black),
         ])
   ]);
 }

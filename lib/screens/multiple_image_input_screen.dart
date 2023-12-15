@@ -178,6 +178,7 @@ class _MultipleImageInputScreenState extends State<MultipleImageInputScreen> {
                         );
                       }),
                 ),
+              const SizedBox(height: 10),
               if (resultStore.resultImage != null)
                 ElevatedButton(
                   style: ElevatedButton.styleFrom(
@@ -196,54 +197,56 @@ class _MultipleImageInputScreenState extends State<MultipleImageInputScreen> {
                     ),
                   ),
                 ),
-              SizedBox(
-                width: double.infinity,
-                height: resultStore.resultImage != null
-                    ? Image.file(resultStore.resultImage as File).height
-                    : 500,
-                child: Card(
-                  elevation: 3,
-                  child: Padding(
-                    padding: const EdgeInsets.all(16.0),
-                    child: Observer(builder: (context) {
-                      return SingleChildScrollView(
-                        scrollDirection: Axis.horizontal,
-                        child: Row(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          mainAxisSize: MainAxisSize.max,
-                          children: resultStore.croppedImages
-                              .map((element) => Padding(
-                                    padding: const EdgeInsets.all(8.0),
-                                    child: Column(
-                                      children: [
-                                        const Text(
-                                          'Ảnh',
-                                          style: TextStyle(
-                                            fontSize: 18,
-                                            fontWeight: FontWeight.bold,
+              if (resultStore.croppedImages.isNotEmpty)
+                SizedBox(
+                  width: double.infinity,
+                  height: resultStore.resultImage != null
+                      ? Image.file(resultStore.resultImage as File).height
+                      : 500,
+                  child: Card(
+                    elevation: 3,
+                    child: Padding(
+                      padding: const EdgeInsets.all(16.0),
+                      child: Observer(builder: (context) {
+                        return SingleChildScrollView(
+                          scrollDirection: Axis.horizontal,
+                          child: Row(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            mainAxisSize: MainAxisSize.max,
+                            children: resultStore.croppedImages
+                                .map((element) => Padding(
+                                      padding: const EdgeInsets.all(8.0),
+                                      child: Column(
+                                        children: [
+                                          const Text(
+                                            'Ảnh',
+                                            style: TextStyle(
+                                              fontSize: 18,
+                                              fontWeight: FontWeight.bold,
+                                            ),
                                           ),
-                                        ),
-                                        Text(element.path),
-                                        ClipRRect(
-                                          borderRadius: const BorderRadius.only(
-                                            topLeft: Radius.circular(8.0),
-                                            topRight: Radius.circular(8.0),
+                                          Text(element.path),
+                                          ClipRRect(
+                                            borderRadius:
+                                                const BorderRadius.only(
+                                              topLeft: Radius.circular(8.0),
+                                              topRight: Radius.circular(8.0),
+                                            ),
+                                            child: Image.file(
+                                              element,
+                                              height: 400,
+                                            ),
                                           ),
-                                          child: Image.file(
-                                            element,
-                                            height: 400,
-                                          ),
-                                        ),
-                                      ],
-                                    ),
-                                  ))
-                              .toList(),
-                        ),
-                      );
-                    }),
+                                        ],
+                                      ),
+                                    ))
+                                .toList(),
+                          ),
+                        );
+                      }),
+                    ),
                   ),
                 ),
-              ),
               const SizedBox(height: 10),
               ElevatedButton(
                 style: ElevatedButton.styleFrom(

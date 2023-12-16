@@ -14,6 +14,8 @@ import 'package:flutter_hutech_classroom/widgets/layout/custom_drawer.dart';
 import 'package:crop_your_image/crop_your_image.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:provider/provider.dart';
+import 'package:path_provider/path_provider.dart';
+
 import 'package:path/path.dart' as path;
 
 class MultipleImageInputScreen extends StatefulWidget {
@@ -161,8 +163,10 @@ class _MultipleImageInputScreenState extends State<MultipleImageInputScreen> {
                           onCropped: (image) async {
                             // ! After change the Transcript, Crop Widget updated but
                             // ! it crop the previous Transcript not the new one
+                            Directory tempDir = await getTemporaryDirectory();
+                            String tempPath = tempDir.path;
                             File croppedFile = File(
-                                'cropped_${times}_${path.basename(resultStore.resultImage!.path)}');
+                                '$tempPath/cropped_${times}_${path.basename(resultStore.resultImage!.path)}');
                             File croppedImage =
                                 await croppedFile.writeAsBytes(image);
                             setState(() {

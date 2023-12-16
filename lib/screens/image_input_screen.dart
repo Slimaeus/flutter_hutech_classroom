@@ -13,7 +13,8 @@ import 'package:flutter_hutech_classroom/widgets/layout/custom_appbar.dart';
 import 'package:flutter_hutech_classroom/widgets/layout/custom_drawer.dart';
 import 'package:crop_your_image/crop_your_image.dart';
 import 'package:provider/provider.dart';
-import 'package:path/path.dart' as p;
+import 'package:path/path.dart' as path;
+import 'package:path_provider/path_provider.dart';
 
 class ImageInputScreen extends StatefulWidget {
   const ImageInputScreen({super.key, required this.title});
@@ -119,7 +120,7 @@ class _ImageInputScreenState extends State<ImageInputScreen> {
                       .pickFiles(allowedExtensions: ['jpg', 'png']);
 
                   if (result != null &&
-                      ['jpg', 'png'].contains(p
+                      ['jpg', 'png'].contains(path
                           .extension(result.files.single.path!)
                           .substring(1))) {
                     setState(() {
@@ -158,8 +159,10 @@ class _ImageInputScreenState extends State<ImageInputScreen> {
                           onCropped: (image) async {
                             // ! After change the Transcript, Crop Widget updated but
                             // ! it crop the previous Transcript not the new one
+                            Directory tempDir = await getTemporaryDirectory();
+                            String tempPath = tempDir.path;
                             File croppedFile = File(
-                                'cropped_${times}_${p.basename(resultStore.resultImage!.path)}');
+                                '$tempPath/cropped_${times}_${path.basename(resultStore.resultImage!.path)}');
                             File croppedImage =
                                 await croppedFile.writeAsBytes(image);
                             setState(() {

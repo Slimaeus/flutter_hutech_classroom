@@ -80,65 +80,7 @@ class _ComparisonScreenState extends State<ComparisonScreen> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              // IconButton(
-              //     onPressed: () async {
-              //       if (resultStore.croppedImage == null) return;
-              //       // var url = Uri.parse(
-              //       //     "https://localhost:7153/api/v1/Features/Files/ReceiveMultipleFile");
-              //       // var request = http.MultipartRequest('POST', url);
-              //       // var fileModels = <FileModel>[
-              //       //   FileModel(
-              //       //       classroomId: 'classroomId',
-              //       //       file: resultStore.croppedImage!)
-              //       // ];
-              //       // for (var i = 0; i < fileModels.length; i++) {
-              //       //   var fileModel = fileModels[i];
-              //       //   var file = await http.MultipartFile.fromPath(
-              //       //     'fileModels[$i].file', // field name
-              //       //     fileModel.file.path, // file path
-              //       //     filename:
-              //       //         path.basename(fileModel.file.path), // file name
-              //       //   );
-              //       //   request.files.add(file);
-              //       //   request.fields['fileModels[$i].classroomId'] =
-              //       //       fileModel.classroomId;
-              //       // }
-              //       // var response = await request.send();
-              //       // if (response.statusCode == 200) {
-              //       //   print(await response.stream.bytesToString());
-              //       //   print("Uploaded!");
-              //       // } else {
-              //       //   print("Failed to upload file.");
-              //       // }
-
-              //       var url = Uri.parse(
-              //           "https://localhost:7153/api/v1/Scores/ScanMultipleResult");
-
-              //       var request = http.MultipartRequest('POST', url);
-              //       var fileModels = resultStore.croppedImages;
-              //       for (var i = 0; i < fileModels.length; i++) {
-              //         var fileModel = fileModels[i];
-              //         var file = await http.MultipartFile.fromPath(
-              //           'files', // field name
-              //           fileModel.path, // file path
-              //           filename: path.basename(fileModel.path), // file name
-              //         );
-              //         request.files.add(file);
-              //         request.headers.addAll(
-              //             {'Authorization': 'Bearer ${commonStore.jwt}'});
-              //         // request.fields['fileModels[$i].classroomId'] =
-              //         //     fileModel.classroomId;
-              //       }
-              //       var response = await request.send();
-              //       if (response.statusCode == 200) {
-              //         print(await response.stream.bytesToString());
-              //         print("Uploaded!");
-              //       } else {
-              //         print(response.statusCode);
-              //         print("Failed to upload file.");
-              //       }
-              //     },
-              //     icon: const Icon(Icons.file_upload)),
+              
               if (resultStore.scannedTranscript.isNotEmpty) ...[
                 const Center(
                   child: Text(

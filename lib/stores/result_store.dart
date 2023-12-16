@@ -66,7 +66,7 @@ abstract class ResultStoreBase extends BaseStore with Store, BaseStoreMixin {
 
   @action
   Future<bool> fetchScannedTranscript() async {
-    bool isTest = !isFetchingResults;
+    bool isTest = isFetchingResults;
     if (isTest) {
       scannedTranscript = ObservableList<StudentResult>.of([
         StudentResult(

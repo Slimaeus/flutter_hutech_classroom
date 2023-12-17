@@ -13,6 +13,7 @@ import 'package:provider/provider.dart';
 
 import 'package:http/http.dart' as http;
 import 'package:path/path.dart' as path;
+import 'dart:developer' as developer;
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({Key? key, required this.title}) : super(key: key);
@@ -90,7 +91,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                   onPressed: () async {
                                     var result = await FilePicker.platform
                                         .getDirectoryPath();
-                                    print(result);
+                                    developer.log(result ?? "");
                                     // if (resultStore.croppedImage == null)
                                     //   return;
                                     // var url = Uri.parse(
@@ -153,10 +154,11 @@ class _HomeScreenState extends State<HomeScreen> {
                                       }
                                       await file.writeAsBytes(
                                           await response.stream.toBytes());
-                                      print("Uploaded!");
+                                      developer.log("Uploaded!");
                                     } else {
-                                      print(response.statusCode);
-                                      print("Failed to upload file.");
+                                      developer
+                                          .log(response.statusCode.toString());
+                                      developer.log("Failed to upload file.");
                                     }
                                   },
                                   icon: const Icon(Icons.file_upload)),

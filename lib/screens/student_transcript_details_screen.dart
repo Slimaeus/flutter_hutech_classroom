@@ -1,11 +1,18 @@
+import 'dart:io';
+
+import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_hutech_classroom/extensions/semester_extensions.dart';
 import 'package:flutter_hutech_classroom/stores/classroom_store.dart';
+import 'package:flutter_hutech_classroom/stores/common_store.dart';
 import 'package:flutter_hutech_classroom/stores/result_store.dart';
 import 'package:flutter_hutech_classroom/widgets/layout/custom_appbar.dart';
 import 'package:flutter_hutech_classroom/widgets/layout/custom_drawer.dart';
 import 'package:flutter_hutech_classroom/widgets/tables/student_result_table.dart';
 import 'package:provider/provider.dart';
+
+import 'dart:developer' as developer;
+import 'package:http/http.dart' as http;
 
 class StudentTranscriptDetailsScreen extends StatefulWidget {
   const StudentTranscriptDetailsScreen({Key? key, required this.title})
@@ -22,6 +29,7 @@ class _StudentTranscriptDetailsScreenState
     extends State<StudentTranscriptDetailsScreen> {
   late ResultStore resultStore;
   late ClassroomStore classroomStore;
+  late CommonStore commonStore;
 
   @override
   void initState() {
@@ -29,6 +37,7 @@ class _StudentTranscriptDetailsScreenState
     resultStore = context.read<ResultStore>();
     classroomStore = context.read<ClassroomStore>();
     classroomStore.onInit(context);
+    commonStore = context.read<CommonStore>();
   }
 
   @override
@@ -122,12 +131,62 @@ class _StudentTranscriptDetailsScreenState
                   ),
                 ),
                 const SizedBox(height: 20),
-                const Text(
-                  'BẢNG ĐIỂM QUÁ TRÌNH',
-                  style: TextStyle(
-                    fontSize: 30,
-                    fontWeight: FontWeight.bold,
-                  ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    const SizedBox(width: 200),
+                    const Text(
+                      'BẢNG ĐIỂM QUÁ TRÌNH',
+                      style: TextStyle(
+                        fontSize: 30,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                    SizedBox(
+                      width: 200,
+                      child: ElevatedButton(
+                        onPressed: () async {
+                          var result =
+                              await FilePicker.platform.getDirectoryPath();
+                          developer.log(result ?? "");
+                          var url = Uri.parse(
+                              "https://hutechclassroom.azurewebsites.net/api/v1/Classrooms/${classroomStore.selectedClassroom.id}/Scores/1/Export");
+
+                          var request = http.Request('GET', url);
+                          request.headers.addAll(
+                              {'Authorization': 'Bearer ${commonStore.jwt}'});
+                          var response = await request.send();
+                          if (response.statusCode == 200) {
+                            var file = File(
+                                "$result/${classroomStore.selectedClassroom.className}_${classroomStore.selectedClassroom.subject?.code ?? "e"}_DiemQuaTrinh.xlsx");
+                            if (!await file.exists()) {
+                              await file.create();
+                            }
+                            await file
+                                .writeAsBytes(await response.stream.toBytes());
+                            developer.log("Uploaded!");
+                          } else {
+                            developer.log(response.statusCode.toString());
+                            developer.log("Failed to upload file.");
+                          }
+                        },
+                        style: ElevatedButton.styleFrom(
+                          foregroundColor: Colors.white,
+                          backgroundColor: Colors.blue,
+                          padding: const EdgeInsets.all(18),
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(5),
+                          ),
+                        ),
+                        child: const Text(
+                          'Xuất Excel',
+                          style: TextStyle(
+                            fontSize: 15,
+                          ),
+                        ),
+                      ),
+                    ),
+                  ],
                 ),
                 const SizedBox(height: 10),
                 // Row(
@@ -144,12 +203,64 @@ class _StudentTranscriptDetailsScreenState
                     .where((t) => t.scoreType?.id == 1)
                     .toList()),
                 const Divider(height: 50.0),
-                const Text(
-                  'BẢNG ĐIỂM CUỐI KỲ',
-                  style: TextStyle(
-                    fontSize: 30,
-                    fontWeight: FontWeight.bold,
-                  ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    const SizedBox(
+                      width: 200,
+                    ),
+                    const Text(
+                      'BẢNG ĐIỂM CUỐI KỲ',
+                      style: TextStyle(
+                        fontSize: 30,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                    SizedBox(
+                      width: 200,
+                      child: ElevatedButton(
+                        onPressed: () async {
+                          var result =
+                              await FilePicker.platform.getDirectoryPath();
+                          developer.log(result ?? "");
+                          var url = Uri.parse(
+                              "https://hutechclassroom.azurewebsites.net/api/v1/Classrooms/${classroomStore.selectedClassroom.id}/Scores/2/Export");
+
+                          var request = http.Request('GET', url);
+                          request.headers.addAll(
+                              {'Authorization': 'Bearer ${commonStore.jwt}'});
+                          var response = await request.send();
+                          if (response.statusCode == 200) {
+                            var file = File(
+                                "$result/${classroomStore.selectedClassroom.className}_${classroomStore.selectedClassroom.subject?.code ?? "e"}_DiemCuoiKy.xlsx");
+                            if (!await file.exists()) {
+                              await file.create();
+                            }
+                            await file
+                                .writeAsBytes(await response.stream.toBytes());
+                            developer.log("Uploaded!");
+                          } else {
+                            developer.log(response.statusCode.toString());
+                            developer.log("Failed to upload file.");
+                          }
+                        },
+                        style: ElevatedButton.styleFrom(
+                          foregroundColor: Colors.white,
+                          backgroundColor: Colors.blue,
+                          padding: const EdgeInsets.all(18),
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(5),
+                          ),
+                        ),
+                        child: const Text(
+                          'Xuất Excel',
+                          style: TextStyle(
+                            fontSize: 15,
+                          ),
+                        ),
+                      ),
+                    ),
+                  ],
                 ),
                 const SizedBox(height: 10),
                 // Row(

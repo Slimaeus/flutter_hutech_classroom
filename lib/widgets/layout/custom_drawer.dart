@@ -48,14 +48,14 @@ Widget customDrawer(BuildContext context) {
           },
         ),
         ListTile(
-          leading: const Icon(Icons.scanner),
+          leading: const Icon(Icons.document_scanner),
           title: const Text('Scan Kiểm Tra'),
           onTap: () {
             Navigator.pushReplacementNamed(context, RouteManager.imageInput);
           },
         ),
         ListTile(
-          leading: const Icon(Icons.scanner),
+          leading: const Icon(Icons.document_scanner),
           title: const Text('Scan Kiểm Tra Nhiều Bảng Điểm'),
           onTap: () {
             Navigator.pushReplacementNamed(

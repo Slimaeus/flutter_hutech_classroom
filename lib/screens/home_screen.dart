@@ -129,7 +129,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                     ),
                                     SizedBox(height: 8),
                                     Text(
-                                      'Scan Nhiều Bảng điểm',
+                                      'Scan Nhiều\nBảng điểm',
                                       style: TextStyle(fontSize: 20),
                                     ),
                                   ],

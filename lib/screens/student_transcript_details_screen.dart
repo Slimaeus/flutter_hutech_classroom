@@ -134,7 +134,7 @@ class _StudentTranscriptDetailsScreenState
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    const SizedBox(width: 200),
+                    const SizedBox(width: 150),
                     const Text(
                       'BẢNG ĐIỂM QUÁ TRÌNH',
                       style: TextStyle(
@@ -143,7 +143,7 @@ class _StudentTranscriptDetailsScreenState
                       ),
                     ),
                     SizedBox(
-                      width: 200,
+                      width: 150,
                       child: ElevatedButton(
                         onPressed: () async {
                           var result =
@@ -179,7 +179,7 @@ class _StudentTranscriptDetailsScreenState
                           ),
                         ),
                         child: const Text(
-                          'Xuất Excel',
+                          'XUẤT EXCEL',
                           style: TextStyle(
                             fontSize: 15,
                           ),
@@ -207,7 +207,7 @@ class _StudentTranscriptDetailsScreenState
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     const SizedBox(
-                      width: 200,
+                      width: 150,
                     ),
                     const Text(
                       'BẢNG ĐIỂM CUỐI KỲ',
@@ -217,7 +217,7 @@ class _StudentTranscriptDetailsScreenState
                       ),
                     ),
                     SizedBox(
-                      width: 200,
+                      width: 150,
                       child: ElevatedButton(
                         onPressed: () async {
                           var result =
@@ -253,7 +253,7 @@ class _StudentTranscriptDetailsScreenState
                           ),
                         ),
                         child: const Text(
-                          'Xuất Excel',
+                          'XUẤT EXCEL',
                           style: TextStyle(
                             fontSize: 15,
                           ),

@@ -6,7 +6,7 @@ class PathManager {
   static String banner5 = 'assets/images/banner5.png';
   static String banner6 = 'assets/images/banner6.png';
   static String logoHutechScanSystem = 'assets/images/logo-hutech-scansystem.png';
-  static String logoHutechClassroom = 'assets/imagesm/logo-hutech-classroom.png';
+  static String logoHutechClassroom = 'assets/images/logo-hutech-classroom.png';
   static String logoHutechAdministration = 'assets/images/logo-hutech-administration.png';
   static String logoHutech = 'assets/images/logoHutech.png';
   static String pic1 = 'assets/images/pic1_Data-analysis-amico.png';

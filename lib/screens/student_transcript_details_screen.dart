@@ -148,7 +148,6 @@ class _StudentTranscriptDetailsScreenState
                         onPressed: () async {
                           var result =
                               await FilePicker.platform.getDirectoryPath();
-                          developer.log(result ?? "");
                           var url = Uri.parse(
                               "https://hutechclassroom.azurewebsites.net/api/v1/Classrooms/${classroomStore.selectedClassroom.id}/Scores/1/Export");
 
@@ -166,7 +165,6 @@ class _StudentTranscriptDetailsScreenState
                                 .writeAsBytes(await response.stream.toBytes());
                             developer.log("Uploaded!");
                           } else {
-                            developer.log(response.statusCode.toString());
                             developer.log("Failed to upload file.");
                           }
                         },
@@ -222,7 +220,6 @@ class _StudentTranscriptDetailsScreenState
                         onPressed: () async {
                           var result =
                               await FilePicker.platform.getDirectoryPath();
-                          developer.log(result ?? "");
                           var url = Uri.parse(
                               "https://hutechclassroom.azurewebsites.net/api/v1/Classrooms/${classroomStore.selectedClassroom.id}/Scores/2/Export");
 
@@ -240,7 +237,6 @@ class _StudentTranscriptDetailsScreenState
                                 .writeAsBytes(await response.stream.toBytes());
                             developer.log("Uploaded!");
                           } else {
-                            developer.log(response.statusCode.toString());
                             developer.log("Failed to upload file.");
                           }
                         },

@@ -5,7 +5,6 @@ import 'package:flutter_hutech_classroom/stores/common_store.dart';
 import 'package:flutter_hutech_classroom/stores/user_store.dart';
 import 'package:flutter_hutech_classroom/widgets/auth/login_form.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
-import 'dart:developer' as developer;
 
 import 'package:provider/provider.dart';
 
@@ -104,8 +103,6 @@ class _LoginScreenState extends State<LoginScreen> {
                                       0.06),
                               child: LoginForm(
                                 onLogin: (userName, password) async {
-                                  developer.log(
-                                      'Username: $userName, Password: $password');
                                   var isSucceed =
                                       await userStore.login(userName, password);
                                   if (isSucceed && context.mounted) {

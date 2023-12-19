@@ -80,7 +80,6 @@ class _ComparisonScreenState extends State<ComparisonScreen> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              
               if (resultStore.scannedTranscript.isNotEmpty) ...[
                 const Center(
                   child: Text(
@@ -99,7 +98,8 @@ class _ComparisonScreenState extends State<ComparisonScreen> {
                   return studentResultTable(resultStore.scannedTranscript);
                 })
               ],
-              if (resultStore.scannedTranscript.isEmpty)
+              if (!resultStore.isFetchingResults &&
+                  resultStore.scannedTranscript.isEmpty)
                 const Center(
                   child: Text(
                     "KHÔNG QUÉT ĐƯỢC DỮ LIỆU",

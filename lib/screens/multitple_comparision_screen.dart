@@ -49,8 +49,8 @@ class _MultipleComparisonScreenState extends State<MultipleComparisonScreen> {
   void initState() {
     super.initState();
     resultStore = context.read<ResultStore>();
-    resultStore.fetchScannedTranscript();
-    resultStore.fetchMultipleScannedTranscript();
+    resultStore.onDispose(context);
+    resultStore.fetchMultipleFileScannedTranscript();
     classroomStore = context.read<ClassroomStore>();
     classroomStore.onInit(context);
     classroomStore.fetchClassrooms();
@@ -82,51 +82,6 @@ class _MultipleComparisonScreenState extends State<MultipleComparisonScreen> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              // IconButton(
-              //     onPressed: () async {
-              //       if (resultStore.croppedImages.isEmpty) return;
-              //       var url = Uri.parse(
-              //           "https://hutechclassroom.azurewebsites.net/api/v1/Scores/ScanMultipleResult");
-
-              //       var request = http.MultipartRequest('POST', url);
-              //       var fileModels = resultStore.croppedImages;
-              //       for (var i = 0; i < fileModels.length; i++) {
-              //         var fileModel = fileModels[i];
-              //         var file = await http.MultipartFile.fromPath(
-              //           'files', // field name
-              //           fileModel.path, // file path
-              //           filename: path.basename(fileModel.path), // file name
-              //         );
-              //         request.files.add(file);
-              //         request.headers.addAll(
-              //             {'Authorization': 'Bearer ${commonStore.jwt}'});
-              //         // request.fields['fileModels[$i].classroomId'] =
-              //         //     fileModel.classroomId;
-              //       }
-              //       resultStore.isFetchingResults = true;
-              //       var response = await request.send();
-              //       if (response.statusCode < 400) {
-              //         var body = await response.stream.bytesToString();
-              //         final dynamic jsonResponse =
-              //             body.isNotEmpty ? json.decode(body) : {};
-              //         var lists = List<dynamic>.from(jsonResponse);
-              //         var studentResultLists = lists
-              //             .map((list) => (list as List)
-              //                 .map((c) => StudentResult.fromJson(c))
-              //                 .toList())
-              //             .toList();
-              //         resultStore
-              //             .setMultipleScannedTranscript(studentResultLists);
-
-              //         print("Uploaded!");
-              //       } else {
-              //         print(response.statusCode);
-              //         print(await response.stream.bytesToString());
-              //         print("Failed to upload file.");
-              //       }
-              //       resultStore.isFetchingResults = false;
-              //     },
-              //     icon: const Icon(Icons.file_upload)),
               const Center(
                 child: Text(
                   "BẢNG ĐIỂM ĐÃ QUÉT ĐƯỢC:",
@@ -137,21 +92,29 @@ class _MultipleComparisonScreenState extends State<MultipleComparisonScreen> {
                 ),
               ),
               const SizedBox(height: 10),
+
               Observer(builder: (ctx) {
                 if (resultStore.isFetchingResults) {
                   return const LinearProgressIndicator();
                 }
-                return Column(
-                  children: resultStore.multipleScannedTranscript
-                      .map(
-                        (t) => Column(children: [
-                          studentResultTable(t),
-                          const SizedBox(height: 10),
-                        ]),
-                      )
-                      .toList(),
-                );
+                return studentResultTable(
+                    resultStore.multipleFileScannedTranscript);
               }),
+              // Observer(builder: (ctx) {
+              //   if (resultStore.isFetchingResults) {
+              //     return const LinearProgressIndicator();
+              //   }
+              //   return Column(
+              //     children: resultStore.multipleScannedTranscript
+              //         .map(
+              //           (t) => Column(children: [
+              //             studentResultTable(t),
+              //             const SizedBox(height: 10),
+              //           ]),
+              //         )
+              //         .toList(),
+              //   );
+              // }),
               const Divider(height: 50.0),
               Text(
                 "CHỌN BẢNG ĐIỂM ĐỂ ${isImport ? "NHẬP" : "SO SÁNH"}:",
@@ -315,18 +278,16 @@ class _MultipleComparisonScreenState extends State<MultipleComparisonScreen> {
                                 for (var element in classroomStore.transcript)
                                   element.student!.userName: element
                               };
-                              var scannedTranscript =
-                                  resultStore.scannedTranscript;
+                              var multipleFileScannedTranscript =
+                                  resultStore.multipleFileScannedTranscript;
 
                               var list =
                                   List<StudentResult>.empty(growable: true);
 
-                              for (StudentResult sr in scannedTranscript) {
+                              for (StudentResult sr
+                                  in multipleFileScannedTranscript) {
                                 if (sr.studentId == null &&
                                     sr.student?.id == null) continue;
-                                for (var element in classroomTranscript.keys) {
-                                  print(element);
-                                }
 
                                 if (sr.student?.id != null &&
                                     classroomTranscript.keys
@@ -354,7 +315,8 @@ class _MultipleComparisonScreenState extends State<MultipleComparisonScreen> {
                                 }
                               }
 
-                              resultStore.setScannedTranscript(list);
+                              resultStore
+                                  .setMultipleFileScannedTranscript(list);
                             }
                           },
                           child: const Text(

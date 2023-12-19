@@ -281,9 +281,6 @@ class _ComparisonScreenState extends State<ComparisonScreen> {
                               for (StudentResult sr in scannedTranscript) {
                                 if (sr.studentId == null &&
                                     sr.student?.id == null) continue;
-                                for (var element in classroomTranscript.keys) {
-                                  print(element);
-                                }
 
                                 if (sr.student?.id != null &&
                                     classroomTranscript.keys

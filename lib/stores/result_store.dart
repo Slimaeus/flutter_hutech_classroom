@@ -39,6 +39,10 @@ abstract class ResultStoreBase extends BaseStore with Store, BaseStoreMixin {
   ObservableList<StudentResult> scannedTranscript = ObservableList();
 
   @observable
+  ObservableList<StudentResult> multipleFileScannedTranscript =
+      ObservableList();
+
+  @observable
   ObservableList<List<StudentResult>> multipleScannedTranscript =
       ObservableList();
 
@@ -191,6 +195,73 @@ abstract class ResultStoreBase extends BaseStore with Store, BaseStoreMixin {
               (list as List).map((c) => StudentResult.fromJson(c)).toList())
           .toList();
       setMultipleScannedTranscript(studentResultLists);
+      isFetchingResults = false;
+      return true;
+    } else {
+      isFetchingResults = false;
+      return false;
+    }
+  }
+
+  @action
+  void setMultipleFileScannedTranscript(List<StudentResult> list) {
+    multipleFileScannedTranscript = ObservableList.of(list);
+  }
+
+  @action
+  Future<bool> fetchMultipleFileScannedTranscript() async {
+    bool isTest = isFetchingResults;
+    if (isTest) {
+      multipleFileScannedTranscript = ObservableList<StudentResult>.of(
+        [
+          StudentResult(
+              ordinalNumber: 1,
+              score: 9.5,
+              student: User(
+                  id: '1',
+                  userName: '2080600914',
+                  firstName: 'Thái',
+                  lastName: 'Nguyễn Hồng'),
+              classroom: Classroom(className: '20DTHD3')),
+          StudentResult(
+              ordinalNumber: 2,
+              score: 10,
+              student: User(
+                  id: '2',
+                  userName: '2080600803',
+                  firstName: 'Vân',
+                  lastName: 'Trương Thục'),
+              classroom: Classroom(className: '20DTHD3')),
+        ],
+      );
+      return true;
+    }
+    if (croppedImages.isEmpty) return false;
+    var url = Uri.parse(
+        "https://hutechclassroom.azurewebsites.net/api/v1/Scores/ScanMultipleFileResult");
+
+    var request = http.MultipartRequest('POST', url);
+    var fileModels = croppedImages;
+    for (var i = 0; i < fileModels.length; i++) {
+      var fileModel = fileModels[i];
+      var file = await http.MultipartFile.fromPath(
+        'files', // field name
+        fileModel.path, // file path
+        filename: path.basename(fileModel.path), // file name
+      );
+      request.files.add(file);
+      request.headers.addAll({'Authorization': 'Bearer ${_commonStore.jwt}'});
+      // request.fields['fileModels[$i].classroomId'] =
+      //     fileModel.classroomId;
+    }
+    isFetchingResults = true;
+    var response = await request.send();
+    if (response.statusCode < 400) {
+      var body = await response.stream.bytesToString();
+      final dynamic jsonResponse = body.isNotEmpty ? json.decode(body) : {};
+      multipleFileScannedTranscript = ObservableList.of((jsonResponse as List)
+          .map((r) => StudentResult.fromJson(r))
+          .toList());
       isFetchingResults = false;
       return true;
     } else {

@@ -89,6 +89,23 @@ mixin _$ResultStore on ResultStoreBase, Store {
     });
   }
 
+  late final _$multipleFileScannedTranscriptAtom = Atom(
+      name: 'ResultStoreBase.multipleFileScannedTranscript', context: context);
+
+  @override
+  ObservableList<StudentResult> get multipleFileScannedTranscript {
+    _$multipleFileScannedTranscriptAtom.reportRead();
+    return super.multipleFileScannedTranscript;
+  }
+
+  @override
+  set multipleFileScannedTranscript(ObservableList<StudentResult> value) {
+    _$multipleFileScannedTranscriptAtom
+        .reportWrite(value, super.multipleFileScannedTranscript, () {
+      super.multipleFileScannedTranscript = value;
+    });
+  }
+
   late final _$multipleScannedTranscriptAtom =
       Atom(name: 'ResultStoreBase.multipleScannedTranscript', context: context);
 
@@ -113,6 +130,16 @@ mixin _$ResultStore on ResultStoreBase, Store {
   Future<bool> fetchScannedTranscript() {
     return _$fetchScannedTranscriptAsyncAction
         .run(() => super.fetchScannedTranscript());
+  }
+
+  late final _$fetchMultipleFileScannedTranscriptAsyncAction = AsyncAction(
+      'ResultStoreBase.fetchMultipleFileScannedTranscript',
+      context: context);
+
+  @override
+  Future<bool> fetchMultipleFileScannedTranscript() {
+    return _$fetchMultipleFileScannedTranscriptAsyncAction
+        .run(() => super.fetchMultipleFileScannedTranscript());
   }
 
   late final _$ResultStoreBaseActionController =
@@ -163,6 +190,17 @@ mixin _$ResultStore on ResultStoreBase, Store {
   }
 
   @override
+  void setMultipleFileScannedTranscript(List<StudentResult> list) {
+    final _$actionInfo = _$ResultStoreBaseActionController.startAction(
+        name: 'ResultStoreBase.setMultipleFileScannedTranscript');
+    try {
+      return super.setMultipleFileScannedTranscript(list);
+    } finally {
+      _$ResultStoreBaseActionController.endAction(_$actionInfo);
+    }
+  }
+
+  @override
   String toString() {
     return '''
 isFetchingResults: ${isFetchingResults},
@@ -170,6 +208,7 @@ resultImage: ${resultImage},
 croppedImage: ${croppedImage},
 croppedImages: ${croppedImages},
 scannedTranscript: ${scannedTranscript},
+multipleFileScannedTranscript: ${multipleFileScannedTranscript},
 multipleScannedTranscript: ${multipleScannedTranscript}
     ''';
   }

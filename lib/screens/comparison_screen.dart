@@ -80,7 +80,7 @@ class _ComparisonScreenState extends State<ComparisonScreen> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              if (resultStore.scannedTranscript.isNotEmpty) ...[
+              ...[
                 const Center(
                   child: Text(
                     "BẢNG ĐIỂM ĐÃ QUÉT ĐƯỢC:",

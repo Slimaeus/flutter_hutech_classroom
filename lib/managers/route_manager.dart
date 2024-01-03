@@ -1,15 +1,15 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_hutech_classroom/screens/comparison_screen.dart';
-import 'package:flutter_hutech_classroom/screens/home_screen.dart';
-import 'package:flutter_hutech_classroom/screens/image_input_screen.dart';
-import 'package:flutter_hutech_classroom/screens/login_screen.dart';
-import 'package:flutter_hutech_classroom/screens/multitple_comparision_screen.dart';
-import 'package:flutter_hutech_classroom/screens/multiple_image_input_screen.dart';
-import 'package:flutter_hutech_classroom/screens/profile_screen.dart';
-import 'package:flutter_hutech_classroom/screens/result_screen.dart';
-import 'package:flutter_hutech_classroom/screens/scan_screen.dart';
-import 'package:flutter_hutech_classroom/screens/student_transcript_details_screen.dart';
-import 'package:flutter_hutech_classroom/screens/student_transcript_screen.dart';
+import 'package:flutter_hutech_classroom/screens/scan_system/comparison_screen.dart';
+import 'package:flutter_hutech_classroom/screens/scan_system/home_screen.dart';
+import 'package:flutter_hutech_classroom/screens/scan_system/image_input_screen.dart';
+import 'package:flutter_hutech_classroom/screens/scan_system/login_screen.dart';
+import 'package:flutter_hutech_classroom/screens/scan_system/multiple_image_input_screen.dart';
+import 'package:flutter_hutech_classroom/screens/scan_system/multitple_comparision_screen.dart';
+import 'package:flutter_hutech_classroom/screens/scan_system/profile_screen.dart';
+import 'package:flutter_hutech_classroom/screens/scan_system/result_screen.dart';
+import 'package:flutter_hutech_classroom/screens/scan_system/scan_screen.dart';
+import 'package:flutter_hutech_classroom/screens/scan_system/student_transcript_details_screen.dart';
+import 'package:flutter_hutech_classroom/screens/scan_system/student_transcript_screen.dart';
 
 class RouteManager {
   RouteManager._();

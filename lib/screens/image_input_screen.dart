@@ -117,7 +117,9 @@ class _ImageInputScreenState extends State<ImageInputScreen> {
                 onPressed: () async {
                   // Handle the submit button press event
                   FilePickerResult? result = await FilePicker.platform
-                      .pickFiles(allowedExtensions: ['jpg', 'png']);
+                      .pickFiles(
+                          type: FileType.custom,
+                          allowedExtensions: ['jpg', 'png']);
 
                   if (result != null &&
                       ['jpg', 'png'].contains(path

@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_hutech_classroom/managers/path_manager.dart';
 import 'package:flutter_hutech_classroom/managers/route_manager.dart';
@@ -79,87 +81,111 @@ class _HomeScreenState extends State<HomeScreen> {
                           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                           children: [
                             Padding(
-                              padding: const EdgeInsets.all(8.0),
+                              padding: EdgeInsets.all(
+                                  Platform.isWindows ? 8.0 : 5.0),
                               child: ElevatedButton(
                                 onPressed: () {
                                   Navigator.pushNamed(
                                       context, RouteManager.studentTranscript);
                                 },
                                 style: ElevatedButton.styleFrom(
-                                  padding: const EdgeInsets.all(20),
-                                  minimumSize: const Size(200, 200),
+                                  padding: EdgeInsets.all(
+                                      Platform.isWindows ? 20 : 10),
+                                  minimumSize: Size(
+                                      Platform.isWindows ? 200 : 100,
+                                      Platform.isWindows ? 200 : 100),
                                   shape: RoundedRectangleBorder(
                                     borderRadius: BorderRadius.circular(5),
                                   ),
                                 ),
-                                child: const Column(
+                                child: Column(
                                   children: [
-                                    Icon(
+                                    const Icon(
                                       Icons.assignment,
                                       size: 50,
                                     ),
-                                    SizedBox(height: 8),
+                                    const SizedBox(height: 8),
                                     Text(
-                                      'Xem Bảng Điểm',
-                                      style: TextStyle(fontSize: 20),
+                                      Platform.isWindows
+                                          ? 'Xem bảng Điểm'
+                                          : 'Xem',
+                                      style: TextStyle(
+                                          fontSize:
+                                              Platform.isWindows ? 20 : 15),
                                     ),
                                   ],
                                 ),
                               ),
                             ),
                             Padding(
-                              padding: const EdgeInsets.all(8.0),
+                              padding: EdgeInsets.all(
+                                  Platform.isWindows ? 8.0 : 5.0),
                               child: ElevatedButton(
                                 onPressed: () {
                                   Navigator.pushNamed(
                                       context, RouteManager.multipleImageInput);
                                 },
                                 style: ElevatedButton.styleFrom(
-                                  padding: const EdgeInsets.all(20),
-                                  minimumSize: const Size(200, 200),
+                                  padding: EdgeInsets.all(
+                                      Platform.isWindows ? 20 : 10),
+                                  minimumSize: Size(
+                                      Platform.isWindows ? 200 : 100,
+                                      Platform.isWindows ? 200 : 100),
                                   shape: RoundedRectangleBorder(
                                     borderRadius: BorderRadius.circular(5),
                                   ),
                                 ),
-                                child: const Column(
+                                child: Column(
                                   children: [
-                                    Icon(
+                                    const Icon(
                                       Icons.document_scanner,
                                       size: 50,
                                     ),
-                                    SizedBox(height: 8),
+                                    const SizedBox(height: 8),
                                     Text(
-                                      'Scan Nhiều\nBảng điểm',
-                                      style: TextStyle(fontSize: 20),
+                                      Platform.isWindows
+                                          ? 'Scan Nhiều\nBảng điểm'
+                                          : 'Scan nhiều',
+                                      style: TextStyle(
+                                          fontSize:
+                                              Platform.isWindows ? 20 : 15),
                                     ),
                                   ],
                                 ),
                               ),
                             ),
                             Padding(
-                              padding: const EdgeInsets.all(8.0),
+                              padding: EdgeInsets.all(
+                                  Platform.isWindows ? 8.0 : 5.0),
                               child: ElevatedButton(
                                 onPressed: () {
                                   Navigator.pushNamed(
                                       context, RouteManager.imageInput);
                                 },
                                 style: ElevatedButton.styleFrom(
-                                  padding: const EdgeInsets.all(20),
-                                  minimumSize: const Size(200, 200),
+                                  padding: EdgeInsets.all(
+                                      Platform.isWindows ? 20 : 10),
+                                  minimumSize: Size(
+                                      Platform.isWindows ? 200 : 100,
+                                      Platform.isWindows ? 200 : 100),
                                   shape: RoundedRectangleBorder(
                                     borderRadius: BorderRadius.circular(5),
                                   ),
                                 ),
-                                child: const Column(
+                                child: Column(
                                   children: [
-                                    Icon(
+                                    const Icon(
                                       Icons.document_scanner,
                                       size: 50,
                                     ),
-                                    SizedBox(height: 8),
+                                    const SizedBox(height: 8),
                                     Text(
-                                      'Scan Kiểm Tra',
-                                      style: TextStyle(fontSize: 20),
+                                      Platform.isWindows
+                                          ? 'Scan Kiểm Tra'
+                                          : 'Scan',
+                                      style: TextStyle(
+                                          fontSize:
+                                              Platform.isWindows ? 20 : 15),
                                     ),
                                   ],
                                 ),

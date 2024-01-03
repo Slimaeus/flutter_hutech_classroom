@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_hutech_classroom/managers/path_manager.dart';
 import 'package:flutter_hutech_classroom/stores/user_store.dart';
@@ -26,8 +28,12 @@ class _ProfileScreenState extends State<ProfileScreen> {
       body: SingleChildScrollView(
         child: Padding(
           padding: EdgeInsets.symmetric(
-              vertical: MediaQuery.of(context).size.width * 0.01,
-              horizontal: MediaQuery.of(context).size.width * 0.1),
+              vertical: Platform.isWindows
+                  ? MediaQuery.of(context).size.height * 0.01
+                  : MediaQuery.of(context).size.height * 0.01,
+              horizontal: Platform.isWindows
+                  ? MediaQuery.of(context).size.width * 0.1
+                  : MediaQuery.of(context).size.width * 0.01),
           child: Center(
             child: Observer(builder: (context) {
               return Column(
@@ -37,8 +43,9 @@ class _ProfileScreenState extends State<ProfileScreen> {
                     child: Card(
                       elevation: 3,
                       child: Padding(
-                        padding: EdgeInsets.all(
-                            MediaQuery.of(context).size.width * 0.02),
+                        padding: EdgeInsets.symmetric(
+                            horizontal:
+                                MediaQuery.of(context).size.width * 0.00),
                         child: Row(
                           children: [
                             Padding(

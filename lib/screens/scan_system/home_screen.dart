@@ -87,7 +87,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                   child: ElevatedButton(
                                     onPressed: () {
                                       Navigator.pushNamed(context,
-                                          RouteManager.studentTranscript);
+                                          RouteManager.classroom);
                                     },
                                     style: ElevatedButton.styleFrom(
                                       padding: const EdgeInsets.all(20),

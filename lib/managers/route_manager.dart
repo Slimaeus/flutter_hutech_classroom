@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_hutech_classroom/screens/classroom_system/classroom_screen.dart';
 import 'package:flutter_hutech_classroom/screens/scan_system/comparison_screen.dart';
 import 'package:flutter_hutech_classroom/screens/scan_system/home_screen.dart';
 import 'package:flutter_hutech_classroom/screens/scan_system/image_input_screen.dart';
@@ -25,6 +26,7 @@ class RouteManager {
   static String mulipleComparision = 'multipleComparision';
   static String result = 'result';
   static String profile = 'profile';
+  static String classroom = 'classroom';
 
   static Map<String, Widget Function(BuildContext)> routes = {
     home: (context) => const HomeScreen(title: 'TRANG CHỦ'),
@@ -43,5 +45,6 @@ class RouteManager {
         title: 'SO SÁNH KIỂM TRA NHIỀU BẢNG ĐIỂM'),
     result: (context) => const ResultScreen(title: 'KẾT QUẢ KIỂM TRA'),
     profile: (context) => const ProfileScreen(title: 'HỒ SƠ CÁ NHÂN'),
+    classroom: (context) => const ClassroomScreen(title: 'LỚP HỌC'),
   };
 }

@@ -42,7 +42,7 @@ class _HomeScreenState extends State<HomeScreen> {
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: <Widget>[
-                const SizedBox(height: 70),
+                const SizedBox(height: 35),
                 const Padding(
                   padding: EdgeInsets.symmetric(vertical: 4),
                   child: Text(
@@ -68,7 +68,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 ),
                 Image.asset(
                   PathManager.pic1,
-                  height: 350,
+                  height: 300,
                 ),
                 Padding(
                   padding: const EdgeInsets.symmetric(vertical: 4),
@@ -77,119 +77,159 @@ class _HomeScreenState extends State<HomeScreen> {
                     children: [
                       Padding(
                         padding: const EdgeInsets.symmetric(vertical: 4),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                        child: Column(
                           children: [
-                            Padding(
-                              padding: EdgeInsets.all(
-                                  Platform.isWindows ? 8.0 : 5.0),
-                              child: ElevatedButton(
-                                onPressed: () {
-                                  Navigator.pushNamed(
-                                      context, RouteManager.studentTranscript);
-                                },
-                                style: ElevatedButton.styleFrom(
+                            Row(
+                              children: [
+                                Padding(
                                   padding: EdgeInsets.all(
-                                      Platform.isWindows ? 20 : 10),
-                                  minimumSize: Size(
-                                      Platform.isWindows ? 200 : 100,
-                                      Platform.isWindows ? 200 : 100),
-                                  shape: RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.circular(5),
+                                      Platform.isWindows ? 8.0 : 5.0),
+                                  child: ElevatedButton(
+                                    onPressed: () {
+                                      Navigator.pushNamed(context,
+                                          RouteManager.studentTranscript);
+                                    },
+                                    style: ElevatedButton.styleFrom(
+                                      padding: const EdgeInsets.all(20),
+                                      minimumSize: Size(
+                                          Platform.isWindows ? 200 : 120,
+                                          Platform.isWindows ? 200 : 100),
+                                      shape: RoundedRectangleBorder(
+                                        borderRadius: BorderRadius.circular(5),
+                                      ),
+                                    ),
+                                    child: Column(
+                                      children: [
+                                        const Icon(
+                                          Icons.class_rounded,
+                                          size: 50,
+                                        ),
+                                        const SizedBox(height: 8),
+                                        Text(
+                                          Platform.isWindows
+                                              ? 'Lớp Học'
+                                              : 'Lớp Học',
+                                          style: TextStyle(
+                                              fontSize:
+                                                  Platform.isWindows ? 20 : 15),
+                                        ),
+                                      ],
+                                    ),
                                   ),
                                 ),
-                                child: Column(
-                                  children: [
-                                    const Icon(
-                                      Icons.assignment,
-                                      size: 50,
+                                Padding(
+                                  padding: EdgeInsets.all(
+                                      Platform.isWindows ? 8.0 : 5.0),
+                                  child: ElevatedButton(
+                                    onPressed: () {
+                                      Navigator.pushNamed(context,
+                                          RouteManager.studentTranscript);
+                                    },
+                                    style: ElevatedButton.styleFrom(
+                                      padding: const EdgeInsets.all(20),
+                                      minimumSize: Size(
+                                          Platform.isWindows ? 200 : 120,
+                                          Platform.isWindows ? 200 : 100),
+                                      shape: RoundedRectangleBorder(
+                                        borderRadius: BorderRadius.circular(5),
+                                      ),
                                     ),
-                                    const SizedBox(height: 8),
-                                    Text(
-                                      Platform.isWindows
-                                          ? 'Xem bảng Điểm'
-                                          : 'Xem',
-                                      style: TextStyle(
-                                          fontSize:
-                                              Platform.isWindows ? 20 : 15),
+                                    child: Column(
+                                      children: [
+                                        const Icon(
+                                          Icons.assignment,
+                                          size: 50,
+                                        ),
+                                        const SizedBox(height: 8),
+                                        Text(
+                                          Platform.isWindows
+                                              ? 'Xem bảng Điểm'
+                                              : 'Xem',
+                                          style: TextStyle(
+                                              fontSize:
+                                                  Platform.isWindows ? 20 : 15),
+                                        ),
+                                      ],
                                     ),
-                                  ],
+                                  ),
                                 ),
-                              ),
+                              ],
                             ),
-                            Padding(
-                              padding: EdgeInsets.all(
-                                  Platform.isWindows ? 8.0 : 5.0),
-                              child: ElevatedButton(
-                                onPressed: () {
-                                  Navigator.pushNamed(
-                                      context, RouteManager.multipleImageInput);
-                                },
-                                style: ElevatedButton.styleFrom(
+                            Row(
+                              children: [
+                                Padding(
                                   padding: EdgeInsets.all(
-                                      Platform.isWindows ? 20 : 10),
-                                  minimumSize: Size(
-                                      Platform.isWindows ? 200 : 100,
-                                      Platform.isWindows ? 200 : 100),
-                                  shape: RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.circular(5),
+                                      Platform.isWindows ? 8.0 : 5.0),
+                                  child: ElevatedButton(
+                                    onPressed: () {
+                                      Navigator.pushNamed(context,
+                                          RouteManager.multipleImageInput);
+                                    },
+                                    style: ElevatedButton.styleFrom(
+                                      padding: const EdgeInsets.all(20),
+                                      minimumSize: Size(
+                                          Platform.isWindows ? 200 : 120,
+                                          Platform.isWindows ? 200 : 100),
+                                      shape: RoundedRectangleBorder(
+                                        borderRadius: BorderRadius.circular(5),
+                                      ),
+                                    ),
+                                    child: Column(
+                                      children: [
+                                        const Icon(
+                                          Icons.document_scanner_rounded,
+                                          size: 50,
+                                        ),
+                                        const SizedBox(height: 8),
+                                        Text(
+                                          Platform.isWindows
+                                              ? 'Scan Nhiều\nBảng điểm'
+                                              : 'Scan nhiều',
+                                          style: TextStyle(
+                                              fontSize:
+                                                  Platform.isWindows ? 20 : 15),
+                                        ),
+                                      ],
+                                    ),
                                   ),
                                 ),
-                                child: Column(
-                                  children: [
-                                    const Icon(
-                                      Icons.document_scanner,
-                                      size: 50,
-                                    ),
-                                    const SizedBox(height: 8),
-                                    Text(
-                                      Platform.isWindows
-                                          ? 'Scan Nhiều\nBảng điểm'
-                                          : 'Scan nhiều',
-                                      style: TextStyle(
-                                          fontSize:
-                                              Platform.isWindows ? 20 : 15),
-                                    ),
-                                  ],
-                                ),
-                              ),
-                            ),
-                            Padding(
-                              padding: EdgeInsets.all(
-                                  Platform.isWindows ? 8.0 : 5.0),
-                              child: ElevatedButton(
-                                onPressed: () {
-                                  Navigator.pushNamed(
-                                      context, RouteManager.imageInput);
-                                },
-                                style: ElevatedButton.styleFrom(
+                                Padding(
                                   padding: EdgeInsets.all(
-                                      Platform.isWindows ? 20 : 10),
-                                  minimumSize: Size(
-                                      Platform.isWindows ? 200 : 100,
-                                      Platform.isWindows ? 200 : 100),
-                                  shape: RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.circular(5),
+                                      Platform.isWindows ? 8.0 : 5.0),
+                                  child: ElevatedButton(
+                                    onPressed: () {
+                                      Navigator.pushNamed(
+                                          context, RouteManager.imageInput);
+                                    },
+                                    style: ElevatedButton.styleFrom(
+                                      padding: const EdgeInsets.all(20),
+                                      minimumSize: Size(
+                                          Platform.isWindows ? 200 : 120,
+                                          Platform.isWindows ? 200 : 100),
+                                      shape: RoundedRectangleBorder(
+                                        borderRadius: BorderRadius.circular(5),
+                                      ),
+                                    ),
+                                    child: Column(
+                                      children: [
+                                        const Icon(
+                                          Icons.document_scanner,
+                                          size: 50,
+                                        ),
+                                        const SizedBox(height: 8),
+                                        Text(
+                                          Platform.isWindows
+                                              ? 'Scan Kiểm Tra'
+                                              : 'Scan',
+                                          style: TextStyle(
+                                              fontSize:
+                                                  Platform.isWindows ? 20 : 15),
+                                        ),
+                                      ],
+                                    ),
                                   ),
                                 ),
-                                child: Column(
-                                  children: [
-                                    const Icon(
-                                      Icons.document_scanner,
-                                      size: 50,
-                                    ),
-                                    const SizedBox(height: 8),
-                                    Text(
-                                      Platform.isWindows
-                                          ? 'Scan Kiểm Tra'
-                                          : 'Scan',
-                                      style: TextStyle(
-                                          fontSize:
-                                              Platform.isWindows ? 20 : 15),
-                                    ),
-                                  ],
-                                ),
-                              ),
+                              ],
                             ),
                           ],
                         ),

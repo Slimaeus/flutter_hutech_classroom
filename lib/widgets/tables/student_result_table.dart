@@ -7,10 +7,10 @@ import 'package:flutter_hutech_classroom/widgets/tables/custom_table_header_cell
 Widget studentResultTable(List<StudentResult> studentResult) {
   return customTable([
     customTableHeaderCell('STT'),
-    customTableHeaderCell('Mã SV'),
-    customTableHeaderCell('Họ SV'),
-    customTableHeaderCell('Tên SV'),
-    customTableHeaderCell('Mã lớp'),
+    customTableHeaderCell('Mã'),
+    customTableHeaderCell('Họ'),
+    customTableHeaderCell('Tên'),
+    customTableHeaderCell('Lớp'),
     customTableHeaderCell('Điểm'),
     if (studentResult.any((element) => element.comparedScore != null))
       customTableHeaderCell('Điểm hệ thống'),

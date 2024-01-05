@@ -4,8 +4,12 @@ Widget customTable(List<Widget> titleRow, List<List<Widget>> dataRows) {
   return Table(
     border: TableBorder.all(),
     columnWidths: const {
-      0: FixedColumnWidth(100.0),
-      5: FixedColumnWidth(100.0),
+      0: FlexColumnWidth(),
+      1: FlexColumnWidth(),
+      2: FlexColumnWidth(),
+      3: FlexColumnWidth(),
+      4: FlexColumnWidth(),
+      5: FlexColumnWidth(),
     },
     children: [
       TableRow(

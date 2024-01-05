@@ -84,7 +84,9 @@ class _StudentTranscriptDetailsScreenState
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    const SizedBox(width: 150),
+                    Visibility(
+                        visible: Platform.isWindows,
+                        child: const SizedBox(width: 150)),
                     const Text(
                       'BẢNG ĐIỂM QUÁ TRÌNH',
                       style: TextStyle(
@@ -92,44 +94,47 @@ class _StudentTranscriptDetailsScreenState
                         fontWeight: FontWeight.bold,
                       ),
                     ),
-                    SizedBox(
-                      width: 150,
-                      child: ElevatedButton(
-                        onPressed: () async {
-                          var result =
-                              await FilePicker.platform.getDirectoryPath();
-                          var url = Uri.parse(
-                              "https://hutechclassroom.azurewebsites.net/api/v1/Classrooms/${classroomStore.selectedClassroom.id}/Scores/1/Export");
+                    Visibility(
+                      visible: Platform.isWindows,
+                      child: SizedBox(
+                        width: 150,
+                        child: ElevatedButton(
+                          onPressed: () async {
+                            var result =
+                                await FilePicker.platform.getDirectoryPath();
+                            var url = Uri.parse(
+                                "https://hutechclassroom.azurewebsites.net/api/v1/Classrooms/${classroomStore.selectedClassroom.id}/Scores/1/Export");
 
-                          var request = http.Request('GET', url);
-                          request.headers.addAll(
-                              {'Authorization': 'Bearer ${commonStore.jwt}'});
-                          var response = await request.send();
-                          if (response.statusCode == 200) {
-                            var file = File(
-                                "$result/${classroomStore.selectedClassroom.className}_${classroomStore.selectedClassroom.subject?.code ?? "e"}_DiemQuaTrinh.xlsx");
-                            if (!await file.exists()) {
-                              await file.create();
+                            var request = http.Request('GET', url);
+                            request.headers.addAll(
+                                {'Authorization': 'Bearer ${commonStore.jwt}'});
+                            var response = await request.send();
+                            if (response.statusCode == 200) {
+                              var file = File(
+                                  "$result/${classroomStore.selectedClassroom.className}_${classroomStore.selectedClassroom.subject?.code ?? "e"}_DiemQuaTrinh.xlsx");
+                              if (!await file.exists()) {
+                                await file.create();
+                              }
+                              await file.writeAsBytes(
+                                  await response.stream.toBytes());
+                              developer.log("Uploaded!");
+                            } else {
+                              developer.log("Failed to upload file.");
                             }
-                            await file
-                                .writeAsBytes(await response.stream.toBytes());
-                            developer.log("Uploaded!");
-                          } else {
-                            developer.log("Failed to upload file.");
-                          }
-                        },
-                        style: ElevatedButton.styleFrom(
-                          foregroundColor: Colors.white,
-                          backgroundColor: Colors.blue,
-                          padding: const EdgeInsets.all(18),
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(5),
+                          },
+                          style: ElevatedButton.styleFrom(
+                            foregroundColor: Colors.white,
+                            backgroundColor: Colors.blue,
+                            padding: const EdgeInsets.all(18),
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(5),
+                            ),
                           ),
-                        ),
-                        child: const Text(
-                          'XUẤT EXCEL',
-                          style: TextStyle(
-                            fontSize: 15,
+                          child: const Text(
+                            'XUẤT EXCEL',
+                            style: TextStyle(
+                              fontSize: 15,
+                            ),
                           ),
                         ),
                       ),
@@ -154,9 +159,9 @@ class _StudentTranscriptDetailsScreenState
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    const SizedBox(
-                      width: 150,
-                    ),
+                    Visibility(
+                        visible: Platform.isWindows,
+                        child: const SizedBox(width: 150)),
                     const Text(
                       'BẢNG ĐIỂM CUỐI KỲ',
                       style: TextStyle(
@@ -164,44 +169,47 @@ class _StudentTranscriptDetailsScreenState
                         fontWeight: FontWeight.bold,
                       ),
                     ),
-                    SizedBox(
-                      width: 150,
-                      child: ElevatedButton(
-                        onPressed: () async {
-                          var result =
-                              await FilePicker.platform.getDirectoryPath();
-                          var url = Uri.parse(
-                              "https://hutechclassroom.azurewebsites.net/api/v1/Classrooms/${classroomStore.selectedClassroom.id}/Scores/2/Export");
+                    Visibility(
+                      visible: Platform.isWindows,
+                      child: SizedBox(
+                        width: 150,
+                        child: ElevatedButton(
+                          onPressed: () async {
+                            var result =
+                                await FilePicker.platform.getDirectoryPath();
+                            var url = Uri.parse(
+                                "https://hutechclassroom.azurewebsites.net/api/v1/Classrooms/${classroomStore.selectedClassroom.id}/Scores/2/Export");
 
-                          var request = http.Request('GET', url);
-                          request.headers.addAll(
-                              {'Authorization': 'Bearer ${commonStore.jwt}'});
-                          var response = await request.send();
-                          if (response.statusCode == 200) {
-                            var file = File(
-                                "$result/${classroomStore.selectedClassroom.className}_${classroomStore.selectedClassroom.subject?.code ?? "e"}_DiemCuoiKy.xlsx");
-                            if (!await file.exists()) {
-                              await file.create();
+                            var request = http.Request('GET', url);
+                            request.headers.addAll(
+                                {'Authorization': 'Bearer ${commonStore.jwt}'});
+                            var response = await request.send();
+                            if (response.statusCode == 200) {
+                              var file = File(
+                                  "$result/${classroomStore.selectedClassroom.className}_${classroomStore.selectedClassroom.subject?.code ?? "e"}_DiemCuoiKy.xlsx");
+                              if (!await file.exists()) {
+                                await file.create();
+                              }
+                              await file.writeAsBytes(
+                                  await response.stream.toBytes());
+                              developer.log("Uploaded!");
+                            } else {
+                              developer.log("Failed to upload file.");
                             }
-                            await file
-                                .writeAsBytes(await response.stream.toBytes());
-                            developer.log("Uploaded!");
-                          } else {
-                            developer.log("Failed to upload file.");
-                          }
-                        },
-                        style: ElevatedButton.styleFrom(
-                          foregroundColor: Colors.white,
-                          backgroundColor: Colors.blue,
-                          padding: const EdgeInsets.all(18),
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(5),
+                          },
+                          style: ElevatedButton.styleFrom(
+                            foregroundColor: Colors.white,
+                            backgroundColor: Colors.blue,
+                            padding: const EdgeInsets.all(18),
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(5),
+                            ),
                           ),
-                        ),
-                        child: const Text(
-                          'XUẤT EXCEL',
-                          style: TextStyle(
-                            fontSize: 15,
+                          child: const Text(
+                            'XUẤT EXCEL',
+                            style: TextStyle(
+                              fontSize: 15,
+                            ),
                           ),
                         ),
                       ),

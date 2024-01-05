@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_hutech_classroom/managers/path_manager.dart';
 import 'package:flutter_hutech_classroom/managers/route_manager.dart';
@@ -76,7 +78,9 @@ class _LoginScreenState extends State<LoginScreen> {
                   child: Center(
                     child: Padding(
                       padding: EdgeInsets.symmetric(
-                          horizontal: MediaQuery.of(context).size.width * 0.2),
+                          horizontal: Platform.isWindows
+                              ? MediaQuery.of(context).size.width * 0.2
+                              : 0),
                       child: Padding(
                         padding: const EdgeInsets.all(10.0),
                         child: Column(
@@ -86,13 +90,13 @@ class _LoginScreenState extends State<LoginScreen> {
                               PathManager.logoHutechScanSystem,
                               height: 150,
                             ),
-                            const Padding(
-                              padding: EdgeInsets.only(top: 10),
+                            Padding(
+                              padding: const EdgeInsets.only(top: 10),
                               child: Text(
-                                'HỆ THỐNG SCAN KIỂM TRA BẢNG ĐIỂM SINH VIÊN',
+                                'HỆ THỐNG SCAN${Platform.isWindows ? " " : "\n"}KIỂM TRA BẢNG ĐIỂM SINH VIÊN',
                                 textAlign: TextAlign.center,
                                 style: TextStyle(
-                                  fontSize: 22,
+                                  fontSize: Platform.isWindows ? 22 : 18,
                                   fontWeight: FontWeight.bold,
                                 ),
                               ),

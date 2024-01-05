@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 
 class LoginForm extends StatefulWidget {
@@ -10,8 +12,10 @@ class LoginForm extends StatefulWidget {
 }
 
 class _LoginFormState extends State<LoginForm> {
-  final TextEditingController _usernameController = TextEditingController(text: '2080600803');
-  final TextEditingController _passwordController = TextEditingController(text: 'P@ssw0rd');
+  final TextEditingController _usernameController =
+      TextEditingController(text: '2080600803');
+  final TextEditingController _passwordController =
+      TextEditingController(text: 'P@ssw0rd');
   final _form = GlobalKey<FormState>();
 
   void _login() {
@@ -31,12 +35,12 @@ class _LoginFormState extends State<LoginForm> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-              const Padding(
-                padding: EdgeInsets.symmetric(vertical: 20),
+              Padding(
+                padding: const EdgeInsets.symmetric(vertical: 20),
                 child: Text(
                   'ĐĂNG NHẬP',
                   style: TextStyle(
-                    fontSize: 40,
+                    fontSize: Platform.isWindows ? 40 : 30,
                     fontWeight: FontWeight.bold,
                   ),
                 ),
@@ -92,14 +96,14 @@ class _LoginFormState extends State<LoginForm> {
                   ),
                 ),
               ),
-              const Padding(
-                padding: EdgeInsets.symmetric(vertical: 20),
+              Padding(
+                padding: const EdgeInsets.symmetric(vertical: 20),
                 child: Text(
                   'Version 1.0.0\n'
                   '© 2023 Khoa Công nghệ thông tin - Trường ĐH Công nghệ TP.HCM HUTECH',
                   textAlign: TextAlign.center,
                   style: TextStyle(
-                    fontSize: 20,
+                    fontSize: Platform.isWindows ? 20 : 15,
                     color: Colors.grey,
                   ),
                 ),

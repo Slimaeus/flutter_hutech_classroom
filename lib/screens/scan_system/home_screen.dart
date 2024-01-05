@@ -86,8 +86,8 @@ class _HomeScreenState extends State<HomeScreen> {
                                       Platform.isWindows ? 8.0 : 5.0),
                                   child: ElevatedButton(
                                     onPressed: () {
-                                      Navigator.pushNamed(context,
-                                          RouteManager.classroom);
+                                      Navigator.pushNamed(
+                                          context, RouteManager.classroom);
                                     },
                                     style: ElevatedButton.styleFrom(
                                       padding: const EdgeInsets.all(20),
@@ -143,8 +143,8 @@ class _HomeScreenState extends State<HomeScreen> {
                                         const SizedBox(height: 8),
                                         Text(
                                           Platform.isWindows
-                                              ? 'Xem bảng Điểm'
-                                              : 'Xem',
+                                              ? 'Xem Bảng Điểm'
+                                              : 'Bảng Điểm',
                                           style: TextStyle(
                                               fontSize:
                                                   Platform.isWindows ? 20 : 15),
@@ -157,6 +157,42 @@ class _HomeScreenState extends State<HomeScreen> {
                             ),
                             Row(
                               children: [
+                                Padding(
+                                  padding: EdgeInsets.all(
+                                      Platform.isWindows ? 8.0 : 5.0),
+                                  child: ElevatedButton(
+                                    onPressed: () {
+                                      Navigator.pushNamed(
+                                          context, RouteManager.imageInput);
+                                    },
+                                    style: ElevatedButton.styleFrom(
+                                      padding: const EdgeInsets.all(20),
+                                      minimumSize: Size(
+                                          Platform.isWindows ? 200 : 120,
+                                          Platform.isWindows ? 200 : 100),
+                                      shape: RoundedRectangleBorder(
+                                        borderRadius: BorderRadius.circular(5),
+                                      ),
+                                    ),
+                                    child: Column(
+                                      children: [
+                                        const Icon(
+                                          Icons.document_scanner,
+                                          size: 50,
+                                        ),
+                                        const SizedBox(height: 8),
+                                        Text(
+                                          Platform.isWindows
+                                              ? 'Scan Một\nBảng Điểm'
+                                              : 'Scan Một',
+                                          style: TextStyle(
+                                              fontSize:
+                                                  Platform.isWindows ? 20 : 15),
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                ),
                                 Padding(
                                   padding: EdgeInsets.all(
                                       Platform.isWindows ? 8.0 : 5.0),
@@ -184,43 +220,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                         Text(
                                           Platform.isWindows
                                               ? 'Scan Nhiều\nBảng điểm'
-                                              : 'Scan nhiều',
-                                          style: TextStyle(
-                                              fontSize:
-                                                  Platform.isWindows ? 20 : 15),
-                                        ),
-                                      ],
-                                    ),
-                                  ),
-                                ),
-                                Padding(
-                                  padding: EdgeInsets.all(
-                                      Platform.isWindows ? 8.0 : 5.0),
-                                  child: ElevatedButton(
-                                    onPressed: () {
-                                      Navigator.pushNamed(
-                                          context, RouteManager.imageInput);
-                                    },
-                                    style: ElevatedButton.styleFrom(
-                                      padding: const EdgeInsets.all(20),
-                                      minimumSize: Size(
-                                          Platform.isWindows ? 200 : 120,
-                                          Platform.isWindows ? 200 : 100),
-                                      shape: RoundedRectangleBorder(
-                                        borderRadius: BorderRadius.circular(5),
-                                      ),
-                                    ),
-                                    child: Column(
-                                      children: [
-                                        const Icon(
-                                          Icons.document_scanner,
-                                          size: 50,
-                                        ),
-                                        const SizedBox(height: 8),
-                                        Text(
-                                          Platform.isWindows
-                                              ? 'Scan Kiểm Tra'
-                                              : 'Scan',
+                                              : 'Scan Nhiều',
                                           style: TextStyle(
                                               fontSize:
                                                   Platform.isWindows ? 20 : 15),

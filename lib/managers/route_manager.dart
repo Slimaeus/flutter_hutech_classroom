@@ -38,11 +38,11 @@ class RouteManager {
     imageInput: (context) =>
         const ImageInputScreen(title: 'NHẬP ẢNH BẢNG ĐIỂM'),
     multipleImageInput: (context) =>
-        const MultipleImageInputScreen(title: 'NHẬP ẢNH NHIỀU BẢNG ĐIỂM'),
+        const MultipleImageInputScreen(title: 'NHẬP ẢNH BẢNG ĐIỂM'),
     scan: (context) => const ScanScreen(title: 'SCAN BẢNG ĐIỂM'),
     comparison: (context) => const ComparisonScreen(title: 'SO SÁNH KIỂM TRA'),
     mulipleComparision: (context) => const MultipleComparisonScreen(
-        title: 'SO SÁNH KIỂM TRA NHIỀU BẢNG ĐIỂM'),
+        title: 'SO SÁNH KIỂM TRA'),
     result: (context) => const ResultScreen(title: 'KẾT QUẢ KIỂM TRA'),
     profile: (context) => const ProfileScreen(title: 'HỒ SƠ CÁ NHÂN'),
     classroom: (context) => const ClassroomScreen(title: 'LỚP HỌC'),

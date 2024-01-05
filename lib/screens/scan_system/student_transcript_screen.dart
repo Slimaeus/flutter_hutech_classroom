@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_hutech_classroom/managers/path_manager.dart';
 import 'package:flutter_hutech_classroom/managers/route_manager.dart';
@@ -42,14 +44,16 @@ class _StudentTranscriptScreenState extends State<StudentTranscriptScreen> {
           child: Padding(
             padding: EdgeInsets.symmetric(
                 vertical: MediaQuery.of(context).size.height * 0.1,
-                horizontal: MediaQuery.of(context).size.width * 0.25),
+                horizontal: Platform.isWindows
+                    ? MediaQuery.of(context).size.width * 0.25
+                    : MediaQuery.of(context).size.width * 0.05),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
-                const Text(
+                Text(
                   'TRA CỨU BẢNG ĐIỂM',
                   style: TextStyle(
-                    fontSize: 45,
+                    fontSize: Platform.isWindows ? 45 : 30,
                     fontWeight: FontWeight.bold,
                   ),
                 ),

@@ -40,6 +40,13 @@ Widget customDrawer(BuildContext context) {
           },
         ),
         ListTile(
+          leading: const Icon(Icons.class_rounded),
+          title: const Text('Lớp Học'),
+          onTap: () {
+            Navigator.pushReplacementNamed(context, RouteManager.classroom);
+          },
+        ),
+        ListTile(
           leading: const Icon(Icons.assignment),
           title: const Text('Xem Bảng Điểm'),
           onTap: () {
@@ -49,14 +56,14 @@ Widget customDrawer(BuildContext context) {
         ),
         ListTile(
           leading: const Icon(Icons.document_scanner),
-          title: const Text('Scan Kiểm Tra'),
+          title: const Text('Scan Một Bảng Điểm'),
           onTap: () {
             Navigator.pushReplacementNamed(context, RouteManager.imageInput);
           },
         ),
         ListTile(
           leading: const Icon(Icons.document_scanner),
-          title: const Text('Scan Kiểm Tra Nhiều Bảng Điểm'),
+          title: const Text('Scan Nhiều Bảng Điểm'),
           onTap: () {
             Navigator.pushReplacementNamed(
                 context, RouteManager.multipleImageInput);

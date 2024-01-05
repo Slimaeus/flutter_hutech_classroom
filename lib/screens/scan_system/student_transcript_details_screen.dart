@@ -75,57 +75,7 @@ class _StudentTranscriptDetailsScreenState
                           ),
                         ),
                         const Divider(),
-                        Row(
-                          children: [
-                            Expanded(
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  _buildInfoRow(
-                                      'Năm học',
-                                      classroomStore
-                                              .selectedClassroom.schoolYear ??
-                                          "Không có"),
-                                  _buildInfoRow(
-                                      'Học kỳ',
-                                      classroomStore.selectedClassroom.semester
-                                              ?.toText() ??
-                                          "Không có"),
-                                  _buildInfoRow(
-                                      'Mã học phần',
-                                      classroomStore.selectedClassroom.subject
-                                              ?.code ??
-                                          "Không có"),
-                                ],
-                              ),
-                            ),
-                            Expanded(
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  _buildInfoRow(
-                                      'Học phần',
-                                      classroomStore.selectedClassroom.subject
-                                              ?.title ??
-                                          "Không có"),
-                                  _buildInfoRow(
-                                      'Số tín chỉ',
-                                      classroomStore.selectedClassroom.subject
-                                              ?.totalCredits
-                                              .toString() ??
-                                          "Không có"),
-                                  _buildInfoRow(
-                                      'Nhóm',
-                                      classroomStore
-                                              .selectedClassroom.studyGroup ??
-                                          classroomStore.selectedClassroom
-                                              .practicalStudyGroup ??
-                                          "Không có"),
-                                ],
-                              ),
-                            ),
-                          ],
-                        ),
+                        buildInfoRows(classroomStore)
                       ],
                     ),
                   ),
@@ -291,30 +241,30 @@ class _StudentTranscriptDetailsScreenState
                         const Text(
                             '- Cập nhật lúc 12:00 ngày 12/02/2022 từ hệ thống HUTECH CLASSROOM.'),
                         const SizedBox(height: 5),
-                        const Text(
-                            '- Đã Scan kiểm tra lúc 12:00 ngày 14/02/2022.'),
-                        const SizedBox(height: 5),
-                        ElevatedButton(
-                          onPressed: () {
-                            // Handle the submit button press event
-                          },
-                          style: ElevatedButton.styleFrom(
-                            foregroundColor: Colors.white,
-                            backgroundColor: Colors.blue,
-                            padding: const EdgeInsets.all(18),
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(5),
-                            ),
-                          ),
-                          child: const Text(
-                            'Xem kết quả Scan',
-                            style: TextStyle(
-                              fontSize: 15,
-                            ),
-                          ),
-                        ),
-                        //Trường hợp chưa Scan
-                        const SizedBox(height: 5),
+                        // const Text(
+                        //     '- Đã Scan kiểm tra lúc 12:00 ngày 14/02/2022.'),
+                        // const SizedBox(height: 5),
+                        // ElevatedButton(
+                        //   onPressed: () {
+                        //     // Handle the submit button press event
+                        //   },
+                        //   style: ElevatedButton.styleFrom(
+                        //     foregroundColor: Colors.white,
+                        //     backgroundColor: Colors.blue,
+                        //     padding: const EdgeInsets.all(18),
+                        //     shape: RoundedRectangleBorder(
+                        //       borderRadius: BorderRadius.circular(5),
+                        //     ),
+                        //   ),
+                        //   child: const Text(
+                        //     'Xem kết quả Scan',
+                        //     style: TextStyle(
+                        //       fontSize: 15,
+                        //     ),
+                        //   ),
+                        // ),
+                        // //Trường hợp chưa Scan
+                        // const SizedBox(height: 5),
                         const Text('- Chưa Scan kiểm tra.'),
                         const SizedBox(height: 5),
                         ElevatedButton(
@@ -347,19 +297,112 @@ class _StudentTranscriptDetailsScreenState
       ),
     );
   }
+}
 
-  Widget _buildInfoRow(String label, String value) {
-    return Padding(
-      padding: const EdgeInsets.symmetric(vertical: 8.0),
-      child: Row(
-        children: [
-          Text(
-            '$label: ',
-            style: const TextStyle(fontWeight: FontWeight.bold),
+Widget _buildInfoRow(String label, String value) {
+  return Padding(
+    padding: const EdgeInsets.symmetric(vertical: 8.0),
+    child: Row(
+      children: [
+        Text(
+          '$label: ',
+          style: const TextStyle(fontWeight: FontWeight.bold),
+        ),
+        Text(value),
+      ],
+    ),
+  );
+}
+
+String truncateString(String input, int maxLength) {
+  return input.length <= maxLength
+      ? input
+      : '${input.substring(0, maxLength)}...';
+}
+
+Widget buildInfoRows(ClassroomStore classroomStore) {
+  if (Platform.isAndroid) {
+    // Use Column layout for Android
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        _buildInfoRow(
+          'Năm học',
+          classroomStore.selectedClassroom.schoolYear ?? "Không có",
+        ),
+        _buildInfoRow(
+          'Học kỳ',
+          classroomStore.selectedClassroom.semester?.toText() ?? "Không có",
+        ),
+        _buildInfoRow(
+          'Mã học phần',
+          classroomStore.selectedClassroom.subject?.code ?? "Không có",
+        ),
+        _buildInfoRow(
+          'Học phần',
+          classroomStore.selectedClassroom.subject?.title ?? "Không có",
+        ),
+        _buildInfoRow(
+          'Số tín chỉ',
+          classroomStore.selectedClassroom.subject?.totalCredits.toString() ??
+              "Không có",
+        ),
+        _buildInfoRow(
+          'Nhóm',
+          classroomStore.selectedClassroom.studyGroup ??
+              classroomStore.selectedClassroom.practicalStudyGroup ??
+              "Không có",
+        ),
+      ],
+    );
+  } else {
+    // Use Row layout for other platforms
+    return Row(
+      children: [
+        Expanded(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              _buildInfoRow(
+                'Năm học',
+                classroomStore.selectedClassroom.schoolYear ?? "Không có",
+              ),
+              _buildInfoRow(
+                'Học kỳ',
+                classroomStore.selectedClassroom.semester?.toText() ??
+                    "Không có",
+              ),
+              _buildInfoRow(
+                'Mã học phần',
+                classroomStore.selectedClassroom.subject?.code ?? "Không có",
+              ),
+            ],
           ),
-          Text(value),
-        ],
-      ),
+        ),
+        Expanded(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              _buildInfoRow(
+                'Học phần',
+                classroomStore.selectedClassroom.subject?.title ?? "Không có",
+              ),
+              _buildInfoRow(
+                'Số tín chỉ',
+                classroomStore.selectedClassroom.subject?.totalCredits
+                        .toString() ??
+                    "Không có",
+              ),
+              _buildInfoRow(
+                'Nhóm',
+                classroomStore.selectedClassroom.studyGroup ??
+                    classroomStore.selectedClassroom.practicalStudyGroup ??
+                    "Không có",
+              ),
+            ],
+          ),
+        ),
+      ],
     );
   }
 }

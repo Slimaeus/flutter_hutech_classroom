@@ -82,10 +82,12 @@ class _MultipleComparisonScreenState extends State<MultipleComparisonScreen> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              const Center(
+              Center(
                 child: Text(
-                  "BẢNG ĐIỂM ĐÃ QUÉT ĐƯỢC:",
-                  style: TextStyle(
+                  Platform.isWindows
+                      ? "BẢNG ĐIỂM ĐÃ QUÉT ĐƯỢC:"
+                      : "BẢNG ĐIỂM ĐƯỢC QUÉT",
+                  style: const TextStyle(
                     fontSize: 25,
                     fontWeight: FontWeight.bold,
                   ),
@@ -116,11 +118,15 @@ class _MultipleComparisonScreenState extends State<MultipleComparisonScreen> {
               //   );
               // }),
               const Divider(height: 50.0),
-              Text(
-                "CHỌN BẢNG ĐIỂM ĐỂ ${isImport ? "NHẬP" : "SO SÁNH"}:",
-                style: const TextStyle(
-                  fontSize: 25,
-                  fontWeight: FontWeight.bold,
+              Center(
+                child: Text(
+                  Platform.isWindows
+                      ? "CHỌN BẢNG ĐIỂM ĐỂ ${isImport ? "NHẬP" : "SO SÁNH"}:"
+                      : "BẢNG ĐIỂM ${isImport ? "NHẬP" : "SO SÁNH"}",
+                  style: const TextStyle(
+                    fontSize: 25,
+                    fontWeight: FontWeight.bold,
+                  ),
                 ),
               ),
               const SizedBox(height: 20),
@@ -187,9 +193,11 @@ class _MultipleComparisonScreenState extends State<MultipleComparisonScreen> {
                                 // User canceled the picker
                               }
                             },
-                            child: const Text(
-                              'NHẬP TỆP ĐIỂM EXCEL',
-                              style: TextStyle(
+                            child: Text(
+                              Platform.isWindows
+                                  ? 'NHẬP TỆP ĐIỂM EXCEL'
+                                  : 'NHẬP EXCEL',
+                              style: const TextStyle(
                                 fontSize: 18,
                               ),
                             ),
@@ -238,9 +246,9 @@ class _MultipleComparisonScreenState extends State<MultipleComparisonScreen> {
                                 ));
                               }
                             },
-                            child: const Text(
-                              'CẬP NHẬT ĐIỂM',
-                              style: TextStyle(
+                            child: Text(
+                              Platform.isWindows ? 'CẬP NHẬT ĐIỂM' : 'CẬP NHẬT',
+                              style: const TextStyle(
                                 fontSize: 18,
                               ),
                             ),
@@ -373,9 +381,11 @@ class _MultipleComparisonScreenState extends State<MultipleComparisonScreen> {
                 }
                 return Column(
                   children: [
-                    const Text(
-                      "BẢNG ĐIỂM TRA CỨU ĐƯỢC:",
-                      style: TextStyle(
+                    Text(
+                      Platform.isWindows
+                          ? "BẢNG ĐIỂM TRA CỨU ĐƯỢC:"
+                          : "BẢNG ĐIỂM TRA CỨU",
+                      style: const TextStyle(
                         fontSize: 25,
                         fontWeight: FontWeight.bold,
                       ),

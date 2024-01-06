@@ -109,6 +109,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                           Platform.isWindows
                                               ? 'Lớp Học'
                                               : 'Lớp Học',
+                                          textAlign: TextAlign.center,
                                           style: TextStyle(
                                               fontSize:
                                                   Platform.isWindows ? 20 : 15),
@@ -145,6 +146,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                           Platform.isWindows
                                               ? 'Xem Bảng Điểm'
                                               : 'Bảng Điểm',
+                                          textAlign: TextAlign.center,
                                           style: TextStyle(
                                               fontSize:
                                                   Platform.isWindows ? 20 : 15),
@@ -185,6 +187,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                           Platform.isWindows
                                               ? 'Scan Một\nBảng Điểm'
                                               : 'Scan Một',
+                                          textAlign: TextAlign.center,
                                           style: TextStyle(
                                               fontSize:
                                                   Platform.isWindows ? 20 : 15),
@@ -221,6 +224,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                           Platform.isWindows
                                               ? 'Scan Nhiều\nBảng điểm'
                                               : 'Scan Nhiều',
+                                          textAlign: TextAlign.center,
                                           style: TextStyle(
                                               fontSize:
                                                   Platform.isWindows ? 20 : 15),

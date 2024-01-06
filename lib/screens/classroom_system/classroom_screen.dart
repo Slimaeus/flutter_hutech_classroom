@@ -42,7 +42,12 @@ class _ClassroomScreenState extends State<ClassroomScreen> {
               final classroom = classroomStore.classrooms[index];
               return GestureDetector(
                 onTap: () {
-                  Navigator.pushNamed(context, RouteManager.post);
+                  if (classroom.id == null) return;
+                  classroomStore
+                      .fetchClassroom(classroom.id!)
+                      .then((isSuccess) {
+                    Navigator.pushNamed(context, RouteManager.post);
+                  });
                 },
                 child: Column(
                   children: [

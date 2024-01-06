@@ -22,6 +22,7 @@ class _PostScreenState extends State<PostScreen> {
   @override
   void initState() {
     super.initState();
+
     classroomStore = context.read<ClassroomStore>();
     classroomStore.onInit(context);
     // classroomStore.fetchClassrooms();

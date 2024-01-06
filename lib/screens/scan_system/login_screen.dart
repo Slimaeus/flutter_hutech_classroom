@@ -68,7 +68,9 @@ class _LoginScreenState extends State<LoginScreen> {
                   Image.asset(PathManager.logoHutechScanSystem,
                       height: MediaQuery.of(context).size.height * 0.1),
                   SizedBox(
-                      width: MediaQuery.of(context).size.width * 0.17,
+                      width: Platform.isWindows
+                          ? MediaQuery.of(context).size.width * 0.17
+                          : MediaQuery.of(context).size.width * 0.7,
                       child: const LinearProgressIndicator()),
                 ],
               ))

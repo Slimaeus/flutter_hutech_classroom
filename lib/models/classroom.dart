@@ -1,3 +1,4 @@
+import 'package:flutter_hutech_classroom/enums/classroom_type.dart';
 import 'package:flutter_hutech_classroom/enums/semester.dart';
 import 'package:flutter_hutech_classroom/models/subject.dart';
 import 'package:flutter_hutech_classroom/models/user.dart';
@@ -20,6 +21,7 @@ class Classroom {
   final String? practicalStudyGroup;
   final User? lecturer;
   final Subject? subject;
+  final ClassroomType? type;
 
   Classroom(
       {this.id,
@@ -33,7 +35,8 @@ class Classroom {
       this.studyGroup,
       this.practicalStudyGroup,
       this.lecturer,
-      this.subject});
+      this.subject,
+      this.type});
 
   factory Classroom.fromJson(Map<String, dynamic> json) =>
       _$ClassroomFromJson(json);

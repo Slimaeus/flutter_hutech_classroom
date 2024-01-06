@@ -23,6 +23,7 @@ Classroom _$ClassroomFromJson(Map<String, dynamic> json) => Classroom(
       subject: json['subject'] == null
           ? null
           : Subject.fromJson(json['subject'] as Map<String, dynamic>),
+      type: $enumDecodeNullable(_$ClassroomTypeEnumMap, json['type']),
     );
 
 Map<String, dynamic> _$ClassroomToJson(Classroom instance) => <String, dynamic>{
@@ -38,10 +39,16 @@ Map<String, dynamic> _$ClassroomToJson(Classroom instance) => <String, dynamic>{
       'practicalStudyGroup': instance.practicalStudyGroup,
       'lecturer': instance.lecturer,
       'subject': instance.subject,
+      'type': _$ClassroomTypeEnumMap[instance.type],
     };
 
 const _$SemesterEnumMap = {
   Semester.i: 'I',
   Semester.ii: 'II',
   Semester.iii: 'III',
+};
+
+const _$ClassroomTypeEnumMap = {
+  ClassroomType.theoryRoom: 'TheoryRoom',
+  ClassroomType.practiceRoom: 'PracticeRoom',
 };

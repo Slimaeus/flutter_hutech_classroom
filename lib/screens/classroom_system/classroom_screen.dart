@@ -42,7 +42,7 @@ class _ClassroomScreenState extends State<ClassroomScreen> {
               final classroom = classroomStore.classrooms[index];
               return GestureDetector(
                 onTap: () {
-                  Navigator.pushNamed(context, RouteManager.classroom);
+                  Navigator.pushNamed(context, RouteManager.post);
                 },
                 child: Column(
                   children: [
@@ -50,8 +50,7 @@ class _ClassroomScreenState extends State<ClassroomScreen> {
                       elevation: 8.0,
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(8.0),
-                        side: const BorderSide(
-                            color: Colors.black12),
+                        side: const BorderSide(color: Colors.black12),
                       ),
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
@@ -65,8 +64,7 @@ class _ClassroomScreenState extends State<ClassroomScreen> {
                               height: 120,
                               width: double.infinity,
                               child: Image.asset(
-                                classroom.type ==
-                                        ClassroomType.theoryRoom
+                                classroom.type == ClassroomType.theoryRoom
                                     ? PathManager.banner1
                                     : classroom.type ==
                                             ClassroomType.practiceRoom

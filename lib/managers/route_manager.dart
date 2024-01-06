@@ -1,5 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_hutech_classroom/screens/classroom_system/classroom_screen.dart';
+import 'package:flutter_hutech_classroom/screens/classroom_system/exercise_screen.dart';
+import 'package:flutter_hutech_classroom/screens/classroom_system/group_screen.dart';
+import 'package:flutter_hutech_classroom/screens/classroom_system/member_screen.dart';
+import 'package:flutter_hutech_classroom/screens/classroom_system/post_screen.dart';
+import 'package:flutter_hutech_classroom/screens/classroom_system/transcript_screen.dart';
 import 'package:flutter_hutech_classroom/screens/scan_system/comparison_screen.dart';
 import 'package:flutter_hutech_classroom/screens/scan_system/home_screen.dart';
 import 'package:flutter_hutech_classroom/screens/scan_system/image_input_screen.dart';
@@ -27,6 +32,11 @@ class RouteManager {
   static String result = 'result';
   static String profile = 'profile';
   static String classroom = 'classroom';
+  static String post = 'post';
+  static String exercise = 'exercise';
+  static String group = 'group';
+  static String transcript = 'transcript';
+  static String member = 'member';
 
   static Map<String, Widget Function(BuildContext)> routes = {
     home: (context) => const HomeScreen(title: 'TRANG CHỦ'),
@@ -46,5 +56,10 @@ class RouteManager {
     result: (context) => const ResultScreen(title: 'KẾT QUẢ KIỂM TRA'),
     profile: (context) => const ProfileScreen(title: 'HỒ SƠ CÁ NHÂN'),
     classroom: (context) => const ClassroomScreen(title: 'LỚP HỌC'),
+    post: (context) => const PostScreen(title: 'THÔNG BÁO'),
+    exercise: (context) => const ExerciseScreen(title: 'BÀI TẬP'),
+    group: (context) => const GroupScreen(title: 'NHÓM SINH VIÊN'),
+    transcript: (context) => const TranscriptScreen(title: 'BẢNG ĐIỂM'),
+    member: (context) => const MemberScreen(title: 'THÀNH VIÊN'),
   };
 }

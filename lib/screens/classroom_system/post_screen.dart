@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_hutech_classroom/stores/classroom_store.dart';
+import 'package:flutter_hutech_classroom/stores/post_store.dart';
 import 'package:flutter_hutech_classroom/widgets/layout/custom_appbar.dart';
 import 'package:flutter_hutech_classroom/widgets/layout/custom_bottom_navigationbar.dart';
 import 'package:flutter_hutech_classroom/widgets/layout/custom_drawer.dart';
@@ -25,7 +26,14 @@ class _PostScreenState extends State<PostScreen> {
 
     classroomStore = context.read<ClassroomStore>();
     classroomStore.onInit(context);
-    // classroomStore.fetchClassrooms();
+
+    PostStore postStore = context.read<PostStore>();
+    postStore.onInit(context);
+    postStore
+        .fetchClassroomPostList(classroomStore.selectedClassroom.id!)
+        .then((isSuccess) {
+      // print('Posts: ${postStore.items.length}');
+    });
   }
 
   @override

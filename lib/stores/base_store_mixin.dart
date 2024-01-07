@@ -2,8 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:mobx/mobx.dart';
 
 mixin BaseStoreMixin on Store {
-  @protected
-
   ///onInit called when initState called
   void onInit(BuildContext context);
 

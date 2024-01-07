@@ -73,6 +73,39 @@ mixin _$ClassroomStore on ClassroomStoreBase, Store {
     });
   }
 
+  late final _$classroomUsersAtom =
+      Atom(name: 'ClassroomStoreBase.classroomUsers', context: context);
+
+  @override
+  ObservableList<User> get classroomUsers {
+    _$classroomUsersAtom.reportRead();
+    return super.classroomUsers;
+  }
+
+  @override
+  set classroomUsers(ObservableList<User> value) {
+    _$classroomUsersAtom.reportWrite(value, super.classroomUsers, () {
+      super.classroomUsers = value;
+    });
+  }
+
+  late final _$isClassroomUsersFetchingAtom = Atom(
+      name: 'ClassroomStoreBase.isClassroomUsersFetching', context: context);
+
+  @override
+  bool get isClassroomUsersFetching {
+    _$isClassroomUsersFetchingAtom.reportRead();
+    return super.isClassroomUsersFetching;
+  }
+
+  @override
+  set isClassroomUsersFetching(bool value) {
+    _$isClassroomUsersFetchingAtom
+        .reportWrite(value, super.isClassroomUsersFetching, () {
+      super.isClassroomUsersFetching = value;
+    });
+  }
+
   late final _$ClassroomStoreBaseActionController =
       ActionController(name: 'ClassroomStoreBase', context: context);
 
@@ -93,7 +126,9 @@ mixin _$ClassroomStore on ClassroomStoreBase, Store {
 isFetchingClassroom: ${isFetchingClassroom},
 classrooms: ${classrooms},
 selectedClassroom: ${selectedClassroom},
-transcript: ${transcript}
+transcript: ${transcript},
+classroomUsers: ${classroomUsers},
+isClassroomUsersFetching: ${isClassroomUsersFetching}
     ''';
   }
 }

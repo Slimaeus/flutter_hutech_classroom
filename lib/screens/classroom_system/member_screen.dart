@@ -20,29 +20,30 @@ class _MemberScreenState extends State<MemberScreen> {
   int _currentIndex = 0;
 
   // Mock data for testing
-  final List<Map<String, String>> members = [
-    {
-      'lastname': 'Nguyễn',
-      'firstname': 'Văn A',
-      'username': 'A12345',
-      'classname': 'C1801',
-      'email': 'vana@gmail.com',
-    },
-    {
-      'lastname': 'Nguyễn',
-      'firstname': 'Văn B',
-      'username': 'A12345',
-      'classname': 'C1801',
-      'email': 'vana@gmail.com',
-    },
-    // Add more mock data as needed
-  ];
+  // final List<Map<String, String>> members = [
+  //   {
+  //     'lastname': 'Nguyễn',
+  //     'firstname': 'Văn A',
+  //     'username': 'A12345',
+  //     'classname': 'C1801',
+  //     'email': 'vana@gmail.com',
+  //   },
+  //   {
+  //     'lastname': 'Nguyễn',
+  //     'firstname': 'Văn B',
+  //     'username': 'A12345',
+  //     'classname': 'C1801',
+  //     'email': 'vana@gmail.com',
+  //   },
+  //   // Add more mock data as needed
+  // ];
 
   @override
   void initState() {
     super.initState();
     classroomStore = context.read<ClassroomStore>();
     classroomStore.onInit(context);
+    classroomStore.fetchClassroomUsers(classroomStore.selectedClassroom.id!);
     // classroomStore.fetchClassrooms();
   }
 
@@ -96,15 +97,15 @@ class _MemberScreenState extends State<MemberScreen> {
                 child: ListView.builder(
                   shrinkWrap: true,
                   // physics: const NeverScrollableScrollPhysics(),
-                  itemCount: members.length,
+                  itemCount: classroomStore.classroomUsers.length,
                   itemBuilder: (context, index) {
-                    final member = members[index];
+                    final member = classroomStore.classroomUsers[index];
                     return Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         ListTile(
                           title: Text(
-                            '${member['lastname']} ${member['firstname']}',
+                            '${member.lastName} ${member.firstName}',
                             style: const TextStyle(fontSize: 16),
                           ),
                           trailing: IconButton(
@@ -118,7 +119,7 @@ class _MemberScreenState extends State<MemberScreen> {
                                       borderRadius: BorderRadius.circular(16.0),
                                     ),
                                     title: Text(
-                                      '${member['lastname']} ${member['firstname']}',
+                                      '${member.lastName} ${member.firstName}',
                                       style: const TextStyle(
                                         fontSize: 18,
                                         fontWeight: FontWeight.bold,
@@ -131,15 +132,15 @@ class _MemberScreenState extends State<MemberScreen> {
                                       children: [
                                         const SizedBox(height: 8),
                                         Text(
-                                          'Mã số sinh viên: ${member['username']}',
+                                          'Mã số sinh viên: ${member.userName}',
                                           style: const TextStyle(fontSize: 16),
                                         ),
                                         Text(
-                                          'Lớp: ${member['classname']}',
+                                          'Lớp: ${member.className}',
                                           style: const TextStyle(fontSize: 16),
                                         ),
                                         Text(
-                                          'Email: ${member['email']}',
+                                          'Email: ${member.email}',
                                           style: const TextStyle(fontSize: 16),
                                         ),
                                       ],

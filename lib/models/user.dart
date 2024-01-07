@@ -9,6 +9,7 @@ class User {
   final String? userName;
   final String? firstName;
   final String? lastName;
+  final String? email;
   final Faculty? faculty;
   @JsonKey(name: 'class')
   final String? className;
@@ -20,6 +21,7 @@ class User {
       this.userName,
       this.firstName,
       this.lastName,
+      this.email,
       this.faculty,
       this.token,
       this.className,

@@ -34,7 +34,7 @@ class RouteManager {
   static String profile = 'profile';
   static String classroom = 'classroom';
   static String post = 'post';
-  static String postcomment = 'postcomment';
+  static String postComment = 'postComment';
   static String exercise = 'exercise';
   static String group = 'group';
   static String transcript = 'transcript';
@@ -53,13 +53,14 @@ class RouteManager {
         const MultipleImageInputScreen(title: 'NHẬP ẢNH BẢNG ĐIỂM'),
     scan: (context) => const ScanScreen(title: 'SCAN BẢNG ĐIỂM'),
     comparison: (context) => const ComparisonScreen(title: 'SO SÁNH KIỂM TRA'),
-    mulipleComparision: (context) => const MultipleComparisonScreen(
-        title: 'SO SÁNH KIỂM TRA'),
+    mulipleComparision: (context) =>
+        const MultipleComparisonScreen(title: 'SO SÁNH KIỂM TRA'),
     result: (context) => const ResultScreen(title: 'KẾT QUẢ KIỂM TRA'),
     profile: (context) => const ProfileScreen(title: 'HỒ SƠ CÁ NHÂN'),
     classroom: (context) => const ClassroomScreen(title: 'LỚP HỌC'),
     post: (context) => const PostScreen(title: 'THÔNG BÁO'),
-    postcomment: (context) => const PostCommentScreen(title: 'CHI TIẾT BÀI ĐĂNG'),
+    postComment: (context) =>
+        const PostCommentScreen(title: 'CHI TIẾT BÀI ĐĂNG'),
     exercise: (context) => const ExerciseScreen(title: 'BÀI TẬP'),
     group: (context) => const GroupScreen(title: 'NHÓM SINH VIÊN'),
     transcript: (context) => const TranscriptScreen(title: 'BẢNG ĐIỂM'),

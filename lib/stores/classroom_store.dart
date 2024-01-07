@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_hutech_classroom/models/classroom.dart';
 import 'package:flutter_hutech_classroom/models/student_result.dart';
+import 'package:flutter_hutech_classroom/models/user.dart';
 import 'package:flutter_hutech_classroom/services/api_service.dart';
 import 'package:flutter_hutech_classroom/stores/base_store_mixin.dart';
 import 'package:flutter_hutech_classroom/stores/common_store.dart';
@@ -28,6 +29,12 @@ abstract class ClassroomStoreBase extends BaseStore with Store, BaseStoreMixin {
 
   @observable
   ObservableList<StudentResult> transcript = ObservableList();
+
+  @observable
+  ObservableList<User> classroomUsers = ObservableList();
+
+  @observable
+  bool isClassroomUsersFetching = false;
 
   @action
   void setClassroom(Classroom classroom) {
@@ -86,6 +93,21 @@ abstract class ClassroomStoreBase extends BaseStore with Store, BaseStoreMixin {
       transcript = ObservableList.of(response.data!);
       return true;
     }
+    return false;
+  }
+
+  Future<bool> fetchClassroomUsers(String classroomId) async {
+    isFetchingClassroom = true;
+    var response = await _apiService
+        .get<List<User>>('v1/Classrooms/$classroomId/Members', (results) {
+      return (results as List).map((c) => User.fromJson(c)).toList();
+    }, headers: {'Authorization': 'Bearer ${_commonStore.jwt}'});
+    if (response.isSucceed && response.data != null) {
+      classroomUsers = ObservableList.of(response.data!);
+      isFetchingClassroom = false;
+      return true;
+    }
+    isFetchingClassroom = false;
     return false;
   }
 

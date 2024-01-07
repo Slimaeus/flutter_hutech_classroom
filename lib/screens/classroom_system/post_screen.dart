@@ -286,7 +286,7 @@ class _PostScreenState extends State<PostScreen> {
                         if (post.id == null) return;
                         postStore.fetchItem(post.id!).then((isSuccess) {
                           Navigator.pushNamed(
-                              context, RouteManager.postcomment);
+                              context, RouteManager.postComment);
                         });
                       },
                       child: Card(
@@ -421,7 +421,7 @@ class _PostScreenState extends State<PostScreen> {
                                         .fetchItem(post.id!)
                                         .then((isSuccess) {
                                       Navigator.pushNamed(
-                                          context, RouteManager.postcomment);
+                                          context, RouteManager.postComment);
                                     });
                                   },
                                   child: const Row(

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_hutech_classroom/managers/route_manager.dart';
 
-class CustomBottomNavigationBar extends StatelessWidget {
+class CustomBottomNavigationBar extends StatefulWidget {
   final int currentIndex;
   static int staticCurrentIndex = 0;
   final ValueChanged<int> onTap;
@@ -11,6 +11,18 @@ class CustomBottomNavigationBar extends StatelessWidget {
     required this.currentIndex,
     required this.onTap,
   }) : super(key: key);
+
+  @override
+  State<CustomBottomNavigationBar> createState() =>
+      _CustomBottomNavigationBarState();
+}
+
+class _CustomBottomNavigationBarState extends State<CustomBottomNavigationBar> {
+  @override
+  void dispose() {
+    super.dispose();
+    CustomBottomNavigationBar.staticCurrentIndex = 0;
+  }
 
   void _handleNavigation(BuildContext context, int index) {
     switch (index) {
@@ -32,13 +44,13 @@ class CustomBottomNavigationBar extends StatelessWidget {
       default:
         break;
     }
-    staticCurrentIndex = index;
+    CustomBottomNavigationBar.staticCurrentIndex = index;
   }
 
   @override
   Widget build(BuildContext context) {
     return BottomNavigationBar(
-      currentIndex: staticCurrentIndex,
+      currentIndex: CustomBottomNavigationBar.staticCurrentIndex,
       selectedItemColor: Colors.blue,
       unselectedItemColor: Colors.grey,
       selectedLabelStyle: const TextStyle(color: Colors.blue),
@@ -47,7 +59,7 @@ class CustomBottomNavigationBar extends StatelessWidget {
       selectedFontSize: 12,
       unselectedFontSize: 12,
       onTap: (index) {
-        onTap(index);
+        widget.onTap(index);
         _handleNavigation(context, index);
       },
       items: const [

@@ -36,8 +36,8 @@ abstract class ClassroomStoreBase extends BaseStore with Store, BaseStoreMixin {
 
   Future<bool> fetchClassrooms() async {
     isFetchingClassroom = true;
-    var response =
-        await _apiService.get<List<Classroom>>('v1/Classrooms', (results) {
+    var response = await _apiService
+        .get<List<Classroom>>('v1/Users/@me/Classrooms', (results) {
       return (results as List).map((c) => Classroom.fromJson(c)).toList();
     }, headers: {'Authorization': 'Bearer ${_commonStore.jwt}'});
     if (response.isSucceed && response.data != null) {

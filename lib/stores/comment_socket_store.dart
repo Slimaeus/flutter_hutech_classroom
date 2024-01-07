@@ -44,6 +44,8 @@ abstract class CommonSocketStoreBase extends BaseStore
         developer.log('Error establishing the connection: ', error: error));
 
     connection.on('LoadComments', _handleLoadComments);
+    connection.on('ReceiveComment', _handleReceiveComment);
+    connection.on('DeleteComment', _handleDeleteComment);
   }
 
   @action
@@ -51,6 +53,46 @@ abstract class CommonSocketStoreBase extends BaseStore
     List<Comment> comments =
         (args![0] as List<dynamic>).map((e) => Comment.fromJson(e!)).toList();
     commentStore.setItems(comments);
+  }
+
+  @action
+  void _handleReceiveComment(List<Object?>? args) {
+    Comment comment = Comment.fromJson(args![0] as dynamic);
+    commentStore.setItems([comment, ...commentStore.items]);
+  }
+
+  @action
+  void _handleDeleteComment(List<Object?>? args) {
+    Comment comment = Comment.fromJson(args![0] as dynamic);
+    commentStore.setItems(
+        [...commentStore.items.where((element) => element.id != comment.id)]);
+  }
+
+  stopConnection() {
+    connection.stop().catchError(
+        (error) => developer.log('Error stopping connection: ', error: error));
+  }
+
+  clearComments() {
+    commentStore.setItems([]);
+    stopConnection();
+  }
+
+  addComment(Comment values, String postId) async {
+    values.postId = postId;
+    try {
+      await connection.invoke('SendComment', args: [values]);
+    } catch (error) {
+      developer.log('Error when adding comment', error: error);
+    }
+  }
+
+  deleteComment(String id) async {
+    try {
+      await connection.invoke('DeleteComment', args: [id]);
+    } catch (error) {
+      developer.log('Error when deleting comment', error: error);
+    }
   }
 
   @override

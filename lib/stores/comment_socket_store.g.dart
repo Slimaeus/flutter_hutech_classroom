@@ -24,6 +24,28 @@ mixin _$CommentSocketStore on CommonSocketStoreBase, Store {
   }
 
   @override
+  void _handleReceiveComment(List<Object?>? args) {
+    final _$actionInfo = _$CommonSocketStoreBaseActionController.startAction(
+        name: 'CommonSocketStoreBase._handleReceiveComment');
+    try {
+      return super._handleReceiveComment(args);
+    } finally {
+      _$CommonSocketStoreBaseActionController.endAction(_$actionInfo);
+    }
+  }
+
+  @override
+  void _handleDeleteComment(List<Object?>? args) {
+    final _$actionInfo = _$CommonSocketStoreBaseActionController.startAction(
+        name: 'CommonSocketStoreBase._handleDeleteComment');
+    try {
+      return super._handleDeleteComment(args);
+    } finally {
+      _$CommonSocketStoreBaseActionController.endAction(_$actionInfo);
+    }
+  }
+
+  @override
   String toString() {
     return '''
 

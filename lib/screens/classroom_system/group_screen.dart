@@ -120,23 +120,23 @@ class _GroupScreenState extends State<GroupScreen> {
                         fontSize: 16,
                       ),
                     ),
-                    const Divider(),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        ElevatedButton(
-                          onPressed: () {
-                            // TODO: Chuyển hướng đến trang dự án
-                          },
-                          style: ElevatedButton.styleFrom(
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(5.0),
-                            ),
-                          ),
-                          child: const Text('DỰ ÁN'),
-                        ),
-                      ],
-                    ),
+                    // const Divider(),
+                    // Row(
+                    //   mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    //   children: [
+                    //     ElevatedButton(
+                    //       onPressed: () {
+                    //         // TODO: Chuyển hướng đến trang dự án
+                    //       },
+                    //       style: ElevatedButton.styleFrom(
+                    //         shape: RoundedRectangleBorder(
+                    //           borderRadius: BorderRadius.circular(5.0),
+                    //         ),
+                    //       ),
+                    //       child: const Text('DỰ ÁN'),
+                    //     ),
+                    //   ],
+                    // ),
                   ],
                 ),
               ),

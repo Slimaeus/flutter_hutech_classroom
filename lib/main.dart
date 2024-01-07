@@ -2,8 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter_hutech_classroom/managers/provider_manager.dart';
 import 'package:flutter_hutech_classroom/managers/route_manager.dart';
 import 'package:provider/provider.dart';
+// import 'package:intl/intl.dart';
+import 'package:intl/date_symbol_data_local.dart';
 
-void main() {
+void main() async {
+  await initializeDateFormatting('vi_VN', null);
+
   runApp(const MyApp());
 }
 

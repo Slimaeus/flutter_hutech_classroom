@@ -141,6 +141,51 @@ class _PostScreenState extends State<PostScreen> {
     );
   }
 
+  // Hàm để hiển thị dialog tạo bài đăng
+  Future<void> _showCreatePostDialog() async {
+    TextEditingController contentController = TextEditingController();
+
+    return showDialog(
+      context: context,
+      builder: (context) {
+        return AlertDialog(
+          title: const Text('Tạo Bài Đăng'),
+          content: SingleChildScrollView(
+            child: Column(
+              children: [
+                TextField(
+                  controller: contentController,
+                  decoration: const InputDecoration(
+                    labelText: 'Nội dung',
+                  ),
+                  maxLines: 5,
+                ),
+                // Các trường dữ liệu khác của form tạo bài đăng (nếu có)
+              ],
+            ),
+          ),
+          actions: [
+            TextButton(
+              onPressed: () {
+                Navigator.of(context).pop(); // Đóng dialog
+              },
+              child: const Text('Hủy'),
+            ),
+            TextButton(
+              onPressed: () {
+                // TODO: Xử lý logic để tạo bài đăng
+                // Sử dụng contentController.text để lấy nội dung bài đăng
+                // Đóng dialog sau khi xử lý thành công
+                Navigator.of(context).pop();
+              },
+              child: const Text('Tạo'),
+            ),
+          ],
+        );
+      },
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -153,6 +198,14 @@ class _PostScreenState extends State<PostScreen> {
             _currentIndex = index;
           });
         },
+      ),
+      floatingActionButton: FloatingActionButton(
+        onPressed: () {
+          _showCreatePostDialog();
+        },
+        shape:
+            const CircleBorder(), 
+        child: const Icon(Icons.add),
       ),
       body: Padding(
         padding: const EdgeInsets.all(8.0),

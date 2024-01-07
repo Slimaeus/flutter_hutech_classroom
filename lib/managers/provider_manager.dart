@@ -1,5 +1,6 @@
 import 'package:flutter_hutech_classroom/stores/classroom_store.dart';
 import 'package:flutter_hutech_classroom/stores/common_store.dart';
+import 'package:flutter_hutech_classroom/stores/exercise_store.dart';
 import 'package:flutter_hutech_classroom/stores/post_store.dart';
 import 'package:flutter_hutech_classroom/stores/result_store.dart';
 import 'package:flutter_hutech_classroom/stores/score_store.dart';
@@ -18,6 +19,7 @@ class ProviderManager {
     Provider(create: (_) => ResultStore()),
     Provider(create: (_) => ClassroomStore()),
     Provider(create: (_) => ScoreStore()),
-    Provider(create: (_) => PostStore())
+    Provider(create: (_) => PostStore()),
+    Provider(create: (_) => ExerciseStore()),
   ];
 }

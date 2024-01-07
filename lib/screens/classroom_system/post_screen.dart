@@ -204,8 +204,7 @@ class _PostScreenState extends State<PostScreen> {
         onPressed: () {
           _showCreatePostDialog();
         },
-        shape:
-            const CircleBorder(), 
+        shape: const CircleBorder(),
         child: const Icon(Icons.add),
       ),
       body: Padding(
@@ -284,6 +283,10 @@ class _PostScreenState extends State<PostScreen> {
                     return GestureDetector(
                       onTap: () {
                         // TODO: Chuyển hướng đến màn hình chi tiết bài đăng
+                        if (post.id == null) return;
+                        postStore.fetchItem(post.id!).then((isSuccess) {
+                          Navigator.pushNamed(context, RouteManager.postcomment);
+                        });
                       },
                       child: Card(
                         elevation: 8.0,

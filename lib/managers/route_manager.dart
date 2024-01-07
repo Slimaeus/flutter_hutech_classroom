@@ -3,6 +3,7 @@ import 'package:flutter_hutech_classroom/screens/classroom_system/classroom_scre
 import 'package:flutter_hutech_classroom/screens/classroom_system/exercise_screen.dart';
 import 'package:flutter_hutech_classroom/screens/classroom_system/group_screen.dart';
 import 'package:flutter_hutech_classroom/screens/classroom_system/member_screen.dart';
+import 'package:flutter_hutech_classroom/screens/classroom_system/post_comment_screen.dart';
 import 'package:flutter_hutech_classroom/screens/classroom_system/post_screen.dart';
 import 'package:flutter_hutech_classroom/screens/classroom_system/transcript_screen.dart';
 import 'package:flutter_hutech_classroom/screens/scan_system/comparison_screen.dart';
@@ -33,6 +34,7 @@ class RouteManager {
   static String profile = 'profile';
   static String classroom = 'classroom';
   static String post = 'post';
+  static String postcomment = 'postcomment';
   static String exercise = 'exercise';
   static String group = 'group';
   static String transcript = 'transcript';
@@ -57,6 +59,7 @@ class RouteManager {
     profile: (context) => const ProfileScreen(title: 'HỒ SƠ CÁ NHÂN'),
     classroom: (context) => const ClassroomScreen(title: 'LỚP HỌC'),
     post: (context) => const PostScreen(title: 'THÔNG BÁO'),
+    postcomment: (context) => const PostCommentScreen(title: 'CHI TIẾT BÀI ĐĂNG'),
     exercise: (context) => const ExerciseScreen(title: 'BÀI TẬP'),
     group: (context) => const GroupScreen(title: 'NHÓM SINH VIÊN'),
     transcript: (context) => const TranscriptScreen(title: 'BẢNG ĐIỂM'),

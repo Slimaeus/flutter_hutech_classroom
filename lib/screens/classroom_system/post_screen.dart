@@ -41,6 +41,7 @@ class _PostScreenState extends State<PostScreen> {
         .fetchClassroomPostList(classroomStore.selectedClassroom.id!)
         .then((isSuccess) {
       // print('Posts: ${postStore.items.length}');
+      // commentSocketStore.createConnection(postStore.items[1].id!);
     });
   }
 

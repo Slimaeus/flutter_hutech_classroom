@@ -45,6 +45,11 @@ abstract class EntityStoreBase<TId, TEntity extends EntityFormValues<TId>>
     this.seletedItem = value;
   }
 
+  @override
+  void setItems(List<TEntity> value) {
+    this.items = ObservableList.of(value);
+  }
+
   @action
   Future<bool> fetchList() async {
     isListFetching = true;
@@ -53,7 +58,7 @@ abstract class EntityStoreBase<TId, TEntity extends EntityFormValues<TId>>
       return (results as List).map((c) => fromJson(c)).toList();
     }, headers: {'Authorization': 'Bearer ${commonStore.jwt}'});
     if (response.isSucceed && response.data != null) {
-      items = ObservableList.of(response.data!);
+      setItems(response.data!);
       isListFetching = false;
       return true;
     }

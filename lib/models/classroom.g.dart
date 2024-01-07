@@ -23,6 +23,9 @@ Classroom _$ClassroomFromJson(Map<String, dynamic> json) => Classroom(
       subject: json['subject'] == null
           ? null
           : Subject.fromJson(json['subject'] as Map<String, dynamic>),
+      faculty: json['faculty'] == null
+          ? null
+          : Faculty.fromJson(json['faculty'] as Map<String, dynamic>),
       type: $enumDecodeNullable(_$ClassroomTypeEnumMap, json['type']),
     );
 
@@ -39,6 +42,7 @@ Map<String, dynamic> _$ClassroomToJson(Classroom instance) => <String, dynamic>{
       'practicalStudyGroup': instance.practicalStudyGroup,
       'lecturer': instance.lecturer,
       'subject': instance.subject,
+      'faculty': instance.faculty,
       'type': _$ClassroomTypeEnumMap[instance.type],
     };
 

@@ -45,6 +45,7 @@ abstract class EntityStoreBase<TId, TEntity extends EntityFormValues<TId>>
     this.seletedItem = value;
   }
 
+  @action
   Future<bool> fetchList() async {
     isListFetching = true;
     var response =
@@ -60,6 +61,7 @@ abstract class EntityStoreBase<TId, TEntity extends EntityFormValues<TId>>
     return false;
   }
 
+  @action
   Future<bool> fetchItem(TId id) async {
     isDetailsFetching = true;
     var response =
@@ -76,20 +78,47 @@ abstract class EntityStoreBase<TId, TEntity extends EntityFormValues<TId>>
   }
 
   @action
-  Future<bool> create(
-    TId postId,
-  ) async {
+  Future<bool> create(TEntity formValues) async {
     isCreating = true;
-    var response =
-        await apiService.get<TEntity>('v1/$entityRoute/$postId', (results) {
+    var response = await apiService.post<TEntity>('v1/$entityRoute', (results) {
       return fromJson(results);
-    }, headers: {'Authorization': 'Bearer ${commonStore.jwt}'});
+    }, formValues, headers: {'Authorization': 'Bearer ${commonStore.jwt}'});
     if (response.isSucceed && response.data != null) {
       setSelected(response.data!);
-      isDetailsFetching = false;
+      isCreating = false;
       return true;
     }
     isCreating = false;
+    return false;
+  }
+
+  @action
+  Future<bool> update(TId id, TEntity formValues) async {
+    isUpdating = true;
+    var response =
+        await apiService.put<TEntity>('v1/$entityRoute/$id', (results) {
+      return fromJson(results);
+    }, formValues, headers: {'Authorization': 'Bearer ${commonStore.jwt}'});
+    if (response.isSucceed && response.data != null) {
+      isUpdating = false;
+      return true;
+    }
+    isUpdating = false;
+    return false;
+  }
+
+  @action
+  Future<bool> delete(TId id) async {
+    isDeleteing = true;
+    var response =
+        await apiService.delete<TEntity>('v1/$entityRoute/$id', (results) {
+      return fromJson(results);
+    }, headers: {'Authorization': 'Bearer ${commonStore.jwt}'});
+    if (response.isSucceed && response.data != null) {
+      isDeleteing = false;
+      return true;
+    }
+    isDeleteing = false;
     return false;
   }
 

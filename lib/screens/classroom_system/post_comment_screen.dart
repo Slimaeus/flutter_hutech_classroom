@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_hutech_classroom/stores/classroom_store.dart';
+import 'package:flutter_hutech_classroom/stores/comment_socket_store.dart';
 import 'package:flutter_hutech_classroom/stores/comment_store.dart';
 import 'package:flutter_hutech_classroom/stores/post_store.dart';
 import 'package:flutter_hutech_classroom/widgets/layout/custom_appbar.dart';
@@ -23,6 +24,7 @@ class _PostCommentScreenState extends State<PostCommentScreen> {
   late ClassroomStore classroomStore;
   late PostStore postStore;
   late CommentStore commentStore;
+  late CommentSocketStore commentSocketStore;
   int _currentIndex = 0;
   TextEditingController commentController = TextEditingController();
   final FocusNode _commentFocusNode = FocusNode();
@@ -37,7 +39,11 @@ class _PostCommentScreenState extends State<PostCommentScreen> {
     postStore.onInit(context);
     postStore
         .fetchClassroomPostList(classroomStore.selectedClassroom.id!)
-        .then((isSuccess) {});
+        .then((isSuccess) {
+      commentSocketStore = context.read<CommentSocketStore>();
+      commentSocketStore.onInit(context);
+      commentSocketStore.createConnection(postStore.selectedItem.id!);
+    });
 
     commentStore = context.read<CommentStore>();
     commentStore.onInit(context);
@@ -51,6 +57,12 @@ class _PostCommentScreenState extends State<PostCommentScreen> {
         commentController.clear();
       }
     });
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+    commentSocketStore.clearComments();
   }
 
   String formattedDate(DateTime date) {

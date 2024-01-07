@@ -285,7 +285,8 @@ class _PostScreenState extends State<PostScreen> {
                         // TODO: Chuyển hướng đến màn hình chi tiết bài đăng
                         if (post.id == null) return;
                         postStore.fetchItem(post.id!).then((isSuccess) {
-                          Navigator.pushNamed(context, RouteManager.postcomment);
+                          Navigator.pushNamed(
+                              context, RouteManager.postcomment);
                         });
                       },
                       child: Card(
@@ -416,8 +417,12 @@ class _PostScreenState extends State<PostScreen> {
                                 padding: const EdgeInsets.all(8.0),
                                 child: GestureDetector(
                                   onTap: () {
-                                    Navigator.pushNamed(
-                                        context, RouteManager.exercise);
+                                    postStore
+                                        .fetchItem(post.id!)
+                                        .then((isSuccess) {
+                                      Navigator.pushNamed(
+                                          context, RouteManager.postcomment);
+                                    });
                                   },
                                   child: const Row(
                                     mainAxisAlignment: MainAxisAlignment.end,

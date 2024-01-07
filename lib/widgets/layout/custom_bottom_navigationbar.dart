@@ -35,10 +35,10 @@ class _CustomBottomNavigationBarState extends State<CustomBottomNavigationBar> {
       case 2:
         Navigator.popAndPushNamed(context, RouteManager.group);
         break;
+      // case 3:
+      //   Navigator.popAndPushNamed(context, RouteManager.transcript);
+      //   break;
       case 3:
-        Navigator.popAndPushNamed(context, RouteManager.transcript);
-        break;
-      case 4:
         Navigator.popAndPushNamed(context, RouteManager.member);
         break;
       default:
@@ -75,10 +75,10 @@ class _CustomBottomNavigationBarState extends State<CustomBottomNavigationBar> {
           icon: Icon(Icons.group),
           label: 'Nhóm',
         ),
-        BottomNavigationBarItem(
-          icon: Icon(Icons.poll),
-          label: 'Bảng Điểm',
-        ),
+        // BottomNavigationBarItem(
+        //   icon: Icon(Icons.poll),
+        //   label: 'Bảng Điểm',
+        // ),
         BottomNavigationBarItem(
           icon: Icon(Icons.people),
           label: 'Thành Viên',

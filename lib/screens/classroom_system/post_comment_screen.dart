@@ -59,7 +59,7 @@ class _PostCommentScreenState extends State<PostCommentScreen> {
   }
 
   void _postComment() {
-    String commentText = commentController.text;
+    // String commentText = commentController.text;
     // Handle posting logic here
     // ...
     // Clear the comment input field
@@ -243,6 +243,11 @@ class _PostCommentScreenState extends State<PostCommentScreen> {
                             children: [
                               ElevatedButton(
                                 onPressed: _postComment,
+                                style: ElevatedButton.styleFrom(
+                                  shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(5.0),
+                                  ),
+                                ),
                                 child: const Text('TẠO'),
                               ),
                               TextButton(

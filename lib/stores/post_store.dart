@@ -10,7 +10,17 @@ class PostStore = PostStoreBase with _$PostStore;
 abstract class PostStoreBase extends EntityStoreBase<String, Post>
     with Store, BaseStoreMixin {
   PostStoreBase()
-      : super(entityRoute: "Posts", initItem: Post(), fromJson: Post.fromJson);
+      : super(
+            entityRoute: "Posts",
+            initItem: Post(),
+            fromJson: Post.fromJson,
+            updateWithFormValues: (entity, formValues) => Post(
+                id: formValues.id ?? entity.id,
+                classroom: formValues.classroom ?? entity.classroom,
+                content: formValues.content ?? entity.content,
+                createDate: formValues.createDate ?? entity.createDate,
+                link: formValues.link ?? entity.link,
+                user: formValues.user ?? entity.user));
 
   Future<bool> fetchClassroomPostList(String classroomId) async {
     isListFetching = true;

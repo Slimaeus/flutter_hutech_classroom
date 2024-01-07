@@ -3,7 +3,7 @@ import 'package:mobx/mobx.dart';
 
 mixin EntityStoreMixin<TEntity> on Store {
   @protected
-  void setSelected(TEntity value);
+  void setSelectedItem(TEntity value);
 
   @protected
   void setItems(List<TEntity> value);

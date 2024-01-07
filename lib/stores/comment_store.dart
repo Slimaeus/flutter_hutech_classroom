@@ -13,7 +13,13 @@ abstract class CommentStoreBase extends EntityStoreBase<String, Comment>
       : super(
             entityRoute: "Comments",
             initItem: Comment(),
-            fromJson: Comment.fromJson);
+            fromJson: Comment.fromJson,
+            updateWithFormValues: (entity, formValues) => Comment(
+                id: formValues.id ?? entity.id,
+                content: formValues.content ?? entity.content,
+                post: formValues.post ?? entity.post,
+                createDate: formValues.createDate ?? entity.createDate,
+                user: formValues.user ?? entity.user));
 
   Future<bool> fetchPostCommentList(String postId) async {
     isListFetching = true;

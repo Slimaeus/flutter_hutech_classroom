@@ -13,7 +13,18 @@ abstract class ExerciseStoreBase extends EntityStoreBase<String, Exercise>
       : super(
             entityRoute: "Exercises",
             initItem: Exercise(),
-            fromJson: Exercise.fromJson);
+            fromJson: Exercise.fromJson,
+            updateWithFormValues: (entity, formValues) => Exercise(
+                id: formValues.id ?? entity.id,
+                classroom: formValues.classroom ?? entity.classroom,
+                createDate: formValues.createDate ?? entity.createDate,
+                criteria: formValues.criteria ?? entity.criteria,
+                deadline: formValues.deadline ?? entity.deadline,
+                instruction: formValues.instruction ?? entity.instruction,
+                link: formValues.link ?? entity.link,
+                title: formValues.title ?? entity.title,
+                topic: formValues.topic ?? entity.topic,
+                totalScore: formValues.totalScore ?? entity.totalScore));
 
   Future<bool> fetchClassroomExerciseList(String classroomId) async {
     isListFetching = true;

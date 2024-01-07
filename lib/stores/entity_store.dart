@@ -16,11 +16,14 @@ abstract class EntityStoreBase<TId, TEntity extends EntityFormValues<TId>>
   final String entityRoute;
   final TEntity initItem;
   final TEntity Function(Map<String, dynamic> json) fromJson;
+  final TEntity Function(TEntity entity, TEntity formValues)
+      updateWithFormValues;
   EntityStoreBase(
       {required this.entityRoute,
       required this.initItem,
-      required this.fromJson}) {
-    seletedItem = initItem;
+      required this.fromJson,
+      required this.updateWithFormValues}) {
+    selectedItem = initItem;
   }
 
   @observable
@@ -38,11 +41,11 @@ abstract class EntityStoreBase<TId, TEntity extends EntityFormValues<TId>>
   ObservableList<TEntity> items = ObservableList();
 
   @observable
-  late TEntity seletedItem;
+  late TEntity selectedItem;
 
   @override
-  void setSelected(TEntity value) {
-    this.seletedItem = value;
+  void setSelectedItem(TEntity value) {
+    this.selectedItem = value;
   }
 
   @override
@@ -74,12 +77,17 @@ abstract class EntityStoreBase<TId, TEntity extends EntityFormValues<TId>>
       return fromJson(results);
     }, headers: {'Authorization': 'Bearer ${commonStore.jwt}'});
     if (response.isSucceed && response.data != null) {
-      setSelected(response.data!);
+      setSelectedItem(response.data!);
       isDetailsFetching = false;
       return true;
     }
     isDetailsFetching = false;
     return false;
+  }
+
+  @action
+  createItem(TEntity item) {
+    items.insert(0, item);
   }
 
   @action
@@ -89,12 +97,26 @@ abstract class EntityStoreBase<TId, TEntity extends EntityFormValues<TId>>
       return fromJson(results);
     }, formValues, headers: {'Authorization': 'Bearer ${commonStore.jwt}'});
     if (response.isSucceed && response.data != null) {
-      setSelected(response.data!);
+      setSelectedItem(response.data!);
+      createItem(response.data!);
       isCreating = false;
       return true;
     }
     isCreating = false;
     return false;
+  }
+
+  @action
+  updateItem(TId id, TEntity formValues) {
+    if (selectedItem.id != null || selectedItem.id != '') {
+      if (id == selectedItem.id) {
+        selectedItem = updateWithFormValues(selectedItem, formValues);
+      }
+    }
+    int index = items.indexWhere((e) => e.id == id);
+    if (index != -1) {
+      items[index] = updateWithFormValues(items[index], formValues);
+    }
   }
 
   @action
@@ -105,11 +127,18 @@ abstract class EntityStoreBase<TId, TEntity extends EntityFormValues<TId>>
       return fromJson(results);
     }, formValues, headers: {'Authorization': 'Bearer ${commonStore.jwt}'});
     if (response.isSucceed && response.data != null) {
+      updateItem(id, formValues);
       isUpdating = false;
       return true;
     }
     isUpdating = false;
     return false;
+  }
+
+  @action
+  deleteItem(TId id) {
+    int itemIndex = items.indexWhere((item) => item.id == id);
+    items.removeAt(itemIndex);
   }
 
   @action
@@ -120,6 +149,7 @@ abstract class EntityStoreBase<TId, TEntity extends EntityFormValues<TId>>
       return fromJson(results);
     }, headers: {'Authorization': 'Bearer ${commonStore.jwt}'});
     if (response.isSucceed && response.data != null) {
+      deleteItem(id);
       isDeleteing = false;
       return true;
     }

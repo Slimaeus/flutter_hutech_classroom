@@ -10,10 +10,18 @@ class Comment extends EntityFormValues<String> {
   final String? content;
   final DateTime? createDate;
 
+  String? userId;
   final User? user;
+  String? postId;
   final Post? post;
 
-  Comment({super.id, this.content, this.createDate, this.user, this.post});
+  Comment({
+    super.id,
+    this.content,
+    this.createDate,
+    this.user,
+    this.post,
+  });
 
   factory Comment.fromJson(Map<String, dynamic> json) =>
       _$CommentFromJson(json);

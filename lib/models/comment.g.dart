@@ -18,12 +18,16 @@ Comment _$CommentFromJson(Map<String, dynamic> json) => Comment(
       post: json['post'] == null
           ? null
           : Post.fromJson(json['post'] as Map<String, dynamic>),
-    );
+    )
+      ..userId = json['userId'] as String?
+      ..postId = json['postId'] as String?;
 
 Map<String, dynamic> _$CommentToJson(Comment instance) => <String, dynamic>{
       'id': instance.id,
       'content': instance.content,
       'createDate': instance.createDate?.toIso8601String(),
+      'userId': instance.userId,
       'user': instance.user,
+      'postId': instance.postId,
       'post': instance.post,
     };

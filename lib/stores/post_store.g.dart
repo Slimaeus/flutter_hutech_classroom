@@ -140,7 +140,7 @@ mixin _$PostStore on PostStoreBase, Store {
       AsyncAction('PostStoreBase.create', context: context);
 
   @override
-  Future<bool> create(Post formValues) {
+  Future<bool> create(Map<String, dynamic> formValues) {
     return _$createAsyncAction.run(() => super.create(formValues));
   }
 

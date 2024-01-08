@@ -141,7 +141,7 @@ mixin _$CommentStore on CommentStoreBase, Store {
       AsyncAction('CommentStoreBase.create', context: context);
 
   @override
-  Future<bool> create(Comment formValues) {
+  Future<bool> create(Map<String, dynamic> formValues) {
     return _$createAsyncAction.run(() => super.create(formValues));
   }
 

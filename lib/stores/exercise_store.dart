@@ -95,7 +95,7 @@ abstract class ExerciseStoreBase extends EntityStoreBase<String, Exercise>
 
   @override
   @action
-  Future<bool> create(Exercise formValues) async {
+  Future<bool> create(Map<String, dynamic> formValues) async {
     isCreating = true;
     var response =
         await apiService.post<Exercise>('v1/$entityRoute', (results) {

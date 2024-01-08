@@ -140,7 +140,7 @@ mixin _$GroupStore on GroupStoreBase, Store {
       AsyncAction('GroupStoreBase.create', context: context);
 
   @override
-  Future<bool> create(Group formValues) {
+  Future<bool> create(Map<String, dynamic> formValues) {
     return _$createAsyncAction.run(() => super.create(formValues));
   }
 

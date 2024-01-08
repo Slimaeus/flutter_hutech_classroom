@@ -141,7 +141,7 @@ mixin _$ExerciseStore on ExerciseStoreBase, Store {
       AsyncAction('ExerciseStoreBase.create', context: context);
 
   @override
-  Future<bool> create(Exercise formValues) {
+  Future<bool> create(Map<String, dynamic> formValues) {
     return _$createAsyncAction.run(() => super.create(formValues));
   }
 

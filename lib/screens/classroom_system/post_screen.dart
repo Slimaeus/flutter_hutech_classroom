@@ -159,6 +159,7 @@ class _PostScreenState extends State<PostScreen> {
               children: [
                 TextField(
                   controller: contentController,
+                  minLines: 1,
                   decoration: const InputDecoration(
                     labelText: 'Nội dung',
                   ),
@@ -180,7 +181,14 @@ class _PostScreenState extends State<PostScreen> {
                 // TODO: Xử lý logic để tạo bài đăng
                 // Sử dụng contentController.text để lấy nội dung bài đăng
                 // Đóng dialog sau khi xử lý thành công
-                Navigator.of(context).pop();
+                Map<String, dynamic> formValues = {
+                  'content': contentController.text,
+                  'classroomId': classroomStore.selectedClassroom.id,
+                  'userId': userStore.user.id
+                };
+                postStore.create(formValues).then((value) {
+                  Navigator.of(context).pop();
+                });
               },
               child: const Text('Tạo'),
             ),

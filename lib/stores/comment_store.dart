@@ -90,7 +90,7 @@ abstract class CommentStoreBase extends EntityStoreBase<String, Comment>
 
   @override
   @action
-  Future<bool> create(Comment formValues) async {
+  Future<bool> create(Map<String, dynamic> formValues) async {
     isCreating = true;
     var response = await apiService.post<Comment>('v1/$entityRoute', (results) {
       return fromJson(results);

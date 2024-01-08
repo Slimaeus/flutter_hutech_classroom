@@ -25,7 +25,7 @@ mixin EntityStoreMixin<TId, TEntity extends EntityFormValues<TId>> on Store {
 
   createItem(TEntity item);
 
-  Future<bool> create(TEntity formValues);
+  Future<bool> create(Map<String, dynamic> formValues);
 
   updateItem(TId id, TEntity formValues);
 

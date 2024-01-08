@@ -90,7 +90,7 @@ abstract class PostStoreBase extends EntityStoreBase<String, Post>
 
   @override
   @action
-  Future<bool> create(Post formValues) async {
+  Future<bool> create(Map<String, dynamic> formValues) async {
     isCreating = true;
     var response = await apiService.post<Post>('v1/$entityRoute', (results) {
       return fromJson(results);

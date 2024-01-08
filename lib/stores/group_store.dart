@@ -70,7 +70,8 @@ abstract class GroupStoreBase extends EntityStoreBase<String, Group>
   @action
   Future<bool> fetchItem(String id) async {
     isDetailsFetching = true;
-    var response = await apiService.get<Group>('v1/$entityRoute/$id', (results) {
+    var response =
+        await apiService.get<Group>('v1/$entityRoute/$id', (results) {
       return fromJson(results);
     }, headers: {'Authorization': 'Bearer ${commonStore.jwt}'});
     if (response.isSucceed && response.data != null) {
@@ -90,7 +91,7 @@ abstract class GroupStoreBase extends EntityStoreBase<String, Group>
 
   @override
   @action
-  Future<bool> create(Group formValues) async {
+  Future<bool> create(Map<String, dynamic> formValues) async {
     isCreating = true;
     var response = await apiService.post<Group>('v1/$entityRoute', (results) {
       return fromJson(results);
@@ -123,7 +124,8 @@ abstract class GroupStoreBase extends EntityStoreBase<String, Group>
   @action
   Future<bool> update(String id, Group formValues) async {
     isUpdating = true;
-    var response = await apiService.put<Group>('v1/$entityRoute/$id', (results) {
+    var response =
+        await apiService.put<Group>('v1/$entityRoute/$id', (results) {
       return fromJson(results);
     }, formValues, headers: {'Authorization': 'Bearer ${commonStore.jwt}'});
     if (response.isSucceed && response.data != null) {

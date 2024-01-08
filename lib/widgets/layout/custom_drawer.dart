@@ -74,7 +74,7 @@ Widget customDrawer(BuildContext context) {
           leading: const Icon(Icons.person),
           title: const Text('Hồ Sơ Cá Nhân'),
           onTap: () {
-            Navigator.pushReplacementNamed(context, RouteManager.profile);
+            Navigator.pushNamed(context, RouteManager.profile);
           },
         ),
         ListTile(

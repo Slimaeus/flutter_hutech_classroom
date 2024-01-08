@@ -105,7 +105,7 @@ class _PostCommentScreenState extends State<PostCommentScreen> {
       ),
       body: SingleChildScrollView(
         child: Padding(
-          padding: const EdgeInsets.all(8.0),
+          padding: const EdgeInsets.all(20.0),
           child: Observer(builder: (context) {
             return GestureDetector(
               onTap: () {
@@ -318,12 +318,33 @@ class _PostCommentScreenState extends State<PostCommentScreen> {
                                       mainAxisAlignment:
                                           MainAxisAlignment.spaceBetween,
                                       children: [
-                                        Text(
-                                          '${comment.user?.lastName} ${comment.user?.firstName}',
-                                          style: const TextStyle(
-                                            fontSize: 16,
-                                            fontWeight: FontWeight.bold,
-                                          ),
+                                        Row(
+                                          children: [
+                                            CircleAvatar(
+                                                radius: 20,
+                                                backgroundImage:
+                                                    comment.user?.avatarUrl ==
+                                                            null
+                                                        ? null
+                                                        : NetworkImage(comment
+                                                            .user!.avatarUrl!),
+                                                child:
+                                                    comment.user?.avatarUrl ==
+                                                            null
+                                                        ? const Icon(
+                                                            Icons.person,
+                                                            size: 100,
+                                                          )
+                                                        : null),
+                                            const SizedBox(width: 10),
+                                            Text(
+                                              '${comment.user?.lastName} ${comment.user?.firstName}',
+                                              style: const TextStyle(
+                                                fontSize: 16,
+                                                fontWeight: FontWeight.bold,
+                                              ),
+                                            ),
+                                          ],
                                         ),
                                         if (userStore.user.id ==
                                             comment.user?.id)

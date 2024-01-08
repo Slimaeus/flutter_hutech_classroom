@@ -19,7 +19,7 @@ class MyApp extends StatelessWidget {
     return MultiProvider(
       providers: [...ProviderManager.providers],
       child: MaterialApp(
-        title: 'Flutter Demo',
+        title: 'HUTECH Classroom',
         theme: ThemeData(
           colorScheme: ColorScheme.fromSeed(seedColor: Colors.blue),
           useMaterial3: true,

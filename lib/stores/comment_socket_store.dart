@@ -3,6 +3,7 @@ import 'package:flutter_hutech_classroom/models/comment.dart';
 import 'package:flutter_hutech_classroom/stores/base_store_mixin.dart';
 import 'package:flutter_hutech_classroom/stores/comment_store.dart';
 import 'package:flutter_hutech_classroom/stores/common_store.dart';
+import 'package:flutter_hutech_classroom/stores/user_store.dart';
 import 'package:mobx/mobx.dart';
 import 'package:flutter_hutech_classroom/stores/base_store.dart';
 import 'package:provider/provider.dart';
@@ -16,17 +17,18 @@ class CommentSocketStore = CommonSocketStoreBase with _$CommentSocketStore;
 
 abstract class CommonSocketStoreBase extends BaseStore
     with Store, BaseStoreMixin {
+  late UserStore userStore;
   late CommentStore commentStore;
   late CommonStore commonStore;
   late HubConnection connection;
 
   createConnection(String postId, {int? pageNumber, int? pageSize}) {
-    String paramsString = '';
+    String paramsString = '&pageNumber=1&pageSize=100';
     if (pageNumber != null &&
         pageSize != null &&
         pageNumber != 0 &&
         pageSize > 1) {
-      paramsString = 'pageNumber=$pageNumber&pageSize=$pageSize';
+      paramsString = '&pageNumber=$pageNumber&pageSize=$pageSize';
     }
     connection = HubConnectionBuilder()
         .withUrl(
@@ -78,10 +80,14 @@ abstract class CommonSocketStoreBase extends BaseStore
     stopConnection();
   }
 
-  addComment(Comment values, String postId) async {
-    values.postId = postId;
+  Future addComment(Comment values, String postId) async {
+    Map<String, String?> formValues = {
+      'content': values.content,
+      'postId': postId,
+      'userId': userStore.user.id
+    };
     try {
-      await connection.invoke('SendComment', args: [values]);
+      await connection.invoke('SendComment', args: [formValues]);
     } catch (error) {
       developer.log('Error when adding comment', error: error);
     }
@@ -89,7 +95,9 @@ abstract class CommonSocketStoreBase extends BaseStore
 
   deleteComment(String id) async {
     try {
-      await connection.invoke('DeleteComment', args: [id]);
+      await connection.invoke('DeleteComment', args: [
+        {'id': id}
+      ]);
     } catch (error) {
       developer.log('Error when deleting comment', error: error);
     }
@@ -98,6 +106,7 @@ abstract class CommonSocketStoreBase extends BaseStore
   @override
   void onInit(BuildContext context) {
     super.onInit(context);
+    userStore = context.read<UserStore>();
     commonStore = context.read<CommonStore>();
     commentStore = context.read<CommentStore>();
   }

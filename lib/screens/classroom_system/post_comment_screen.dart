@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_hutech_classroom/models/comment.dart';
 import 'package:flutter_hutech_classroom/stores/classroom_store.dart';
 import 'package:flutter_hutech_classroom/stores/comment_socket_store.dart';
 import 'package:flutter_hutech_classroom/stores/comment_store.dart';
 import 'package:flutter_hutech_classroom/stores/post_store.dart';
+import 'package:flutter_hutech_classroom/stores/user_store.dart';
 import 'package:flutter_hutech_classroom/widgets/layout/custom_appbar.dart';
 import 'package:flutter_hutech_classroom/widgets/layout/custom_bottom_navigationbar.dart';
 import 'package:flutter_hutech_classroom/widgets/layout/custom_drawer.dart';
@@ -21,6 +23,7 @@ class PostCommentScreen extends StatefulWidget {
 }
 
 class _PostCommentScreenState extends State<PostCommentScreen> {
+  late UserStore userStore;
   late ClassroomStore classroomStore;
   late PostStore postStore;
   late CommentStore commentStore;
@@ -32,6 +35,9 @@ class _PostCommentScreenState extends State<PostCommentScreen> {
   @override
   void initState() {
     super.initState();
+    userStore = context.read<UserStore>();
+    userStore.onInit(context);
+
     classroomStore = context.read<ClassroomStore>();
     classroomStore.onInit(context);
 
@@ -61,8 +67,8 @@ class _PostCommentScreenState extends State<PostCommentScreen> {
 
   @override
   void dispose() {
-    super.dispose();
     commentSocketStore.clearComments();
+    super.dispose();
   }
 
   String formattedDate(DateTime date) {
@@ -75,7 +81,13 @@ class _PostCommentScreenState extends State<PostCommentScreen> {
     // Handle posting logic here
     // ...
     // Clear the comment input field
-    commentController.clear();
+    Comment commentFormValues = Comment(content: commentController.text);
+    // commentFormValues.userId = userStore
+    commentSocketStore
+        .addComment(commentFormValues, postStore.selectedItem.id!)
+        .then((_) {
+      commentController.clear();
+    });
   }
 
   @override
@@ -313,19 +325,22 @@ class _PostCommentScreenState extends State<PostCommentScreen> {
                                             fontWeight: FontWeight.bold,
                                           ),
                                         ),
-                                        PopupMenuButton(
-                                          itemBuilder: (context) => [
-                                            const PopupMenuItem(
-                                              value: 'delete',
-                                              child: Text('Xoá'),
-                                            ),
-                                          ],
-                                          onSelected: (value) {
-                                            if (value == 'delete') {
-                                              // TODO: Xử lý logic khi bấm nút Xoá
-                                            }
-                                          },
-                                        ),
+                                        if (userStore.user.id ==
+                                            comment.user?.id)
+                                          PopupMenuButton(
+                                            itemBuilder: (context) => [
+                                              const PopupMenuItem(
+                                                value: 'delete',
+                                                child: Text('Xoá'),
+                                              ),
+                                            ],
+                                            onSelected: (value) {
+                                              if (value == 'delete') {
+                                                commentSocketStore
+                                                    .deleteComment(comment.id!);
+                                              }
+                                            },
+                                          ),
                                       ],
                                     ),
                                     Text(

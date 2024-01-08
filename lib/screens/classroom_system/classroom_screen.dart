@@ -36,85 +36,91 @@ class _ClassroomScreenState extends State<ClassroomScreen> {
       body: Padding(
         padding: const EdgeInsets.all(8.0),
         child: Observer(builder: (context) {
-          return ListView.builder(
-            itemCount: classroomStore.classrooms.length,
-            itemBuilder: (context, index) {
-              final classroom = classroomStore.classrooms[index];
-              return GestureDetector(
-                onTap: () {
-                  if (classroom.id == null) return;
-                  classroomStore
-                      .fetchClassroom(classroom.id!)
-                      .then((isSuccess) {
-                    Navigator.pushNamed(context, RouteManager.post);
-                  });
-                },
-                child: Column(
-                  children: [
-                    Card(
-                      elevation: 8.0,
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(8.0),
-                        side: const BorderSide(color: Colors.black12),
-                      ),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          ClipRRect(
-                            borderRadius: const BorderRadius.only(
-                              topLeft: Radius.circular(8.0),
-                              topRight: Radius.circular(8.0),
-                            ),
-                            child: SizedBox(
-                              height: 120,
-                              width: double.infinity,
-                              child: Image.asset(
-                                classroom.type == ClassroomType.theoryRoom
-                                    ? PathManager.banner1
-                                    : classroom.type ==
-                                            ClassroomType.practiceRoom
-                                        ? PathManager.banner2
-                                        : PathManager.banner3,
-                                fit: BoxFit.cover,
-                                alignment: Alignment.center,
+          return RefreshIndicator(
+            key: GlobalKey<RefreshIndicatorState>(),
+            onRefresh: () async {
+              await classroomStore.fetchClassrooms();
+            },
+            child: ListView.builder(
+              itemCount: classroomStore.classrooms.length,
+              itemBuilder: (context, index) {
+                final classroom = classroomStore.classrooms[index];
+                return GestureDetector(
+                  onTap: () {
+                    if (classroom.id == null) return;
+                    classroomStore
+                        .fetchClassroom(classroom.id!)
+                        .then((isSuccess) {
+                      Navigator.pushNamed(context, RouteManager.post);
+                    });
+                  },
+                  child: Column(
+                    children: [
+                      Card(
+                        elevation: 8.0,
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(8.0),
+                          side: const BorderSide(color: Colors.black12),
+                        ),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            ClipRRect(
+                              borderRadius: const BorderRadius.only(
+                                topLeft: Radius.circular(8.0),
+                                topRight: Radius.circular(8.0),
+                              ),
+                              child: SizedBox(
+                                height: 120,
+                                width: double.infinity,
+                                child: Image.asset(
+                                  classroom.type == ClassroomType.theoryRoom
+                                      ? PathManager.banner1
+                                      : classroom.type ==
+                                              ClassroomType.practiceRoom
+                                          ? PathManager.banner2
+                                          : PathManager.banner3,
+                                  fit: BoxFit.cover,
+                                  alignment: Alignment.center,
+                                ),
                               ),
                             ),
-                          ),
-                          Padding(
-                            padding: const EdgeInsets.all(12.0),
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Text(
-                                  classroom.title ?? "",
-                                  style: const TextStyle(
-                                    fontSize: 20,
-                                    fontWeight: FontWeight.bold,
+                            Padding(
+                              padding: const EdgeInsets.all(12.0),
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Text(
+                                    classroom.title ?? "",
+                                    style: const TextStyle(
+                                      fontSize: 20,
+                                      fontWeight: FontWeight.bold,
+                                    ),
                                   ),
-                                ),
-                                Text(
-                                  'Giảng viên: ${classroom.lecturer!.lastName} ${classroom.lecturer!.firstName}',
-                                  style: const TextStyle(fontSize: 16),
-                                ),
-                                Text(
-                                  'Phòng: ${classroom.room}',
-                                  style: const TextStyle(fontSize: 16),
-                                ),
-                                Text(
-                                  'Lớp: ${classroom.className}',
-                                  style: const TextStyle(fontSize: 16),
-                                ),
-                              ],
+                                  Text(
+                                    'Giảng viên: ${classroom.lecturer!.lastName} ${classroom.lecturer!.firstName}',
+                                    style: const TextStyle(fontSize: 16),
+                                  ),
+                                  Text(
+                                    'Phòng: ${classroom.room}',
+                                    style: const TextStyle(fontSize: 16),
+                                  ),
+                                  Text(
+                                    'Lớp: ${classroom.className}',
+                                    style: const TextStyle(fontSize: 16),
+                                  ),
+                                ],
+                              ),
                             ),
-                          ),
-                        ],
+                          ],
+                        ),
                       ),
-                    ),
-                    const SizedBox(height: 5.0),
-                  ],
-                ),
-              );
-            },
+                      const SizedBox(height: 5.0),
+                    ],
+                  ),
+                );
+              },
+            ),
           );
         }),
       ),

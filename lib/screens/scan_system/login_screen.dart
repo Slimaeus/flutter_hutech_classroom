@@ -6,6 +6,7 @@ import 'package:flutter_hutech_classroom/managers/route_manager.dart';
 import 'package:flutter_hutech_classroom/stores/common_store.dart';
 import 'package:flutter_hutech_classroom/stores/user_store.dart';
 import 'package:flutter_hutech_classroom/widgets/auth/login_form.dart';
+import 'package:flutter_hutech_classroom/widgets/layout/custom_login_indicator.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 
 import 'package:provider/provider.dart';
@@ -61,19 +62,7 @@ class _LoginScreenState extends State<LoginScreen> {
       ),
       body: Observer(builder: (context) {
         return userStore.isLoggingIn
-            ? Center(
-                child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Image.asset(PathManager.logoHutechScanSystem,
-                      height: MediaQuery.of(context).size.height * 0.1),
-                  SizedBox(
-                      width: Platform.isWindows
-                          ? MediaQuery.of(context).size.width * 0.17
-                          : MediaQuery.of(context).size.width * 0.7,
-                      child: const LinearProgressIndicator()),
-                ],
-              ))
+            ? customLoginIndicator(context)
             : SingleChildScrollView(
                 child: Padding(
                   padding: const EdgeInsets.all(20.0),

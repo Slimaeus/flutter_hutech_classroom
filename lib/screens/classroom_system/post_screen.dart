@@ -6,10 +6,12 @@ import 'package:flutter_hutech_classroom/models/classroom.dart';
 import 'package:flutter_hutech_classroom/models/post.dart';
 import 'package:flutter_hutech_classroom/stores/classroom_store.dart';
 import 'package:flutter_hutech_classroom/stores/post_store.dart';
+import 'package:flutter_hutech_classroom/stores/user_store.dart';
 import 'package:flutter_hutech_classroom/widgets/layout/custom_appbar.dart';
 import 'package:flutter_hutech_classroom/widgets/layout/custom_bottom_navigationbar.dart';
 import 'package:flutter_hutech_classroom/widgets/layout/custom_drawer.dart';
 import 'package:flutter_html/flutter_html.dart';
+import 'package:flutter_hutech_classroom/widgets/layout/custom_login_indicator.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:provider/provider.dart';
 import 'package:intl/intl.dart';
@@ -24,6 +26,7 @@ class PostScreen extends StatefulWidget {
 }
 
 class _PostScreenState extends State<PostScreen> {
+  late UserStore userStore;
   late ClassroomStore classroomStore;
   late PostStore postStore;
   int _currentIndex = 0;
@@ -31,6 +34,9 @@ class _PostScreenState extends State<PostScreen> {
   @override
   void initState() {
     super.initState();
+
+    userStore = context.read<UserStore>();
+    userStore.onInit(context);
 
     classroomStore = context.read<ClassroomStore>();
     classroomStore.onInit(context);
@@ -210,245 +216,261 @@ class _PostScreenState extends State<PostScreen> {
       body: Padding(
         padding: const EdgeInsets.all(8.0),
         child: Observer(builder: (context) {
-          return Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Card(
-                elevation: 8.0,
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(8.0),
-                ),
-                margin: const EdgeInsets.symmetric(vertical: 8.0),
-                color: Colors.white,
-                child: Padding(
-                  padding: const EdgeInsets.all(6.0),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      ClipRRect(
-                        borderRadius: const BorderRadius.only(
-                          topLeft: Radius.circular(8.0),
-                          topRight: Radius.circular(8.0),
-                        ),
-                        child: SizedBox(
-                          height: 85,
-                          width: double.infinity,
-                          child: Image.asset(
-                            classroomStore.selectedClassroom.type ==
-                                    ClassroomType.theoryRoom
-                                ? PathManager.banner1
-                                : classroomStore.selectedClassroom.type ==
-                                        ClassroomType.practiceRoom
-                                    ? PathManager.banner2
-                                    : PathManager.banner3,
-                            fit: BoxFit.cover,
-                            alignment: Alignment.center,
-                          ),
-                        ),
+          return postStore.isListFetching
+              ? customLoginIndicator(context)
+              : Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Card(
+                      elevation: 8.0,
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(8.0),
                       ),
-                      const SizedBox(height: 8),
-                      ListTile(
-                        title: Text(
-                          classroomStore.selectedClassroom.title ?? '',
-                          style: const TextStyle(
-                            fontSize: 18,
-                            fontWeight: FontWeight.bold,
-                          ),
-                        ),
-                        subtitle: Text(
-                          'GV. ${classroomStore.selectedClassroom.lecturer?.lastName ?? ''} ${classroomStore.selectedClassroom.lecturer?.firstName ?? ''}',
-                          style: const TextStyle(
-                            fontSize: 14,
-                            color: Colors.grey,
-                          ),
-                        ),
-                        trailing: IconButton(
-                          icon: const Icon(Icons.info),
-                          onPressed: () {
-                            _showClassroomDetailsModal(
-                                classroomStore.selectedClassroom);
-                          },
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-              ),
-              const Divider(),
-              Expanded(
-                child: ListView.builder(
-                  itemCount: postStore.items.length,
-                  itemBuilder: (context, index) {
-                    final Post post = postStore.items[index];
-                    return GestureDetector(
-                      onTap: () {
-                        // TODO: Chuyển hướng đến màn hình chi tiết bài đăng
-                        if (post.id == null) return;
-                        postStore.fetchItem(post.id!).then((isSuccess) {
-                          Navigator.pushNamed(
-                              context, RouteManager.postComment);
-                        });
-                      },
-                      child: Card(
-                        elevation: 8.0,
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(8.0),
-                        ),
-                        margin: const EdgeInsets.symmetric(vertical: 8.0),
-                        color: Colors.white,
-                        child: Padding(
-                          padding: const EdgeInsets.all(6.0),
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Padding(
-                                padding: const EdgeInsets.all(8.0),
-                                child: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    Row(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.spaceBetween,
-                                      children: [
-                                        Text(
-                                          '${post.user?.lastName ?? ''} ${post.user?.firstName ?? ''}',
-                                          style: const TextStyle(
-                                            fontSize: 16,
-                                            fontWeight: FontWeight.bold,
-                                          ),
-                                        ),
-                                        PopupMenuButton(
-                                          itemBuilder: (context) => [
-                                            const PopupMenuItem(
-                                              value: 'delete',
-                                              child: Text('Xoá'),
-                                            ),
-                                            const PopupMenuItem(
-                                              value: 'viewDetail',
-                                              child: Text('Xem Chi Tiết'),
-                                            ),
-                                          ],
-                                          onSelected: (value) {
-                                            if (value == 'delete') {
-                                              // TODO: Xử lý logic khi bấm nút Xoá
-                                            } else if (value == 'viewDetail') {
-                                              // TODO: Xử lý logic khi bấm nút Xem Chi Tiết
-                                            }
-                                          },
-                                        ),
-                                      ],
-                                    ),
-                                    Text(
-                                      post.createDate != null
-                                          ? formattedDate(DateTime.parse(
-                                                  '${post.createDate!.toIso8601String()}Z')
-                                              .toLocal())
-                                          : 'Ngày tạo không xác định',
-                                      style: const TextStyle(
-                                        fontSize: 12,
-                                        color: Colors.grey,
-                                      ),
-                                    ),
-                                  ],
+                      margin: const EdgeInsets.symmetric(vertical: 8.0),
+                      color: Colors.white,
+                      child: Padding(
+                        padding: const EdgeInsets.all(6.0),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            ClipRRect(
+                              borderRadius: const BorderRadius.only(
+                                topLeft: Radius.circular(8.0),
+                                topRight: Radius.circular(8.0),
+                              ),
+                              child: SizedBox(
+                                height: 85,
+                                width: double.infinity,
+                                child: Image.asset(
+                                  classroomStore.selectedClassroom.type ==
+                                          ClassroomType.theoryRoom
+                                      ? PathManager.banner1
+                                      : classroomStore.selectedClassroom.type ==
+                                              ClassroomType.practiceRoom
+                                          ? PathManager.banner2
+                                          : PathManager.banner3,
+                                  fit: BoxFit.cover,
+                                  alignment: Alignment.center,
                                 ),
                               ),
-                              const Divider(),
-                              Padding(
-                                padding: const EdgeInsets.all(8.0),
+                            ),
+                            const SizedBox(height: 8),
+                            ListTile(
+                              title: Text(
+                                classroomStore.selectedClassroom.title ?? '',
+                                style: const TextStyle(
+                                  fontSize: 18,
+                                  fontWeight: FontWeight.bold,
+                                ),
+                              ),
+                              subtitle: Text(
+                                'GV. ${classroomStore.selectedClassroom.lecturer?.lastName ?? ''} ${classroomStore.selectedClassroom.lecturer?.firstName ?? ''}',
+                                style: const TextStyle(
+                                  fontSize: 14,
+                                  color: Colors.grey,
+                                ),
+                              ),
+                              trailing: IconButton(
+                                icon: const Icon(Icons.info),
+                                onPressed: () {
+                                  _showClassroomDetailsModal(
+                                      classroomStore.selectedClassroom);
+                                },
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
+                    const Divider(),
+                    Expanded(
+                      child: ListView.builder(
+                        itemCount: postStore.items.length,
+                        itemBuilder: (context, index) {
+                          final Post post = postStore.items[index];
+                          return GestureDetector(
+                            onTap: () {
+                              // TODO: Chuyển hướng đến màn hình chi tiết bài đăng
+                              if (post.id == null) return;
+                              postStore.fetchItem(post.id!).then((isSuccess) {
+                                Navigator.pushNamed(
+                                    context, RouteManager.postComment);
+                              });
+                            },
+                            child: Card(
+                              elevation: 8.0,
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(8.0),
+                              ),
+                              margin: const EdgeInsets.symmetric(vertical: 8.0),
+                              color: Colors.white,
+                              child: Padding(
+                                padding: const EdgeInsets.all(6.0),
                                 child: Column(
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
-                                    Html(data: post.content ?? ''),
-                                    const SizedBox(height: 8),
-                                    if (post.link != null &&
-                                        post.link!.trim() != "")
-                                      Column(
+                                    Padding(
+                                      padding: const EdgeInsets.all(8.0),
+                                      child: Column(
                                         crossAxisAlignment:
                                             CrossAxisAlignment.start,
                                         children: [
-                                          const Row(
+                                          Row(
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.spaceBetween,
                                             children: [
-                                              Padding(
-                                                padding:
-                                                    EdgeInsets.only(left: 8.0),
-                                                child: Text(
-                                                  'Đường dẫn đính kèm:',
-                                                  style: TextStyle(
-                                                    fontSize: 14,
-                                                    fontWeight: FontWeight.bold,
-                                                  ),
+                                              Text(
+                                                '${post.user?.lastName ?? ''} ${post.user?.firstName ?? ''}',
+                                                style: const TextStyle(
+                                                  fontSize: 16,
+                                                  fontWeight: FontWeight.bold,
                                                 ),
+                                              ),
+                                              PopupMenuButton(
+                                                itemBuilder: (context) => [
+                                                  if (userStore.user.id ==
+                                                      post.user?.id)
+                                                    const PopupMenuItem(
+                                                      value: 'delete',
+                                                      child: Text('Xoá'),
+                                                    ),
+                                                  const PopupMenuItem(
+                                                    value: 'viewDetail',
+                                                    child: Text('Xem Chi Tiết'),
+                                                  ),
+                                                ],
+                                                onSelected: (value) {
+                                                  if (value == 'delete') {
+                                                    postStore.delete(post.id!);
+                                                  } else if (value ==
+                                                      'viewDetail') {
+                                                    postStore
+                                                        .fetchItem(post.id!)
+                                                        .then((isSuccess) {
+                                                      Navigator.pushNamed(
+                                                          context,
+                                                          RouteManager
+                                                              .postComment);
+                                                    });
+                                                  }
+                                                },
                                               ),
                                             ],
                                           ),
-                                          Column(
-                                            children: post.link!
-                                                .trim()
-                                                .split(RegExp(r'\s+'))
-                                                .map((link) => ListTile(
-                                                      title: link.startsWith(
-                                                                  'https://') ||
-                                                              link.startsWith(
-                                                                  'http://')
-                                                          ? Text(
-                                                              link,
-                                                              style: const TextStyle(
-                                                                  color: Colors
-                                                                      .blue,
-                                                                  fontSize: 14,
-                                                                  fontWeight:
-                                                                      FontWeight
-                                                                          .bold,
-                                                                  fontStyle:
-                                                                      FontStyle
-                                                                          .italic),
-                                                            )
-                                                          : Text(link),
-                                                    ))
-                                                .toList(),
+                                          Text(
+                                            post.createDate != null
+                                                ? formattedDate(DateTime.parse(
+                                                        '${post.createDate!.toIso8601String()}Z')
+                                                    .toLocal())
+                                                : 'Ngày tạo không xác định',
+                                            style: const TextStyle(
+                                              fontSize: 12,
+                                              color: Colors.grey,
+                                            ),
                                           ),
                                         ],
                                       ),
+                                    ),
+                                    const Divider(),
+                                    Padding(
+                                      padding: const EdgeInsets.all(8.0),
+                                      child: Column(
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
+                                        children: [
+                                          Html(data: post.content ?? ''),
+                                          const SizedBox(height: 8),
+                                          if (post.link != null &&
+                                              post.link!.trim() != "")
+                                            Column(
+                                              crossAxisAlignment:
+                                                  CrossAxisAlignment.start,
+                                              children: [
+                                                const Row(
+                                                  children: [
+                                                    Padding(
+                                                      padding: EdgeInsets.only(
+                                                          left: 8.0),
+                                                      child: Text(
+                                                        'Đường dẫn đính kèm:',
+                                                        style: TextStyle(
+                                                          fontSize: 14,
+                                                          fontWeight:
+                                                              FontWeight.bold,
+                                                        ),
+                                                      ),
+                                                    ),
+                                                  ],
+                                                ),
+                                                Column(
+                                                  children: post.link!
+                                                      .trim()
+                                                      .split(RegExp(r'\s+'))
+                                                      .map((link) => ListTile(
+                                                            title: link.startsWith(
+                                                                        'https://') ||
+                                                                    link.startsWith(
+                                                                        'http://')
+                                                                ? Text(
+                                                                    link,
+                                                                    style: const TextStyle(
+                                                                        color: Colors
+                                                                            .blue,
+                                                                        fontSize:
+                                                                            14,
+                                                                        fontWeight:
+                                                                            FontWeight
+                                                                                .bold,
+                                                                        fontStyle:
+                                                                            FontStyle.italic),
+                                                                  )
+                                                                : Text(link),
+                                                          ))
+                                                      .toList(),
+                                                ),
+                                              ],
+                                            ),
+                                        ],
+                                      ),
+                                    ),
+                                    const Divider(),
+                                    Padding(
+                                      padding: const EdgeInsets.all(8.0),
+                                      child: GestureDetector(
+                                        onTap: () {
+                                          postStore
+                                              .fetchItem(post.id!)
+                                              .then((isSuccess) {
+                                            Navigator.pushNamed(context,
+                                                RouteManager.postComment);
+                                          });
+                                        },
+                                        child: const Row(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.end,
+                                          children: [
+                                            Icon(Icons.comment),
+                                            SizedBox(width: 8),
+                                            Text(
+                                              'Nhận Xét',
+                                              style: TextStyle(
+                                                fontSize: 16,
+                                              ),
+                                            ),
+                                          ],
+                                        ),
+                                      ),
+                                    ),
                                   ],
                                 ),
                               ),
-                              const Divider(),
-                              Padding(
-                                padding: const EdgeInsets.all(8.0),
-                                child: GestureDetector(
-                                  onTap: () {
-                                    postStore
-                                        .fetchItem(post.id!)
-                                        .then((isSuccess) {
-                                      Navigator.pushNamed(
-                                          context, RouteManager.postComment);
-                                    });
-                                  },
-                                  child: const Row(
-                                    mainAxisAlignment: MainAxisAlignment.end,
-                                    children: [
-                                      Icon(Icons.comment),
-                                      SizedBox(width: 8),
-                                      Text(
-                                        'Nhận Xét',
-                                        style: TextStyle(
-                                          fontSize: 16,
-                                        ),
-                                      ),
-                                    ],
-                                  ),
-                                ),
-                              ),
-                            ],
-                          ),
-                        ),
+                            ),
+                          );
+                        },
                       ),
-                    );
-                  },
-                ),
-              ),
-            ],
-          );
+                    ),
+                  ],
+                );
         }),
       ),
     );

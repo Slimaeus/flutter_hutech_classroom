@@ -15,6 +15,7 @@ import 'package:flutter_hutech_classroom/widgets/layout/custom_login_indicator.d
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:provider/provider.dart';
 import 'package:intl/intl.dart';
+import 'package:flutter_hutech_classroom/extensions/semester_extensions.dart';
 
 class PostScreen extends StatefulWidget {
   const PostScreen({Key? key, required this.title}) : super(key: key);
@@ -107,7 +108,7 @@ class _PostScreenState extends State<PostScreen> {
                   style: const TextStyle(fontSize: 16),
                 ),
                 Text(
-                  'Học kỳ: ${classroom.semester.toString()}',
+                  'Học kỳ: ${classroom.semester?.toText() ?? "Không có"}',
                   style: const TextStyle(fontSize: 16),
                 ),
                 Text(

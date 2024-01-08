@@ -1,6 +1,6 @@
 import 'package:flutter_hutech_classroom/enums/semester.dart';
 
-extension SemesterExtensinos on Semester {
+extension SemesterExtensions on Semester {
   String toText() {
     switch (this) {
       case Semester.i:

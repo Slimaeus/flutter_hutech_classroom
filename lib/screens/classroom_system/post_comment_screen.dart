@@ -333,7 +333,7 @@ class _PostCommentScreenState extends State<PostCommentScreen> {
                                                             null
                                                         ? const Icon(
                                                             Icons.person,
-                                                            size: 100,
+                                                            size: 20,
                                                           )
                                                         : null),
                                             const SizedBox(width: 10),

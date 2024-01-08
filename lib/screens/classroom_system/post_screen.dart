@@ -45,10 +45,7 @@ class _PostScreenState extends State<PostScreen> {
     postStore.onInit(context);
     postStore
         .fetchClassroomPostList(classroomStore.selectedClassroom.id!)
-        .then((isSuccess) {
-      // print('Posts: ${postStore.items.length}');
-      // commentSocketStore.createConnection(postStore.items[1].id!);
-    });
+        .then((isSuccess) {});
   }
 
   String formattedDate(DateTime date) {
@@ -284,189 +281,200 @@ class _PostScreenState extends State<PostScreen> {
                     ),
                     const Divider(),
                     Expanded(
-                      child: ListView.builder(
-                        itemCount: postStore.items.length,
-                        itemBuilder: (context, index) {
-                          final Post post = postStore.items[index];
-                          return GestureDetector(
-                            onTap: () {
-                              // TODO: Chuyển hướng đến màn hình chi tiết bài đăng
-                              if (post.id == null) return;
-                              postStore.fetchItem(post.id!).then((isSuccess) {
-                                Navigator.pushNamed(
-                                    context, RouteManager.postComment);
-                              });
-                            },
-                            child: Card(
-                              elevation: 8.0,
-                              shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(8.0),
-                              ),
-                              margin: const EdgeInsets.symmetric(vertical: 8.0),
-                              color: Colors.white,
-                              child: Padding(
-                                padding: const EdgeInsets.all(6.0),
-                                child: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    Padding(
-                                      padding: const EdgeInsets.all(8.0),
-                                      child: Column(
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.start,
-                                        children: [
-                                          Row(
-                                            mainAxisAlignment:
-                                                MainAxisAlignment.spaceBetween,
-                                            children: [
-                                              Text(
-                                                '${post.user?.lastName ?? ''} ${post.user?.firstName ?? ''}',
-                                                style: const TextStyle(
-                                                  fontSize: 16,
-                                                  fontWeight: FontWeight.bold,
-                                                ),
-                                              ),
-                                              PopupMenuButton(
-                                                itemBuilder: (context) => [
-                                                  if (userStore.user.id ==
-                                                      post.user?.id)
-                                                    const PopupMenuItem(
-                                                      value: 'delete',
-                                                      child: Text('Xoá'),
-                                                    ),
-                                                  const PopupMenuItem(
-                                                    value: 'viewDetail',
-                                                    child: Text('Xem Chi Tiết'),
-                                                  ),
-                                                ],
-                                                onSelected: (value) {
-                                                  if (value == 'delete') {
-                                                    postStore.delete(post.id!);
-                                                  } else if (value ==
-                                                      'viewDetail') {
-                                                    postStore
-                                                        .fetchItem(post.id!)
-                                                        .then((isSuccess) {
-                                                      Navigator.pushNamed(
-                                                          context,
-                                                          RouteManager
-                                                              .postComment);
-                                                    });
-                                                  }
-                                                },
-                                              ),
-                                            ],
-                                          ),
-                                          Text(
-                                            post.createDate != null
-                                                ? formattedDate(DateTime.parse(
-                                                        '${post.createDate!.toIso8601String()}Z')
-                                                    .toLocal())
-                                                : 'Ngày tạo không xác định',
-                                            style: const TextStyle(
-                                              fontSize: 12,
-                                              color: Colors.grey,
-                                            ),
-                                          ),
-                                        ],
-                                      ),
-                                    ),
-                                    const Divider(),
-                                    Padding(
-                                      padding: const EdgeInsets.all(8.0),
-                                      child: Column(
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.start,
-                                        children: [
-                                          Html(data: post.content ?? ''),
-                                          const SizedBox(height: 8),
-                                          if (post.link != null &&
-                                              post.link!.trim() != "")
-                                            Column(
-                                              crossAxisAlignment:
-                                                  CrossAxisAlignment.start,
+                      child: RefreshIndicator(
+                        key: GlobalKey<RefreshIndicatorState>(),
+                        onRefresh: () async {
+                          await postStore.fetchClassroomPostList(
+                              classroomStore.selectedClassroom.id!);
+                        },
+                        child: ListView.builder(
+                          itemCount: postStore.items.length,
+                          itemBuilder: (context, index) {
+                            final Post post = postStore.items[index];
+                            return GestureDetector(
+                              onTap: () {
+                                if (post.id == null) return;
+                                postStore.fetchItem(post.id!).then((isSuccess) {
+                                  Navigator.pushNamed(
+                                      context, RouteManager.postComment);
+                                });
+                              },
+                              child: Card(
+                                elevation: 8.0,
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(8.0),
+                                ),
+                                margin:
+                                    const EdgeInsets.symmetric(vertical: 8.0),
+                                color: Colors.white,
+                                child: Padding(
+                                  padding: const EdgeInsets.all(6.0),
+                                  child: Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: [
+                                      Padding(
+                                        padding: const EdgeInsets.all(8.0),
+                                        child: Column(
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.start,
+                                          children: [
+                                            Row(
+                                              mainAxisAlignment:
+                                                  MainAxisAlignment
+                                                      .spaceBetween,
                                               children: [
-                                                const Row(
-                                                  children: [
-                                                    Padding(
-                                                      padding: EdgeInsets.only(
-                                                          left: 8.0),
-                                                      child: Text(
-                                                        'Đường dẫn đính kèm:',
-                                                        style: TextStyle(
-                                                          fontSize: 14,
-                                                          fontWeight:
-                                                              FontWeight.bold,
-                                                        ),
+                                                Text(
+                                                  '${post.user?.lastName ?? ''} ${post.user?.firstName ?? ''}',
+                                                  style: const TextStyle(
+                                                    fontSize: 16,
+                                                    fontWeight: FontWeight.bold,
+                                                  ),
+                                                ),
+                                                PopupMenuButton(
+                                                  itemBuilder: (context) => [
+                                                    if (userStore.user.id ==
+                                                        post.user?.id)
+                                                      const PopupMenuItem(
+                                                        value: 'delete',
+                                                        child: Text('Xoá'),
                                                       ),
+                                                    const PopupMenuItem(
+                                                      value: 'viewDetail',
+                                                      child:
+                                                          Text('Xem Chi Tiết'),
                                                     ),
                                                   ],
-                                                ),
-                                                Column(
-                                                  children: post.link!
-                                                      .trim()
-                                                      .split(RegExp(r'\s+'))
-                                                      .map((link) => ListTile(
-                                                            title: link.startsWith(
-                                                                        'https://') ||
-                                                                    link.startsWith(
-                                                                        'http://')
-                                                                ? Text(
-                                                                    link,
-                                                                    style: const TextStyle(
-                                                                        color: Colors
-                                                                            .blue,
-                                                                        fontSize:
-                                                                            14,
-                                                                        fontWeight:
-                                                                            FontWeight
-                                                                                .bold,
-                                                                        fontStyle:
-                                                                            FontStyle.italic),
-                                                                  )
-                                                                : Text(link),
-                                                          ))
-                                                      .toList(),
+                                                  onSelected: (value) {
+                                                    if (value == 'delete') {
+                                                      postStore
+                                                          .delete(post.id!);
+                                                    } else if (value ==
+                                                        'viewDetail') {
+                                                      postStore
+                                                          .fetchItem(post.id!)
+                                                          .then((isSuccess) {
+                                                        Navigator.pushNamed(
+                                                            context,
+                                                            RouteManager
+                                                                .postComment);
+                                                      });
+                                                    }
+                                                  },
                                                 ),
                                               ],
                                             ),
-                                        ],
-                                      ),
-                                    ),
-                                    const Divider(),
-                                    Padding(
-                                      padding: const EdgeInsets.all(8.0),
-                                      child: GestureDetector(
-                                        onTap: () {
-                                          postStore
-                                              .fetchItem(post.id!)
-                                              .then((isSuccess) {
-                                            Navigator.pushNamed(context,
-                                                RouteManager.postComment);
-                                          });
-                                        },
-                                        child: const Row(
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.end,
-                                          children: [
-                                            Icon(Icons.comment),
-                                            SizedBox(width: 8),
                                             Text(
-                                              'Nhận Xét',
-                                              style: TextStyle(
-                                                fontSize: 16,
+                                              post.createDate != null
+                                                  ? formattedDate(DateTime.parse(
+                                                          '${post.createDate!.toIso8601String()}Z')
+                                                      .toLocal())
+                                                  : 'Ngày tạo không xác định',
+                                              style: const TextStyle(
+                                                fontSize: 12,
+                                                color: Colors.grey,
                                               ),
                                             ),
                                           ],
                                         ),
                                       ),
-                                    ),
-                                  ],
+                                      const Divider(),
+                                      Padding(
+                                        padding: const EdgeInsets.all(8.0),
+                                        child: Column(
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.start,
+                                          children: [
+                                            Html(data: post.content ?? ''),
+                                            const SizedBox(height: 8),
+                                            if (post.link != null &&
+                                                post.link!.trim() != "")
+                                              Column(
+                                                crossAxisAlignment:
+                                                    CrossAxisAlignment.start,
+                                                children: [
+                                                  const Row(
+                                                    children: [
+                                                      Padding(
+                                                        padding:
+                                                            EdgeInsets.only(
+                                                                left: 8.0),
+                                                        child: Text(
+                                                          'Đường dẫn đính kèm:',
+                                                          style: TextStyle(
+                                                            fontSize: 14,
+                                                            fontWeight:
+                                                                FontWeight.bold,
+                                                          ),
+                                                        ),
+                                                      ),
+                                                    ],
+                                                  ),
+                                                  Column(
+                                                    children: post.link!
+                                                        .trim()
+                                                        .split(RegExp(r'\s+'))
+                                                        .map((link) => ListTile(
+                                                              title: link.startsWith(
+                                                                          'https://') ||
+                                                                      link.startsWith(
+                                                                          'http://')
+                                                                  ? Text(
+                                                                      link,
+                                                                      style: const TextStyle(
+                                                                          color: Colors
+                                                                              .blue,
+                                                                          fontSize:
+                                                                              14,
+                                                                          fontWeight: FontWeight
+                                                                              .bold,
+                                                                          fontStyle:
+                                                                              FontStyle.italic),
+                                                                    )
+                                                                  : Text(link),
+                                                            ))
+                                                        .toList(),
+                                                  ),
+                                                ],
+                                              ),
+                                          ],
+                                        ),
+                                      ),
+                                      const Divider(),
+                                      Padding(
+                                        padding: const EdgeInsets.all(8.0),
+                                        child: GestureDetector(
+                                          onTap: () {
+                                            postStore
+                                                .fetchItem(post.id!)
+                                                .then((isSuccess) {
+                                              Navigator.pushNamed(context,
+                                                  RouteManager.postComment);
+                                            });
+                                          },
+                                          child: const Row(
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.end,
+                                            children: [
+                                              Icon(Icons.comment),
+                                              SizedBox(width: 8),
+                                              Text(
+                                                'Nhận Xét',
+                                                style: TextStyle(
+                                                  fontSize: 16,
+                                                ),
+                                              ),
+                                            ],
+                                          ),
+                                        ),
+                                      ),
+                                    ],
+                                  ),
                                 ),
                               ),
-                            ),
-                          );
-                        },
+                            );
+                          },
+                        ),
                       ),
                     ),
                   ],
